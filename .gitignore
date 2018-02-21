@@ -1,0 +1,9 @@
+# Node Modules
+node_modules/
+
+# Environment File
+.env
+
+# Code Coverage
+.nyc_output/
+coverage/
