@@ -1,0 +1,8 @@
+{
+  "name": "sandpiper",
+  "version": "1.0.0",
+  "description": "An app that helps you migrate your playlists from one music service to another.",
+  "main": "index.js",
+  "author": "Sam Galizia",
+  "license": "MIT"
+}
