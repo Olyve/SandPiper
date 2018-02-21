@@ -4,7 +4,8 @@
   "description": "An app that helps you migrate your playlists from one music service to another.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "nyc --reporter=lcovonly mocha --timeout 120000 --exit"
   },
   "repository": "git@github.com:sgalizia/SandPiper.git",
   "author": "Sam Galizia <samgalizia@gmail.com>",
