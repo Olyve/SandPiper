@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "nyc mocha --timeout 120000 --exit",
-    "remote_test": "nyc --reporter=lcovonly mocha --timeout 120000 --exit"
+    "remote_test": "nyc --reporter=lcovonly mocha --timeout 120000 --exit",
+    "report": "nyc report --reporter=html && open -a 'Google Chrome' coverage/index.html"
   },
   "repository": "git@github.com:sgalizia/SandPiper.git",
   "author": "Sam Galizia <samgalizia@gmail.com>",
