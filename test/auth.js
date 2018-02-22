@@ -22,11 +22,6 @@ after((done) => {
 });
 
 describe('Authentication', () => {
-  // Reset database before each test
-  beforeEach((done) => {
-    User.remove({}, (err) => { done(); });
-  });
-
   // ============================
   //
   //  Test Registering a New User
@@ -34,6 +29,11 @@ describe('Authentication', () => {
   // ============================
   
   describe('POST /register', () => {
+    // Reset database before each test
+    beforeEach((done) => {
+      User.remove({}, (err) => { done(); });
+    });
+
     context('User creation fails when', () => {
       it('email address is missing', (done) => {
         let user = {
@@ -146,6 +146,124 @@ describe('Authentication', () => {
               res.body.should.have.property('status').eql('Success');
               res.body.should.have.property('messages');
               res.body.messages.should.contain('User successfully created.');
+              done();
+            });
+      });
+    });
+  });
+
+  // ============================
+  //
+  //  Test Loggin in a User
+  //  
+  // ============================
+
+  describe('POST /login', (done) => {
+    // Set up user to test logging in
+    before((done) => {
+      let user = new User({
+        email: 'test@mail.com',
+        password: 'password'
+      });
+
+      user.save((err, _) => {
+        if (err) {
+          console.log(err);
+        }
+
+        done();
+      });
+    });
+
+    context('returns success and a token when', () => {
+      it('credentials are valid and match a user', (done) => {
+        chai.request(server)
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({
+              email: 'test@mail.com',
+              password: 'password'
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.have.property('status').eql('Success');
+              res.body.should.have.property('messages');
+              res.body.messages.should.contain('User successfully logged in.');
+              res.body.should.have.property('data');
+              res.body.data.should.have.property('token');
+              res.body.data.should.have.property('user_id');
+              done();
+            });
+      });
+    });
+
+    context('returns unauthorized request when', () => {
+      it('email does not match a user\'s email', (done) => {
+        chai.request(server)
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({
+              email: 'not@mail.com',
+              password: 'password'
+            })
+            .end((err, res) => {
+              res.should.have.status(401);
+              res.body.should.have.property('status').eql('Unauthorized');
+              res.body.should.have.property('messages');
+              res.body.messages.should.contain('Please check credentials and try again.');
+              done();
+            });
+      });
+
+      it('password does not match the user\'s password', (done) => {
+        chai.request(server)
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({
+              email: 'test@mail.com',
+              password: 'incorrect'
+            })
+            .end((err, res) => {
+              res.should.have.status(401);
+              res.body.should.have.property('status').eql('Unauthorized');
+              res.body.should.have.property('messages');
+              res.body.messages.should.contain('Please check credentials and try again.');
+              done();
+            });
+      });
+    });
+
+    context('returns bad request when', () => {
+      it('the email field is empty', (done) => {
+        chai.request(server)
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({
+              email: '',
+              password: 'password'
+            })
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.have.property('status').eql('Bad Request');
+              res.body.should.have.property('messages');
+              res.body.messages.should.contain('One or more fields were empty.');
+              done();
+            });
+      });
+
+      it('the password field is empty', (done) => {
+        chai.request(server)
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({
+              email: 'test@mail.com',
+              password: ''
+            })
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.have.property('status').eql('Bad Request');
+              res.body.should.have.property('messages');
+              res.body.messages.should.contain('One or more fields were empty.');
               done();
             });
       });

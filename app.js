@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const auth = require('./routes/auth');
+const {verifyAuth, ignoreFavicon} = require('./routes/middleware');
 
 const app = express();
 
@@ -13,10 +14,16 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
 
+// Ignore Favicon requests
+app.use(ignoreFavicon);
+
 // Login and Register
 app.use(auth);
 
 // Authentication Middleware
 // All requests after this point require a logged in user
+app.use(verifyAuth);
+
+// User routes fo here
 
 module.exports = app;
