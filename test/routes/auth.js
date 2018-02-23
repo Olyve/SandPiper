@@ -20,11 +20,11 @@
 // after((done) => {
 //   db_connect.close().then(() => { done(); }).catch(done);
 // });
-
+// Import required components from common
 const {
-  User,
   chai,
-  server
+  server,
+  User
 } = require('../common.js');
 
 describe('Authentication', () => {

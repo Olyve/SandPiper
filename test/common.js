@@ -16,8 +16,8 @@ module.exports = {
   chai,
   chaiHttp,
   db_connect,
+  jwt,
   server,
-  User,
   should,
-  jwt
+  User
 };

@@ -1,27 +1,10 @@
-// process.env.NODE_ENV = 'test';
-
-// const chai = require('chai');
-// const chaiHttp = require('chai-http');
-// const jwt = require('jsonwebtoken');
-
-// const db_connect = require('../utils/db');
-// const server = require('../app');
-// const User = require('../models/user');
-
-// const should = chai.should();
-
-// chai.use(chaiHttp);
-
-// // Setup test db
-// before((done) => {
-//   db_connect.open().then(() => { done(); }).catch(done);
-// });
-
-// // Tear down test db
-// after((done) => {
-//   db_connect.close().then(() => { done(); }).catch(done);
-// });
-const {User, chai, server, jwt} = require('../common.js');
+// Import required components from common
+const {
+  chai,
+  jwt,
+  server,
+  User
+} = require('../common.js');
 
 describe('Middleware', () => {
   // ============================

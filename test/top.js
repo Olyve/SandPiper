@@ -1,3 +1,4 @@
+// Required components from common
 const {db_connect} = require('./common');
 
 // Setup test db
