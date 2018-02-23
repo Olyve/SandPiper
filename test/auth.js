@@ -46,7 +46,7 @@ describe('Authentication', () => {
             .send(user)
             .end((err, res) => {
               res.should.have.status(400);
-              res.body.should.have.property('status').eql('Failed');
+              res.body.should.have.property('status').eql('Bad Request');
               res.body.should.have.property('messages');
               res.body.messages.should.contain('Path `email` is required.');
               done();
@@ -64,7 +64,7 @@ describe('Authentication', () => {
             .send(user)
             .end((err, res) => {
               res.should.have.status(400);
-              res.body.should.have.property('status').eql('Failed');
+              res.body.should.have.property('status').eql('Bad Request');
               res.body.should.have.property('messages');
               res.body.messages.should.contain('Not a valid email address.');
               done();
@@ -82,7 +82,7 @@ describe('Authentication', () => {
             .send(user)
             .end((err, res) => {
               res.should.have.status(400);
-              res.body.should.have.property('status').eql('Failed');
+              res.body.should.have.property('status').eql('Bad Request');
               res.body.should.have.property('messages');
               res.body.messages.should.contain('Path `password` is required.');
               done();
@@ -100,7 +100,7 @@ describe('Authentication', () => {
             .send(user)
             .end((err, res) => {
               res.should.have.status(400);
-              res.body.should.have.property('status').eql('Failed');
+              res.body.should.have.property('status').eql('Bad Request');
               res.body.should.have.property('messages');
               res.body.messages.should.contain('Password is too short.');
               done();
@@ -143,7 +143,7 @@ describe('Authentication', () => {
             .send(user)
             .end((err,res) => {
               res.should.have.status(201);
-              res.body.should.have.property('status').eql('Success');
+              res.body.should.have.property('status').eql('Created');
               res.body.should.have.property('messages');
               res.body.messages.should.contain('User successfully created.');
               done();
@@ -154,7 +154,7 @@ describe('Authentication', () => {
 
   // ============================
   //
-  //  Test Loggin in a User
+  //  Test Logging in a User
   //  
   // ============================
 

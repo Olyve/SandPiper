@@ -1,11 +1,12 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const logger = require('../utils/logger');
 
-const router = express.Router();
+const {clientResponse} = require('../utils/client_response');
+const logger = require('../utils/logger');
 const User = require('../models/user');
 
+const router = express.Router();
 router.use(bodyParser.json());
 
 // POST /register
@@ -27,33 +28,21 @@ router.post('/register', (req, res) => {
           for (var key in err.errors) {
             errorMessages.push(err.errors[key].message);
           }
-          res.status(400).json({
-            status: 'Failed',
-            messages: errorMessages
-          });
+          return clientResponse(res, 400, errorMessages);
         }
         else {
           // Success, return proper message
-          res.status(201).json({
-            status: 'Success',
-            messages: 'User successfully created.'
-          });
+          return clientResponse(res, 201, ['User successfully created.']);
         }
       });
     }
     else {
-      res.status(403).json({
-        status: 'Forbidden',
-        messages: 'A user already exists with that email.'
-      });
+      return clientResponse(res, 403, ['A user already exists with that email.']);
     }
   })
   .catch((err) => {
     logger.error(`Find User Error: ${err}`);
-    res.status(400).json({
-      status: 'Failed',
-      messages: 'Something went wrong, please try again.'
-    });
+    return clientResponse(res, 400);
   });
 });
 
@@ -64,12 +53,7 @@ router.post('/login', (req, res) => {
 
   // Validate no empty fields
   if (!email || !password) {
-    return res.status(400).json({
-      status: 'Bad Request',
-      messages: [
-        'One or more fields were empty.'
-      ]
-    });
+    return clientResponse(res, 400, ['One or more fields were empty.']);
   }
 
   User.findOne({
@@ -79,7 +63,7 @@ router.post('/login', (req, res) => {
   .then((user) => {
     if (!user) {
       // Unable to find user
-      return unauthorizedRequest(res);
+      return clientResponse(res, 401);
     }
 
     // Check that password matches
@@ -87,13 +71,7 @@ router.post('/login', (req, res) => {
       if (err) {
         // Log internal error to console
         logger.error(`Internal Error: ${err}`);
-
-        res.status(500).json({
-          status: 'Internal Server Error',
-          messages: [
-            'Apologies, something seems to have gone wrong. Please try again.'
-          ]
-        });
+        return clientResponse(res, 500);
       }
 
       // Validate credentials
@@ -114,20 +92,10 @@ router.post('/login', (req, res) => {
       }
       else {
         // Password did not match aka. Invalid Credentials.
-        unauthorizedRequest(res);
+        return clientResponse(res, 401);
       }
     });
   });
 });
-
-// Helpers
-function unauthorizedRequest(res) {
-  return res.status(401).json({
-    status: 'Unauthorized',
-    messages: [
-      'Please check credentials and try again.'
-    ]
-  });
-}
 
 module.exports = router;
