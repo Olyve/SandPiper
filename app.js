@@ -3,6 +3,7 @@ const morgan = require('morgan');
 
 const auth = require('./routes/auth');
 const {verifyAuth, ignoreFavicon} = require('./routes/middleware');
+const users = require('./routes/user');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(auth);
 // All requests after this point require a logged in user
 app.use(verifyAuth);
 
-// User routes fo here
+// User routes
+app.use('/users', users);
 
 module.exports = app;

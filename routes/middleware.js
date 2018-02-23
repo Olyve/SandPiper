@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const {clientResponse} = require('../utils/client_response');
 const logger = require('../utils/logger');
 
 // Authentication Middleware
@@ -8,24 +9,15 @@ function verifyAuth(req, res, next) {
   let authToken = req.get('Authorization').split(' ')[1];
 
   if (!authToken) {
-    return res.status(401).json({
-      status: 'Unauthorized',
-      messages: [
-        'Please check that you are logged in and try again.',
-      ]
-    });
+    return clientResponse(res, 401);
   }
 
   // Verify token is valid
   jwt.verify(authToken, process.env.SECRET, (err, token) => {
     // Handle invalid token
     if (err) {
-      return res.status(401).json({
-        status: 'Unauthorized',
-        messages: [
-          'Please check that you are logged in and try again.'
-        ]
-      });
+      logger.error(`Verify Token Error: ${err}`);
+      return clientResponse(res, 401);
     }
 
     // Valid token, add token to payload and proceed
@@ -47,4 +39,4 @@ function ignoreFavicon(req, res, next) {
   }
 }
 
-module.exports = {verifyAuth, ignoreFavicon}
+module.exports = {verifyAuth, ignoreFavicon};
