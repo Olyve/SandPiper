@@ -1,25 +1,31 @@
-process.env.NODE_ENV = 'test';
+// process.env.NODE_ENV = 'test';
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+// const chai = require('chai');
+// const chaiHttp = require('chai-http');
 
-const db_connect = require('../utils/db');
-const server = require('../app');
-const User = require('../models/user');
+// const db_connect = require('../utils/db');
+// const server = require('../app');
+// const User = require('../models/user');
 
-const should = chai.should();
+// const should = chai.should();
 
-chai.use(chaiHttp);
+// chai.use(chaiHttp);
 
-// Setup test db
-before((done) => {
-  db_connect.open().then(() => { done(); }).catch(done);
-});
+// // Setup test db
+// before((done) => {
+//   db_connect.open().then(() => { done(); }).catch(done);
+// });
 
-// Tear down test db
-after((done) => {
-  db_connect.close().then(() => { done(); }).catch(done);
-});
+// // Tear down test db
+// after((done) => {
+//   db_connect.close().then(() => { done(); }).catch(done);
+// });
+
+const {
+  User,
+  chai,
+  server
+} = require('../common.js');
 
 describe('Authentication', () => {
   // ============================
