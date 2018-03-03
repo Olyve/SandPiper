@@ -18,7 +18,7 @@ router.get('/:id', (req, res) => {
   User.findById(req.params.id, (err, user) => {
     if (err) {
       // Log error to console and return 400
-      logger.error(`Find User Error: ${error}`);
+      logger.error(`Find User Error: ${err}`);
       return clientResponse(res, 400);
     }
 
