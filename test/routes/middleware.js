@@ -35,15 +35,15 @@ describe('Middleware', () => {
       it('should return success', (done) => {
         // Make request that requires token to verify it
         chai.request(server)
-            .get(`/users/${id}`)
-            .set('Authorization', `Bearer ${token}`)
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.have.property('status').eql('Success');
-              res.body.should.have.property('messages');
-              res.body.messages.should.contain('Returning found user.');
-              done();
-            });
+          .get(`/users/${id}`)
+          .set('Authorization', `Bearer ${token}`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('status').eql('Success');
+            res.body.should.have.property('messages');
+            res.body.messages.should.contain('Returning found user.');
+            done();
+          });
       });
     });
 
@@ -55,18 +55,19 @@ describe('Middleware', () => {
         });
 
         user.save((err, saved_user) => {
-          alt_token = jwt.sign({ _id: saved_user._id, email: saved_user.email }, process.env.SECRET);
+          let alt_token = jwt.sign({ _id: saved_user._id, email: saved_user.email }, process.env.SECRET);
 
           chai.request(server)
-              .get(`/users/${id}`)
-              .set('Authorization', `Bearer ${alt_token}`)
-              .end((err, res) => {
-                res.should.have.status(404);
-                res.body.should.have.property('status').eql('Not Found');
-                res.body.should.have.property('messages');
-                res.body.messages.should.contain('Nothing to see here ¯\_(ツ)_/¯.');
-                done();
-              });
+            .get(`/users/${id}`)
+            .set('Authorization', `Bearer ${alt_token}`)
+            .end((err, res) => {
+              res.should.have.status(404);
+              res.body.should.have.property('status').eql('Not Found');
+              res.body.should.have.property('messages');
+              // eslint-disable-next-line no-useless-escape
+              res.body.messages.should.contain('Nothing to see here ¯\_(ツ)_/¯.');
+              done();
+            });
         });
       });
     });
@@ -74,15 +75,15 @@ describe('Middleware', () => {
     context('no token is provided', () => {
       it('should return request unauthorized', (done) => {
         chai.request(server)
-            .get(`/users/${id}`)
-            .set('Authorization', 'Bearer ')
-            .end((err, res) => {
-              res.should.have.status(401);
-              res.body.should.have.property('status').eql('Unauthorized');
-              res.body.should.have.property('messages');
-              res.body.messages.should.contain('Please check credentials and try again.');
-              done();
-            });
+          .get(`/users/${id}`)
+          .set('Authorization', 'Bearer ')
+          .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.have.property('status').eql('Unauthorized');
+            res.body.should.have.property('messages');
+            res.body.messages.should.contain('Please check credentials and try again.');
+            done();
+          });
       });
     });
   });
@@ -96,12 +97,12 @@ describe('Middleware', () => {
   describe('ignoreFavicon', () => {
     it('should return no content', (done) => {
       chai.request(server)
-            .get('/favicon.ico')
-            .end((err, res) => {
-              res.should.have.status(204);
-              res.body.should.be.an('object').that.is.empty;
-              done();
-            });
+        .get('/favicon.ico')
+        .end((err, res) => {
+          res.should.have.status(204);
+          res.body.should.be.an('object').that.is.empty;
+          done();
+        });
     });
   });
 });
