@@ -3,7 +3,7 @@ const {
   chai,
   server,
   User
-} = require('../common.js');
+} = require('../common');
 
 describe('Authentication', () => {
   // ============================

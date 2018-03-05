@@ -15,4 +15,5 @@ describe('Running Sandpiper tests...', () => {
   // Route Tests
   require('./routes/auth');
   require('./routes/middleware');
+  require('./routes/user');
 });

@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
       let user = new User(req.body);
 
       // Save will attempt to validate properties
-      user.save((err) => {
+      user.save((err, saved_user) => {
         // If validation failed, return reason why
         if (err) {
           var errorMessages = [];
@@ -31,7 +31,7 @@ router.post('/register', (req, res) => {
         }
         else {
           // Success, return proper message
-          return clientResponse(res, 201, ['User successfully created.']);
+          return clientResponse(res, 201, ['User successfully created.'], {id: saved_user._id});
         }
       });
     }
