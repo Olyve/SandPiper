@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const auth = require('./routes/auth');
 const {verifyAuth, ignoreFavicon} = require('./routes/middleware');
 const users = require('./routes/user');
+const search = require('./routes/search');
 
 const app = express();
 
@@ -27,5 +28,7 @@ app.use(verifyAuth);
 
 // User routes
 app.use('/users', users);
+
+app.use('/search', search);
 
 module.exports = app;
