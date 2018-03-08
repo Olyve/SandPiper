@@ -39,4 +39,11 @@ function ignoreFavicon(req, res, next) {
   }
 }
 
-module.exports = {verifyAuth, ignoreFavicon};
+// Used to enable CORS
+function allowCORS(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept');
+  next();
+}
+
+module.exports = {verifyAuth, ignoreFavicon, allowCORS};
