@@ -8,12 +8,15 @@ function verifyAuth(req, res, next) {
   if (req.method === 'OPTIONS') {
     return next();
   }
+
   // Get token from Authorization header
   // Header format - Authorization: Bearer [token]
-  let authToken = req.get('Authorization').split(' ')[1];
+  var authToken = '';
 
-  if (!authToken) {
+  if (req.get('Authorization') === undefined) {
     return clientResponse(res, 401);
+  } else {
+    authToken = req.get('Authorization').split(' ')[1];
   }
 
   // Verify token is valid
@@ -36,10 +39,8 @@ function ignoreFavicon(req, res, next) {
     return res.status(204).json({
       status: 'Not Found'
     });
-  }
-  else {
-    // Just continue for any other request
-    next();
+  } else {
+    next(); // Just continue for any other request
   }
 }
 
