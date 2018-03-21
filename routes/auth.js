@@ -76,16 +76,7 @@ router.post('/login', (req, res) => {
           // Generate JWT token and return it
           let token = jwt.sign({ _id: user._id, email: user.email}, process.env.SECRET);
 
-          res.status(200).json({
-            status: 'Success',
-            messages: [
-              'User successfully logged in.'
-            ],
-            data: {
-              token: token,
-              user_id: user._id
-            }
-          });
+          clientResponse(res, 200, ['User successfully logged in.'], {token: token, user_id: user._id});
         }
         else {
           // Password did not match aka. Invalid Credentials.

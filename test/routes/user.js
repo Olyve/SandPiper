@@ -90,10 +90,6 @@ describe('User Routes', () => {
             res.body.should.have.property('status').eql('Success');
             res.body.should.have.property('messages');
             res.body.messages.should.contain('User updated successfully.');
-            res.body.should.have.property('data');
-            res.body.data.should.have.property('_id').eql(`${id}`);
-            res.body.data.should.have.property('spotifyToken').eql('spotify-token');
-            res.body.data.should.have.property('appleMusicToken').eql('apple-token');
             done(err);
           });
       });

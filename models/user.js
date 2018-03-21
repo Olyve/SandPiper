@@ -8,6 +8,7 @@ const UserSchema = new Schema({
   createdAt: { type: Date },
   updatedAt: { type: Date },
   spotifyToken: { type: String },
+  spotifyRefreshToken: { type: String },
   appleMusicToken: { type: String },
   active: {
     type: Boolean,
