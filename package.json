@@ -13,6 +13,7 @@
   "author": "Sam Galizia <samgalizia@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "base-64": "^0.1.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.0",

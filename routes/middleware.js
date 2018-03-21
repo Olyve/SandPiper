@@ -4,6 +4,10 @@ const logger = require('../utils/logger');
 
 // Authentication Middleware
 function verifyAuth(req, res, next) {
+  // If it is a pre-flight CORS request, don't require Auth
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
   // Get token from Authorization header
   // Header format - Authorization: Bearer [token]
   let authToken = req.get('Authorization').split(' ')[1];
@@ -42,7 +46,14 @@ function ignoreFavicon(req, res, next) {
 // Used to enable CORS
 function allowCORS(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
+  // If this is a preflight check, return okay with acceptable options
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
   next();
 }
 
