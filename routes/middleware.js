@@ -58,4 +58,17 @@ function allowCORS(req, res, next) {
   next();
 }
 
-module.exports = {verifyAuth, ignoreFavicon, allowCORS};
+const isAuthorized = (req, res, next, id) => {
+  if (id !== req.user._id) {
+    return clientResponse(res, 404);
+  }
+
+  next();
+};
+
+module.exports = {
+  verifyAuth,
+  ignoreFavicon,
+  allowCORS,
+  isAuthorized
+};
