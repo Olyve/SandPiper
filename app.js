@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const auth = require('./routes/auth');
 const {verifyAuth, ignoreFavicon, allowCORS} = require('./routes/middleware');
 const users = require('./routes/user');
-const search = require('./routes/search');
+const spotify = require('./routes/spotify');
 
 const app = express();
 
@@ -31,6 +31,6 @@ app.use(verifyAuth);
 
 // Resource Routes
 app.use('/users', users);
-app.use('/search', search);
+app.use('/spotify', spotify);
 
 module.exports = app;

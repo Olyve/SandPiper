@@ -73,7 +73,7 @@ router.post('/:id/spotifyAuth', (req, res) => {
         return clientResponse(res, 200, ['User updated successfully.']);
       });
     }).catch((err) => {
-      console.log(err);
+      logger.error(err);
     });
 });
 
