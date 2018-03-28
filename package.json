@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "remote_start": "build_frontend && yarn start",
-    "build_frontend": "cd sandpiper-frontend && yarn build && cd ..",
+    "prepublish": "cd sandpiper-frontend && yarn install && yarn build && cd ..",
     "test": "nyc mocha --timeout 120000 --exit",
     "remote_test": "nyc --reporter=lcovonly mocha --timeout 120000 --exit",
     "report": "nyc report --reporter=html && open -a 'Google Chrome' coverage/index.html"

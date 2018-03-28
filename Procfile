@@ -1,1 +1,1 @@
-web: yarn remote_start
+web: node index.js
