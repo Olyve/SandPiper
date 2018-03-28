@@ -37,7 +37,7 @@
     "nyc": "^11.4.1"
   },
   "nyc": {
-    "check-coverage": true,
+    "check-coverage": false,
     "lines": 70,
     "statements": 70,
     "functions": 70,
