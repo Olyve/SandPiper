@@ -35,7 +35,7 @@ describe('Middleware', () => {
       it('should return success', (done) => {
         // Make request that requires token to verify it
         chai.request(server)
-          .get(`/users/${id}`)
+          .get(`/api/users/${id}`)
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
             res.should.have.status(200);
@@ -58,7 +58,7 @@ describe('Middleware', () => {
           let alt_token = jwt.sign({ _id: saved_user._id, email: saved_user.email }, process.env.SECRET);
 
           chai.request(server)
-            .get(`/users/${id}`)
+            .get(`/api/users/${id}`)
             .set('Authorization', `Bearer ${alt_token}`)
             .end((err, res) => {
               res.should.have.status(404);
@@ -75,7 +75,7 @@ describe('Middleware', () => {
     context('no token is provided', () => {
       it('should return request unauthorized', (done) => {
         chai.request(server)
-          .get(`/users/${id}`)
+          .get(`/api/users/${id}`)
           .set('Authorization', 'Bearer ')
           .end((err, res) => {
             res.should.have.status(401);
@@ -97,7 +97,7 @@ describe('Middleware', () => {
   describe('ignoreFavicon', () => {
     it('should return no content', (done) => {
       chai.request(server)
-        .get('/favicon.ico')
+        .get('/api/favicon.ico')
         .end((err, res) => {
           res.should.have.status(204);
           res.body.should.be.an('object').that.is.empty;
