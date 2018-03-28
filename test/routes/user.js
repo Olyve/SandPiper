@@ -31,11 +31,11 @@ describe('User Routes', () => {
   //  
   // ============================
   
-  describe('GET /users/:id', () => {
+  describe('GET /api/users/:id', () => {
     context('should return the user', () => {
       it('when the user is authorized and id is valid', (done) => {
         chai.request(server)
-          .get(`/users/${id}`)
+          .get(`/api/users/${id}`)
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
             res.should.have.status(200);
@@ -52,7 +52,7 @@ describe('User Routes', () => {
     context('should return not found', () => {
       it('when the user\'s id does not match the route id', (done) => {
         chai.request(server)
-          .get('/users/5a9da3732f0b122608416ae3')
+          .get('/api/users/5a9da3732f0b122608416ae3')
           .set('Authorization', `Bearer ${token}`)
           .end((err, res) => {
             res.should.have.status(404);
@@ -73,12 +73,12 @@ describe('User Routes', () => {
   //  
   // ============================
   
-  describe('PUT /users/:id', () => {
+  describe('PUT /api/users/:id', () => {
 
     context('should update user', () => {
       it('when authorized and properties are valid', (done) => {
         chai.request(server)
-          .put(`/users/${id}`)
+          .put(`/api/users/${id}`)
           .set('Authorization', `Bearer ${token}`)
           .set('Content-Type', 'application/json')
           .send({
@@ -98,7 +98,7 @@ describe('User Routes', () => {
     context('should return not found', () => {
       it('when the user\'s id does not match the route id', (done) => {
         chai.request(server)
-          .put('/users/5a9da3732f0b122608416ae3')
+          .put('/api/users/5a9da3732f0b122608416ae3')
           .set('Authorization', `Bearer ${token}`)
           .set('Content-Type', 'application/json')
           .send({

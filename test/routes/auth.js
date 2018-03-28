@@ -12,7 +12,7 @@ describe('Authentication', () => {
   //  
   // ============================
   
-  describe('POST /register', () => {
+  describe('POST /api/register', () => {
     // Reset database before each test
     beforeEach((done) => {
       User.remove({}, () => { done(); });
@@ -26,7 +26,7 @@ describe('Authentication', () => {
         };
 
         chai.request(server)
-          .post('/register')
+          .post('/api/register')
           .send(user)
           .end((err, res) => {
             res.should.have.status(400);
@@ -44,7 +44,7 @@ describe('Authentication', () => {
         };
 
         chai.request(server)
-          .post('/register')
+          .post('/api/register')
           .send(user)
           .end((err, res) => {
             res.should.have.status(400);
@@ -62,7 +62,7 @@ describe('Authentication', () => {
         };
 
         chai.request(server)
-          .post('/register')
+          .post('/api/register')
           .send(user)
           .end((err, res) => {
             res.should.have.status(400);
@@ -80,7 +80,7 @@ describe('Authentication', () => {
         };
 
         chai.request(server)
-          .post('/register')
+          .post('/api/register')
           .send(user)
           .end((err, res) => {
             res.should.have.status(400);
@@ -99,7 +99,7 @@ describe('Authentication', () => {
 
         user.save(() => {
           chai.request(server)
-            .post('/register')
+            .post('/api/register')
             .send({
               email: 'user@mail.com',
               password: 'password'
@@ -123,7 +123,7 @@ describe('Authentication', () => {
         };
 
         chai.request(server)
-          .post('/register')
+          .post('/api/register')
           .send(user)
           .end((err,res) => {
             res.should.have.status(201);
@@ -142,7 +142,7 @@ describe('Authentication', () => {
   //  
   // ============================
 
-  describe('POST /login', () => {
+  describe('POST /api/login', () => {
     // Set up user to test logging in
     before((done) => {
       let user = new User({
@@ -162,7 +162,7 @@ describe('Authentication', () => {
     context('returns success and a token when', () => {
       it('credentials are valid and match a user', (done) => {
         chai.request(server)
-          .post('/login')
+          .post('/api/login')
           .set('Content-Type', 'application/json')
           .send({
             email: 'test@mail.com',
@@ -184,7 +184,7 @@ describe('Authentication', () => {
     context('returns unauthorized request when', () => {
       it('email does not match a user\'s email', (done) => {
         chai.request(server)
-          .post('/login')
+          .post('/api/login')
           .set('Content-Type', 'application/json')
           .send({
             email: 'not@mail.com',
@@ -201,7 +201,7 @@ describe('Authentication', () => {
 
       it('password does not match the user\'s password', (done) => {
         chai.request(server)
-          .post('/login')
+          .post('/api/login')
           .set('Content-Type', 'application/json')
           .send({
             email: 'test@mail.com',
@@ -220,7 +220,7 @@ describe('Authentication', () => {
     context('returns bad request when', () => {
       it('the email field is empty', (done) => {
         chai.request(server)
-          .post('/login')
+          .post('/api/login')
           .set('Content-Type', 'application/json')
           .send({
             email: '',
@@ -237,7 +237,7 @@ describe('Authentication', () => {
 
       it('the password field is empty', (done) => {
         chai.request(server)
-          .post('/login')
+          .post('/api/login')
           .set('Content-Type', 'application/json')
           .send({
             email: 'test@mail.com',

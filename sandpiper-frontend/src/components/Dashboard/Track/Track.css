@@ -1,0 +1,41 @@
+.trackList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 15px;
+}
+
+.track {
+  display: flex;
+  width: 275px;
+  height: 100px;
+  margin: 15px;
+}
+
+.track-details {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  margin-left: 10px;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.track-details-title {
+  font-size: 14px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.track-details-artist {
+  font-size: 14px;
+  text-align: left;
+}
