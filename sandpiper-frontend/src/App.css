@@ -1,0 +1,35 @@
+.App {
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 60px repeat(3, 200px);
+  grid-gap: 10px 0px;
+  grid-template-areas: "n n n l l"
+                       "c c c c c"
+                       "c c c c c"
+                       "c c c c c";
+}
+
+.grid-n {
+  grid-area: n;
+  background-color: #222;
+  text-align: left;
+  vertical-align: center;
+}
+
+.grid-l {
+  grid-area: l;
+  background-color: #222;
+  text-align: right;
+  vertical-align: center;
+}
+
+.grid-c {
+  grid-area: c;
+  text-align: center;
+}
+
+.nav-item {
+  color: white;
+  margin: 15px;
+}

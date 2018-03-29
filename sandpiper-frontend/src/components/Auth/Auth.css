@@ -1,0 +1,26 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+}
+
+.message a {
+  color: blue;
+  text-decoration: none;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  margin-left: 5px;
+}
+
+.message a:hover {
+  text-decoration: underline;
+  cursor: default;
+}

@@ -9,6 +9,11 @@ function verifyAuth(req, res, next) {
     return next();
   }
 
+  // Don't need auth for public files
+  if (req.path.substring(0, 7) === '/public') {
+    return next();
+  }
+
   // Get token from Authorization header
   // Header format - Authorization: Bearer [token]
   var authToken = '';
@@ -35,7 +40,7 @@ function verifyAuth(req, res, next) {
 
 // Used to ignore the Favicon request
 function ignoreFavicon(req, res, next) {
-  if (req.originalUrl === '/favicon.ico') {
+  if (req.originalUrl === '/api/favicon.ico') {
     return res.status(204).json({
       status: 'Not Found'
     });
@@ -58,4 +63,17 @@ function allowCORS(req, res, next) {
   next();
 }
 
-module.exports = {verifyAuth, ignoreFavicon, allowCORS};
+const isAuthorized = (req, res, next, id) => {
+  if (id !== req.user._id) {
+    return clientResponse(res, 404);
+  }
+
+  next();
+};
+
+module.exports = {
+  verifyAuth,
+  ignoreFavicon,
+  allowCORS,
+  isAuthorized
+};
