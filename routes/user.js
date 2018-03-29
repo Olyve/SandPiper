@@ -55,8 +55,8 @@ router.post('/:id/spotifyAuth', (req, res) => {
   getAuthToken(code, redirect_uri)
     .then((json) => {
       let data = {
-        spotifyToken: json['access_token'],
-        spotifyRefreshToken: json['refresh_token']
+        spotifyToken: json['access_token'] || '',
+        spotifyRefreshToken: json['refresh_token'] || ''
       };
 
       User.findByIdAndUpdate(req.params.id, data, (err, user) => {
@@ -72,8 +72,10 @@ router.post('/:id/spotifyAuth', (req, res) => {
         // Everything worked, return the updated user
         return clientResponse(res, 200, ['User updated successfully.']);
       });
-    }).catch((err) => {
-      logger.error(err);
+    })
+    .catch((err) => {
+      if (process.env.NODE_ENV !== 'test') logger.error(err);
+      return clientResponse(res, 400, ['Unable to get auth token.']);
     });
 });
 

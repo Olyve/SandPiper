@@ -28,7 +28,7 @@ function verifyAuth(req, res, next) {
   jwt.verify(authToken, process.env.SECRET, (err, token) => {
     // Handle invalid token
     if (err) {
-      logger.error(`Verify Token Error: ${err}`);
+      if (process.env.NODE_ENV !== 'test') logger.error(`Verify Token Error: ${err}`);
       return clientResponse(res, 401);
     }
 
