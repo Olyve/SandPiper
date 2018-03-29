@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import qs from 'query-string';
 import { spotifyAuth } from '../../Utilities/networking';
+import "./Profile.css"
 
 class Profile extends Component {
   constructor(props) {
@@ -50,19 +51,23 @@ class Profile extends Component {
 
   render() {
     return (
-      <div>
+      <div className="profile">
         <h2>Profile Page</h2>
-        <div>
-          <h3>Connect Accounts</h3>
-          <button onClick={() => this.authorizeSpotify()}>
-            Spotify Login
-          </button>
-        </div>
-        <div>
-          <h3>Logout</h3>
-          <button onClick={() => this.logout()}>
-            Logout
-          </button>
+        <div className="profile-content">
+            <div className="profile-main-container">
+                <h3>Name here!</h3>
+            </div>
+            <div className="profile-button-container">
+                <div className="profile-logout">
+                    <button onClick={() => this.logout()}>
+                        Logout
+                    </button>
+                </div>
+                <div className="profile-connect">
+                  <h3>Connect Accounts</h3>
+                  <button className="profile-spotify-button" onClick={() => this.authorizeSpotify()}/>
+                </div>
+            </div>
         </div>
       </div>
     );

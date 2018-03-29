@@ -1,0 +1,35 @@
+.profile-content{
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-main-container{
+    flex: 2;
+}
+
+.profile-button-container{
+    flex: 1;
+}
+
+.profile-button-container button{
+    padding: 0;
+    height: 61.5px;
+    width: 207px;
+    background-size: contain;
+    box-sizing: content-box;
+    border: none;
+}
+
+.profile-button-container button:active{
+    filter: brightness(0.7);
+}
+
+.profile-button-container button:focus{
+    outline: none;
+}
+
+.profile-spotify-button{
+    padding: 0;
+    background: url("/SpotifyLogo.png");
+
+}
