@@ -66,12 +66,6 @@ export class App extends Component {
     this.props.resetModal();
   }
 
-  showModal() {
-    if (this.props.displayModal) {
-      return <Modal handleConfirm={() => this.handleConfirm()} />
-    }
-  }
-
   showDashboard(){
       if (this.props.user.id !== '') {
         return (<Dashboard />);
@@ -82,6 +76,9 @@ export class App extends Component {
   }
 
   render() {
+      const showModal = this.props.displayModal
+                        ? <Modal handleConfirm={() => this.handleConfirm()} />
+                        : null;
 
     return (
         <div className='App container'>
@@ -104,19 +101,12 @@ export class App extends Component {
           </div>
 
           <div className='content-container'>
-            {
-            /*
-             * At some point replace the render function with a function to
-             * conditionally render a component. It will clean up this cluster of code.
-             */
-            }
             <Route exact path='/' render={() => this.showDashboard()}/>
             <Route exact path='/login' render={() =>
               <Auth handleSignup={(i) => this.handleSignup(i)} handleLogin={(i) => this.handleLogin(i)} />
             } />
             <Route path='/profile' render={() => <Profile />} />
-
-            {this.props.displayModal ? <Modal handleConfirm={() => this.handleConfirm()} /> : null}
+            {showModal}
           </div>
         </div>
     );
