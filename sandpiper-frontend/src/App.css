@@ -9,8 +9,11 @@
     justify-content: space-between;
 }
 
+.header>div{
+    display: flex
+}
+
     .nav-links {
-        display: flex;
         text-align: left;
         flex-direction: row;
 
@@ -22,14 +25,11 @@
         }
 
     .profile-links {
-      display: flex;
       align-items: center;
       text-align: right;
     }
 
-.grid-c {
-  grid-area: c;
-  text-align: center;
+.content-container {
 }
 
 .nav-item {

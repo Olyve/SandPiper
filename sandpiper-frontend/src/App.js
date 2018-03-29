@@ -72,10 +72,18 @@ export class App extends Component {
     }
   }
 
+  showDashboard(){
+      if (this.props.user.id !== '') {
+        return (<Dashboard />);
+      }
+      else {
+        return (<h3>Please log in to view your dashboard.</h3>);
+      }
+  }
+
   render() {
 
     return (
-      <div>
         <div className='App container'>
             <div className="header">
                 <div className='nav-links'>
@@ -95,30 +103,22 @@ export class App extends Component {
                 </div>
           </div>
 
-          <div className='grid-c'>
+          <div className='content-container'>
             {
             /*
              * At some point replace the render function with a function to
              * conditionally render a component. It will clean up this cluster of code.
              */
             }
-            <Route exact path='/' render={() => {
-              if (this.props.user.id !== '') {
-                return (<Dashboard />);
-              }
-              else {
-                return (<h3>Please log in to view your dashboard.</h3>);
-              }
-            }} />
+            <Route exact path='/' render={() => this.showDashboard()}/>
             <Route exact path='/login' render={() =>
               <Auth handleSignup={(i) => this.handleSignup(i)} handleLogin={(i) => this.handleLogin(i)} />
             } />
             <Route path='/profile' render={() => <Profile />} />
+
+            {this.props.displayModal ? <Modal handleConfirm={() => this.handleConfirm()} /> : null}
           </div>
         </div>
-        {/* Modal Popup */}
-        {this.showModal()}
-      </div>
     );
   }
 }
