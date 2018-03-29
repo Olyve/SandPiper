@@ -2,9 +2,9 @@ import rp from 'request-promise-native';
 
 var base_url = ''
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  base_url = 'http://localhost:3000';
+  base_url = 'http://localhost:3000/api';
 } else {
-  base_url = 'http://staging-api.sandpiper.ninja';
+  base_url = 'http://staging-api.sandpiper.ninja/api';
 }
 
 function registerUser(data) {
@@ -51,9 +51,21 @@ function searchSpotify(token, search_term) {
   });
 }
 
-export { 
+const getPlaylists = (token) => {
+  return rp.get({
+    url: `${base_url}/spotify/playlists`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
+export {
+  getPlaylists,
+  loginUser,
   registerUser,
-  loginUser, 
-  spotifyAuth,
-  searchSpotify 
+  searchSpotify,
+  spotifyAuth 
 };
