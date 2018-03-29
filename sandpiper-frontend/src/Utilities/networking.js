@@ -2,7 +2,7 @@ import rp from 'request-promise-native';
 
 var base_url = ''
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  base_url = 'http://localhost:3000';
+  base_url = 'http://localhost:3000/api';
 } else {
   base_url = 'http://staging-api.sandpiper.ninja';
 }
@@ -51,9 +51,9 @@ function searchSpotify(token, search_term) {
   });
 }
 
-export { 
+export {
   registerUser,
-  loginUser, 
+  loginUser,
   spotifyAuth,
-  searchSpotify 
+  searchSpotify
 };

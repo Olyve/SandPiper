@@ -35,14 +35,14 @@ export class App extends Component {
   handleLogin(data) {
     // Show Modal
     this.props.showLoadingModal();
-    
+
     // Kick off request to API
     loginUser(data)
       .then((json) => {
         // Reset the modal
         this.props.resetModal();
 
-        // If login was successful add token and user_id to state 
+        // If login was successful add token and user_id to state
         if (json['status'] === 'Success') {
           console.log(json['data']);
           this.props.updateUser({
@@ -73,26 +73,31 @@ export class App extends Component {
   }
 
   render() {
+
     return (
       <div>
         <div className='App container'>
-          <div className='grid-n'>
-            <ul>
-              <NavLink exact to='/' activeStyle={{fontWeight: 'bold'}} className='nav-item'>
-                Home
-              </NavLink>
-            </ul>
+            <div className="header">
+                <div className='nav-links'>
+                    <ul>
+                        <li>
+                            <h1 className='nav-item'>Sandpiper</h1>
+                        </li>
+                        <li>
+                            <NavLink exact to='/' activeStyle={{fontWeight: 'bold'}} className='nav-item'>
+                            Home
+                            </NavLink>
+                        </li>
+                    </ul>
+                </div>
+                <div className='profile-links'>
+                    {loginNavLink(this.props.user.id)}
+                </div>
           </div>
 
-          <div className='grid-l'>
-            <ul>
-              {loginNavLink(this.props.user.id)}
-            </ul>
-          </div>
-          
           <div className='grid-c'>
             {
-            /* 
+            /*
              * At some point replace the render function with a function to
              * conditionally render a component. It will clean up this cluster of code.
              */
@@ -105,7 +110,7 @@ export class App extends Component {
                 return (<h3>Please log in to view your dashboard.</h3>);
               }
             }} />
-            <Route exact path='/login' render={() => 
+            <Route exact path='/login' render={() =>
               <Auth handleSignup={(i) => this.handleSignup(i)} handleLogin={(i) => this.handleLogin(i)} />
             } />
             <Route path='/profile' render={() => <Profile />} />
@@ -136,9 +141,9 @@ function loginNavLink(user_id) {
 }
 
 function mapStateToProps(state) {
-  return { 
+  return {
     user: state.user,
-    displayModal: state.modal.isVisible 
+    displayModal: state.modal.isVisible
   };
 }
 

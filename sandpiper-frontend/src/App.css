@@ -1,28 +1,31 @@
 .App {
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: 60px repeat(3, 200px);
-  grid-gap: 10px 0px;
-  grid-template-areas: "n n n l l"
-                       "c c c c c"
-                       "c c c c c"
-                       "c c c c c";
 }
 
-.grid-n {
-  grid-area: n;
-  background-color: #222;
-  text-align: left;
-  vertical-align: center;
+.header{
+    display: flex;
+    background-color: #222;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.grid-l {
-  grid-area: l;
-  background-color: #222;
-  text-align: right;
-  vertical-align: center;
-}
+    .nav-links {
+        display: flex;
+        text-align: left;
+        flex-direction: row;
+
+    }
+        .nav-links ul{
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+    .profile-links {
+      display: flex;
+      align-items: center;
+      text-align: right;
+    }
 
 .grid-c {
   grid-area: c;
