@@ -53,12 +53,10 @@ function handleTokenRefresh(error, operation, user, reject) {
       reject(err);
     });
 }
+
 // Requests an Auth Token and Refresh Token using code
 function getAuthToken(code, redirect_uri) {
-
   const auth = process.env.SPOTIFY_BASIC_AUTH;
-  console.log("Testing", auth)
-
   const scope_string = scopes.reduce((acc, cur) => acc + ' ' + cur);
 
   return rp.post({
