@@ -11,10 +11,12 @@
   flex-direction: row;
   height: 60px;
   text-shadow: 0 0 1px black;
+  font-size: 20px;
+  margin-bottom: 20%;
 }
 
 .message a {
-  color: #77f;
+  color: #aaf;
   text-decoration: none;
   margin-top: 16px;
   margin-bottom: 16px;
