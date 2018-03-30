@@ -41,8 +41,8 @@ function handleTokenRefresh(error, operation, user, reject) {
       // If a new token is returned, update the user and save
       if (json['access_token']) {
         user.spotifyToken = json['access_token'];
-        user.save(() => { 
-          if (operation.retry('Refreshed Token')) { return; } 
+        user.save(() => {
+          if (operation.retry('Refreshed Token')) { return; }
         });
       }
       else { reject(error); }
@@ -53,10 +53,12 @@ function handleTokenRefresh(error, operation, user, reject) {
       reject(err);
     });
 }
-
 // Requests an Auth Token and Refresh Token using code
 function getAuthToken(code, redirect_uri) {
+
   const auth = process.env.SPOTIFY_BASIC_AUTH;
+  console.log("Testing", auth)
+
   const scope_string = scopes.reduce((acc, cur) => acc + ' ' + cur);
 
   return rp.post({

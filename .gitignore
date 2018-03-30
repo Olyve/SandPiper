@@ -10,3 +10,6 @@ coverage/
 
 # Yarn Files
 yarn-error.log
+
+#DS Store
+.DS_Store
