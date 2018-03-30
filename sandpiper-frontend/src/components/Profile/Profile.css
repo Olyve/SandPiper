@@ -25,18 +25,22 @@
         margin: 10px;
     }
 
+    .profile-button-container button:hover{
+        filter: brightness(1.2);
+    }
 
     .profile-button-container button:active{
-        filter: brightness(0.7);
+        filter: brightness(0.6);
     }
 
     .profile-button-container button:focus{
         outline: none;
     }
 
+
     .profile-logout-button{
         border-radius: calc(var(--btnWidth) / 2);
-        background-color: #222;
+        background-color: #353535;
         border: 1px solid white;
         color: #ccc;
         font-size: 20px;
@@ -53,6 +57,7 @@
         border: none;
         background-repeat: no-repeat;
     }
+
     .profile-spotify-button{
         background: url("/SpotifyLogo.png");
     }
