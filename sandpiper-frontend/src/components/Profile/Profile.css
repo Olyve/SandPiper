@@ -7,29 +7,56 @@
     flex: 2;
 }
 
+
 .profile-button-container{
     flex: 1;
+    background-color: #222;
+    color: white;
 }
 
-.profile-button-container button{
-    padding: 0;
-    height: 61.5px;
-    width: 207px;
-    background-size: contain;
-    box-sizing: content-box;
-    border: none;
-}
+    .profile-button-container button{
+        --btnHeight: 61.5px;
+        --btnWidth: 207px;
+        padding: 0;
+        height: var(--btnHeight);
+        width: var(--btnWidth);
+        background-size: contain;
+        box-sizing: content-box;
+        margin: 10px;
+    }
 
-.profile-button-container button:active{
-    filter: brightness(0.7);
-}
 
-.profile-button-container button:focus{
-    outline: none;
-}
+    .profile-button-container button:active{
+        filter: brightness(0.7);
+    }
 
-.profile-spotify-button{
-    padding: 0;
-    background: url("/SpotifyLogo.png");
+    .profile-button-container button:focus{
+        outline: none;
+    }
 
-}
+    .profile-logout-button{
+        border-radius: calc(var(--btnWidth) / 2);
+        background-color: #222;
+        border: 1px solid white;
+        color: #ccc;
+        font-size: 20px;
+    }
+
+    .profile-connect{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-connect button{
+        padding: 0;
+        border: none;
+        background-repeat: no-repeat;
+    }
+    .profile-spotify-button{
+        background: url("/SpotifyLogo.png");
+    }
+
+    .profile-appleMusic-button{
+        background: url("/AppleMusicLogo.png");
+    }

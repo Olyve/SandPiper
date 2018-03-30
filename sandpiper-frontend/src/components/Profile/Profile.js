@@ -59,13 +59,15 @@ class Profile extends Component {
             </div>
             <div className="profile-button-container">
                 <div className="profile-logout">
-                    <button onClick={() => this.logout()}>
+                    <button className="profile-logout-button" onClick={() => this.logout()}>
                         Logout
                     </button>
                 </div>
                 <div className="profile-connect">
                   <h3>Connect Accounts</h3>
                   <button className="profile-spotify-button" onClick={() => this.authorizeSpotify()}/>
+                  <button className="profile-appleMusic-button" onClick={() => alert("Not implemented yet!")}/>
+
                 </div>
             </div>
         </div>
