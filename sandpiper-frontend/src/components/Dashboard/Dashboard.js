@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { searchSpotify } from '../../Utilities/networking';
+import { searchSpotify, getPlaylists } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
 // import Playlists from './Playlist';
@@ -40,17 +40,17 @@ class Dashboard extends Component {
   }
 
   handleGetPlaylists() {
-    // getPlaylists(this.props.user.token)
-    //   .then((json) => {
-    //     console.log(json)
+    getPlaylists(this.props.user.token)
+      .then((json) => {
+        console.log(json)
 
-    //     if (json['data'] !== undefined) {
-    //       const results = json['data']['results'];
-    //       this.setState({
-    //         playlists: results
-    //       });
-    //     }
-    //   });
+        if (json['data'] !== undefined) {
+          const results = json['data']['results'];
+          this.setState({
+            playlists: results
+          });
+        }
+      });
   }
 
   render() {

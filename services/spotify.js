@@ -22,30 +22,36 @@ function handleExpiredToken(wrapped) {
         wrapped.apply(this, args)
           .then((json) => { resolve(json); })
           .catch((err) => {
-            // Handle expired auth specially
+            // Custom error handling
             if (err.statusCode === 401) {
-              let user = args[1];
-              // Attempt to refresh the auth token
-              refreshAuthToken(user.spotifyRefreshToken)
-                .then((json) => {
-                  // If a new token is returned, update the user and save
-                  if (json['access_token']) {
-                    user.spotifyToken = json['access_token'];
-                    user.save(() => { if (operation.retry('Refreshed Token')) { return; } });
-                  }
-                  else { reject(err); }
-                })
-                .catch((err) => {
-                  // Refresh token failed, try operation again
-                  if (operation.retry(err)) { return; }
-                  reject(err);
-                });
+              handleTokenRefresh(err, operation, args[1], reject);
             }
-            else { reject(err); }
+            reject(err);
           });
       });
     });
   };
+}
+
+function handleTokenRefresh(error, operation, user, reject) {
+  console.log('USER: ', user);
+  // Attempt to refresh the auth token
+  refreshAuthToken(user.spotifyRefreshToken)
+    .then((json) => {
+      // If a new token is returned, update the user and save
+      if (json['access_token']) {
+        user.spotifyToken = json['access_token'];
+        user.save(() => { 
+          if (operation.retry('Refreshed Token')) { return; } 
+        });
+      }
+      else { reject(error); }
+    })
+    .catch((err) => {
+      // Refresh token failed, try operation again
+      if (operation.retry(err)) { return; }
+      reject(err);
+    });
 }
 
 // Requests an Auth Token and Refresh Token using code
@@ -65,7 +71,7 @@ function getAuthToken(code, redirect_uri) {
       'Authorization': `Basic ${auth}`,
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    simple: false, // Only fail for technical reasons
+    simple: true,
     json: true, // automatically parses json response string
   });
 }
@@ -85,7 +91,7 @@ function refreshAuthToken(refresh_token) {
 }
 
 // Performs a search using search_term and returns results
-const search = handleExpiredToken(function (search_term, user) {
+const search = handleExpiredToken(function(search_term, user) {
   // Make the request to the API
   return rp.get({
     url: 'https://api.spotify.com/v1/search',
@@ -102,8 +108,23 @@ const search = handleExpiredToken(function (search_term, user) {
   });
 });
 
+// Gets the currently logged in user's playlists
+const playlists = handleExpiredToken(function(user) {
+  // Make request to Spotify API
+  return rp.get({
+    url: 'https://api.spotify.com/v1/me/playlists',
+    headers: {
+      'Authorization': `Bearer ${user.spotifyToken}`
+    },
+    simple: true,
+    json: true
+  });
+});
+
 module.exports = {
   getAuthToken,
+  handleExpiredToken,
+  playlists,
   refreshAuthToken,
   search
 };

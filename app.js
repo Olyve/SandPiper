@@ -14,7 +14,8 @@ if (process.env.NODE_ENV !== 'test') {
 // Setup static folder and return frontend on GET root
 app.use(express.static(__dirname + '/public/build'));
 app.get('/', (req, res) => {
-  res.sendFile('/index.html');
+  res.setHeader('Cache-Control', 'no-cache')
+    .sendFile('/index.html');
 });
 
 // Setup API routing

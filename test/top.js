@@ -11,9 +11,14 @@ after((done) => {
   db_connect.close().then(() => { done(); }).catch(done);
 });
 
-describe('Running Sandpiper tests...', () => {
-  // Route Tests
-  require('./routes/auth');
-  require('./routes/middleware');
-  require('./routes/user');
+describe('Running Sandpiper tests...\n', () => {
+  describe('Testing routes...\n', () => {
+    require('./routes/auth.test');
+    require('./routes/middleware.test');
+    require('./routes/user.test');
+  });
+
+  describe('Testing services...\n', () => {
+    require('./services/spotify.test');
+  });
 });
