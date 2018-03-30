@@ -10,10 +10,11 @@
   display: flex;
   flex-direction: row;
   height: 60px;
+  text-shadow: 0 0 1px black;
 }
 
 .message a {
-  color: blue;
+  color: #77f;
   text-decoration: none;
   margin-top: 16px;
   margin-bottom: 16px;
