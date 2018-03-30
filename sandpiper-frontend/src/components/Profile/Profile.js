@@ -55,7 +55,7 @@ class Profile extends Component {
         <h2>Profile Page</h2>
         <div className="profile-content">
             <div className="profile-main-container">
-                <h3>Name here!</h3>
+                <h3>Stuff here eventually</h3>
             </div>
             <div className="profile-button-container">
                 <div className="profile-logout">

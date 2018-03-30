@@ -1,17 +1,28 @@
+.profile{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 20px;
+
+}
+
 .profile-content{
     display: flex;
     flex-direction: row;
-}
-
-.profile-main-container{
-    flex: 2;
-}
-
-
-.profile-button-container{
     flex: 1;
-    background-color: #222;
+}
+
+/* Profile content  */
+.profile-main-container{
+    flex: 3;
+}
+
+/* All buttons */
+.profile-button-container{
+    border-radius: 25px;
+    background-color: #2a2a2a;
     color: white;
+    height: 50%;
 }
 
     .profile-button-container button{
@@ -24,7 +35,7 @@
         box-sizing: content-box;
         margin: 10px;
     }
-
+    /* Universal properties */
     .profile-button-container button:hover{
         filter: brightness(1.2);
     }
@@ -36,32 +47,37 @@
     .profile-button-container button:focus{
         outline: none;
     }
-
-
-    .profile-logout-button{
-        border-radius: calc(var(--btnWidth) / 2);
-        background-color: #353535;
-        border: 1px solid white;
-        color: #ccc;
-        font-size: 20px;
+    /* Logout */
+    .profile-logout{
+        margin: 20px 10px;
+        padding: 20px;
+        border-bottom: 1px solid white;
     }
 
+        .profile-logout-button{
+            border-radius: calc(var(--btnWidth) / 2);
+            background-color: #353535;
+            border: 1px solid white;
+            color: #ccc;
+            font-size: 20px;
+        }
+    /* Connecting to other APIs */
     .profile-connect{
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    .profile-connect button{
-        padding: 0;
-        border: none;
-        background-repeat: no-repeat;
-    }
+        .profile-connect button{
+            padding: 0;
+            border: none;
+            background-repeat: no-repeat;
+        }
 
-    .profile-spotify-button{
-        background: url("/SpotifyLogo.png");
-    }
+        .profile-spotify-button{
+            background: url("/SpotifyLogo.png");
+        }
 
-    .profile-appleMusic-button{
-        background: url("/AppleMusicLogo.png");
-    }
+        .profile-appleMusic-button{
+            background: url("/AppleMusicLogo.png");
+        }
