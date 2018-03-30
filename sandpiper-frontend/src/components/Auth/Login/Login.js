@@ -43,12 +43,12 @@ class Login extends Component {
         <h2>Login</h2>
         <form>
           <div className='inputs'>
-            <div>
+            <div className='inputs-entry'>
               <label className='inputs-label'><span>Email: </span>
                 <input type='text' name='email' value={this.state.email} onChange={this.onChange} />
               </label>
             </div>
-            <div>
+            <div className='inputs-entry'>
               <label className='inputs-label'><span>Password: </span>
                 <input type='password' name='password' value={this.state.password} onChange={this.onChange} />
               </label>

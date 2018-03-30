@@ -67,5 +67,5 @@ export {
   loginUser,
   registerUser,
   searchSpotify,
-  spotifyAuth 
+  spotifyAuth
 };
