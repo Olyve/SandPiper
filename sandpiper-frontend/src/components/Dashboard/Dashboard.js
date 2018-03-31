@@ -42,8 +42,7 @@ class Dashboard extends Component {
   handleGetPlaylists() {
     getPlaylists(this.props.user.token)
       .then((json) => {
-        console.log(json)
-
+        console.log(json.data.results)
         if (json['data'] !== undefined) {
           const results = json['data']['results'];
           this.setState({

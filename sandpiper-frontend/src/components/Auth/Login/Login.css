@@ -12,7 +12,7 @@
 }
 
 .login h2 {
-  color: #eee;
+  color: #fff;
   margin: 10px 0 20px 0;
   font-size: 40px;
 }
@@ -63,7 +63,7 @@
   border-radius: 10px;
   padding: 10px 60px;
   background-color: #2ecc34;
-  color: #eee;
+  color: #fff;
   font-size: 18px;
   text-shadow: 0 0 1px black;
 }

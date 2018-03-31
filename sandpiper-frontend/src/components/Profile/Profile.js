@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import qs from 'query-string';
 import { spotifyAuth } from '../../Utilities/networking';
-import "./Profile.css"
+import './Profile.css';
 
 class Profile extends Component {
   constructor(props) {

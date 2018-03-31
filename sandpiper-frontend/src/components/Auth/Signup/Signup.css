@@ -12,7 +12,7 @@
 }
 
 .signup h2 {
-  color: #eee;
+  color: #fff;
   margin: 10px 0 20px 0;
   font-size: 40px;
 }
@@ -39,6 +39,7 @@
 }
 
 .inputs-label span {
+  width: 5em;
   align-self: center;
   text-align: right;
   padding-right: 10px;
@@ -62,7 +63,7 @@
   border-radius: 10px;
   padding: 10px 60px;
   background-color: #2ecc34;
-  color: #eee;
+  color: #fff;
   font-size: 18px;
   text-shadow: 0 0 1px black;
 }
