@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { searchSpotify, getPlaylists } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
+import Playlist from './Playlist';
+
 // import Playlists from './Playlist';
 
 class Dashboard extends Component {
@@ -60,6 +62,7 @@ class Dashboard extends Component {
           <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
         </div>
         <div className='dashboard-playlistResults'>
+          <Playlist playlists={this.state.playlists}/>
           <TrackList tracks={this.state.tracks}/>
         </div>
       </div>
