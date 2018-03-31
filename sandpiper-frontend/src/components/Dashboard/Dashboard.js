@@ -61,10 +61,8 @@ class Dashboard extends Component {
           <label className='playlist-label'><span>Get Spotify Playlists</span></label>
           <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
         </div>
-        <div className='dashboard-playlistResults'>
           <Playlist playlists={this.state.playlists}/>
           <TrackList tracks={this.state.tracks}/>
-        </div>
       </div>
     );
   }

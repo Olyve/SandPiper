@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import './Playlist.css';
 
-
 class Playlist extends Component {
   render() {
       console.log(this.props.playlists)
       let playlists;
       if(this.props.playlists.items && this.props.playlists.items.length > 0){
          playlists = this.props.playlists.items.map((playlist, index) => {
-             return <PlaylistSingle data={playlist}/>
+             return <PlaylistSingle key={`playlist-${index}`} data={playlist}/>
          })
       }
 
     return (
-      <div>
+      <div className="playlists">
           {playlists ? playlists : null}
       </div>
     );
@@ -21,11 +20,12 @@ class Playlist extends Component {
 }
 
 function PlaylistSingle(props){
-    console.log("Getting in?")
     return(
-        <div>
-            <img src={props.data.images[0].url}/>
-            <h2>{props.data.name}</h2>
+        <div className='playlist-container'>
+            <img className='playlist-cover' alt='Playlist mosaic' src={props.data.images[1].url}/>
+            <div className='playlist-info'>
+                <h2 className='playlist-title'>{props.data.name}</h2>
+            </div>
         </div>
     )
 }

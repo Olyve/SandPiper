@@ -26,3 +26,8 @@
 .playlist-label{
     margin-right: 10px;
 }
+
+.dashboard-playlistResults{
+    display: flex;
+    width: 100%;
+}

@@ -1,0 +1,22 @@
+.playlists{
+    display: flex;
+    margin-top: 20px;
+    justify-content: flex-start;
+}
+
+.playlist-container{
+    display: flex;
+}
+
+.playlist-cover{
+    /* Cutting it down slightly */
+    width: 150px;
+    height: 150px;
+}
+
+.playlist-info{
+    margin: 10px;
+}
+    .playlist-title{
+        font-size: 20px;
+    }
