@@ -30,6 +30,7 @@
     .profile-links {
       align-items: center;
       text-align: right;
+      margin-right: 20px;
     }
 
 .content-container {
@@ -42,5 +43,11 @@
 
 .nav-item {
   color: white;
-  margin: 15px;
+  margin: 5px 30px;
+  font-size: 22px;
+}
+
+h1.nav-item{
+  font-size: 40px;
+  font-weight: 100;
 }
