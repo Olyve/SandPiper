@@ -1,22 +1,31 @@
 .playlists{
     display: flex;
-    margin-top: 20px;
+    margin: 20px;
     justify-content: flex-start;
 }
 
 .playlist-container{
+    --imageSize: 150px;
     display: flex;
+    background-color: #444;
+    /* Golden ratio? */
+    width: calc(2.6 * (var(--imageSize)));
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .playlist-cover{
     /* Cutting it down slightly */
-    width: 150px;
-    height: 150px;
+    width: var(--imageSize);
+    height: var(--imageSize);
 }
 
 .playlist-info{
-    margin: 10px;
+    margin: 5px;
+    margin-left: 20px;
+
 }
     .playlist-title{
+        margin: 0px;
         font-size: 20px;
     }
