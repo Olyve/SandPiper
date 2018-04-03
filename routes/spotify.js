@@ -15,14 +15,17 @@ router.get('/search', (req, res) => {
       // Return 401 if the user is not found
       if (!user) { return clientResponse(res, 401); }
 
+      // Do some validation on query
+      let search_term = req.query.search_term;
+      if (search_term === '' || search_term === undefined) {
+        throw new Error('Search term cannot be empty.');
+      }
+
       // Make request to SpotifyAPI
-      return search(req.query.search_term, user);
-    })
-    .then((json) => {
-      // TODO: Remove for production
-      console.log(json);
-      // Return the json form the Spotify API
-      return clientResponse(res, 200, ['Returning search results.'], { results: json });
+      return search(user, search_term).then((json) => {
+        // Return the json from the Spotify API
+        clientResponse(res, 200, ['Returning search results.'], { results: json });
+      });
     })
     .catch((err) => {
       logger.error(err);
@@ -38,13 +41,10 @@ router.get('/playlists', (req, res) => {
       if (!user) { return clientResponse(res, 401); }
 
       // Make request to Spotify API
-      return playlists(user);
-    })
-    .then((json) => {
-      // TODO: Remove for production
-      console.log(json);
-
-      return clientResponse(res, 200, ['Returning user\'s playlists'], { results: json });
+      return playlists(user).then((json) => {
+        // Return the json from the Spotify API
+        clientResponse(res, 200, ['Returning user\'s playlists.'], { results: json });
+      });
     })
     .catch((err) => {
       logger.error(err);

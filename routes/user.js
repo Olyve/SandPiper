@@ -74,7 +74,7 @@ router.post('/:id/spotifyAuth', (req, res) => {
       });
     })
     .catch((err) => {
-      if (process.env.NODE_ENV !== 'test') logger.error(err);
+      logger.error(err);
       return clientResponse(res, 400, ['Unable to get auth token.']);
     });
 });
