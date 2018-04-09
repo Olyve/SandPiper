@@ -24,7 +24,7 @@ function handleExpiredToken(wrapped) {
           .catch((err) => {
             // Custom error handling
             if (err.statusCode === 401) {
-              handleTokenRefresh(err, operation, args[1], reject);
+              return handleTokenRefresh(err, operation, args[0], reject);
             }
             reject(err);
           });
@@ -34,7 +34,6 @@ function handleExpiredToken(wrapped) {
 }
 
 function handleTokenRefresh(error, operation, user, reject) {
-  console.log('USER: ', user);
   // Attempt to refresh the auth token
   refreshAuthToken(user.spotifyRefreshToken)
     .then((json) => {
@@ -91,7 +90,7 @@ function refreshAuthToken(refresh_token) {
 }
 
 // Performs a search using search_term and returns results
-const search = handleExpiredToken(function(search_term, user) {
+const search = handleExpiredToken(function(user, search_term) {
   // Make the request to the API
   return rp.get({
     url: 'https://api.spotify.com/v1/search',
