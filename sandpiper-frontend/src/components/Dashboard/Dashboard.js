@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { searchSpotify, getPlaylists } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
-import Playlist from './Playlist';
+import PlaylistList from './Playlist';
 
 // import Playlists from './Playlist';
 
@@ -61,7 +61,7 @@ class Dashboard extends Component {
           <label className='playlist-label'><span>Get Spotify Playlists</span></label>
           <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
         </div>
-          <Playlist playlists={this.state.playlists}/>
+          <PlaylistList playlists={this.state.playlists}/>
           <TrackList tracks={this.state.tracks}/>
       </div>
     );

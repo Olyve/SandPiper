@@ -1,4 +1,4 @@
-.playlists{
+.playlistList{
     display: flex;
     margin: 20px;
     justify-content: flex-start;
