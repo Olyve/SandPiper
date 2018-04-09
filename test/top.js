@@ -12,8 +12,14 @@ after((done) => {
 });
 
 describe('Running Sandpiper tests...', () => {
-  // Route Tests
-  require('./routes/auth');
-  require('./routes/middleware');
-  require('./routes/user');
+  describe('Testing routes...', () => {
+    require('./routes/auth.test');
+    require('./routes/middleware.test');
+    require('./routes/spotify.test');
+    require('./routes/user.test');
+  });
+
+  describe('Testing services...', () => {
+    require('./services/spotify.test');
+  });
 });

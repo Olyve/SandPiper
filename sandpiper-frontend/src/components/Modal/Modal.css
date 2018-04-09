@@ -1,0 +1,58 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .25);
+}
+
+.modal-popup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 250px;
+  width: 350px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.modal-title {
+  text-align: center;
+}
+
+.modal-message {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.modal-confirm {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #2ecc34;
+  color: #fff;
+  font-size: 14px;
+}
+
+.modal-confirm:active {
+  background-color: #26a529;
+}
+
+.modal-confirm:focus {
+  outline: none;
+}
+
+.hidden {
+  display: none;
+}

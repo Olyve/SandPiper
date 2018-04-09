@@ -1,0 +1,53 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+}
+
+.header{
+    display: flex;
+    background-color: #222;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header>div{
+    display: flex
+}
+
+    .nav-links {
+        text-align: left;
+        flex-direction: row;
+
+    }
+        .nav-links ul{
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+    .profile-links {
+      align-items: center;
+      text-align: right;
+      margin-right: 20px;
+    }
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #333;
+    color: #EEE;
+}
+
+.nav-item {
+  color: white;
+  margin: 5px 30px;
+  font-size: 22px;
+}
+
+h1.nav-item{
+  font-size: 40px;
+  font-weight: 100;
+}

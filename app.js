@@ -1,12 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
-
-const auth = require('./routes/auth');
-const {verifyAuth, ignoreFavicon, allowCORS} = require('./routes/middleware');
-const users = require('./routes/user');
-const search = require('./routes/search');
-
 const app = express();
+const api = require('./routes/api');
 
 // Used for setting up environment variables locally
 require('dotenv').config();
@@ -16,21 +11,14 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
 
-// Ignore Favicon requests
-app.use(ignoreFavicon);
+// Setup static folder and return frontend on GET root
+app.use(express.static(__dirname + '/public/build'));
+app.get('/', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache')
+    .sendFile('/index.html');
+});
 
-// Allow CORS requests
-app.use(allowCORS);
-
-// Login and Register
-app.use(auth);
-
-// Authentication Middleware
-// All requests after this point require a logged in user
-app.use(verifyAuth);
-
-// Resource Routes
-app.use('/users', users);
-app.use('/search', search);
+// Setup API routing
+app.use('/api', api);
 
 module.exports = app;

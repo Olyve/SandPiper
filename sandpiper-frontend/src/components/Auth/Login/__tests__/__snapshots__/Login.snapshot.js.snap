@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login should render without crashing 1`] = `
+<div
+  className="login"
+>
+  <h2>
+    Login
+  </h2>
+  <form>
+    <div
+      className="inputs"
+    >
+      <div
+        className="inputs-entry"
+      >
+        <label
+          className="inputs-label"
+        >
+          <span>
+            Email: 
+          </span>
+          <input
+            name="email"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </label>
+      </div>
+      <div
+        className="inputs-entry"
+      >
+        <label
+          className="inputs-label"
+        >
+          <span>
+            Password: 
+          </span>
+          <input
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+        </label>
+      </div>
+      <div
+        className="inputs-submit"
+      >
+        <button
+          className="submit"
+          onClick={[Function]}
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;

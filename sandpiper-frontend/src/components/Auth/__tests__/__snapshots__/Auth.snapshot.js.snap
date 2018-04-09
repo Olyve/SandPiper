@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Auth should render Login by default 1`] = `
+<div
+  className="auth"
+>
+  <Login />
+  <div
+    className="message"
+  >
+    <p>
+      If you don't have an account
+      <a
+        onClick={[Function]}
+      >
+        click here
+      </a>
+      .
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Auth should render Register when showLogin is false 1`] = `
+<div
+  className="auth"
+>
+  <Signup />
+  <div
+    className="message"
+  >
+    <p>
+      If you already have an account
+      <a
+        onClick={[Function]}
+      >
+        click here
+      </a>
+      .
+    </p>
+  </div>
+</div>
+`;
