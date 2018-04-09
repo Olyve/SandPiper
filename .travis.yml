@@ -1,14 +1,21 @@
 env:
   global:
-    - CC_TEST_REPORTER_ID=94f2a752f86b86e8599783e30cc088365d0b8fc38ffba4458ec3b9cbc9f265ee
+  - CC_TEST_REPORTER_ID=94f2a752f86b86e8599783e30cc088365d0b8fc38ffba4458ec3b9cbc9f265ee
 language: node_js
 node_js:
-  - "8"
+- '8'
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
 script:
-  - yarn remote_test
+- yarn remote_test
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+deploy:
+  provider: heroku
+  api_key:
+    secure: B4uBnnRFh6atESrcpUExlHhQQY2ygIwbOxpeMPh/h2S8T63yU0zfkVHuFYeISJLrDqUE7Y8E018DOnPStw8vNBKxLWK1p2qyJPcKoSuSncKTllTZZZvO/pZ8yjQi3DfMeunJ029No3XUzLToopPPJel4eUhD5HpLUQb1/UlxcpuzLBDoZAnOsjhspZUiLhj3Zp8kjYC/bWUwAvggwAOY6oryzUCmbbKr8lZKBMqZYpj+g/sRYqNoD22btpXR729ZwJgJsnRReWCcGPR7Y8fJ4J95b4sn5qf905wSxLGBm8s6ktTpS4wV/cY5Frfh8R0qUH58Wu7q1Bbx+e+7u5P8qrPSNL3bVXWyn8D1pHncfmv1oRm3Logmo2y6+i2XLbdMLVstdwqxCDMFSbIoLHznVrMoiGpBNOSbNZxH4KMpPARmnhyWwrd7Cwq+POtHeykeP6n8w5hpQ/gPjDxcaSyeodIT+wnj50/rBP59QfXvEiJKF24gip0rheU8xNqzFRmgKPw5N6uyUEO02WhPZk9Ub1VJztXzozQZsc9DiOMLfFPHphYVB4jqEt5pc5/GYQEnVqvWrfSJ73NJsTO6wtvH+RO3VsCOIr3Bc9RQDeAsfNZOduhcvy4VV/AihmjGDD0UY0nm0ttuIURqTbau14PU0/fzppLR+n3Mzxbp2GWSdtU=
+  app:
+    develop: sandpiper-staging
+    master: sandpiper-production
