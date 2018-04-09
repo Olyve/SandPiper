@@ -5,6 +5,7 @@ const level = process.env.LOG_LEVEL || 'debug';
 const logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
+      silent: process.env.NODE_ENV === 'test',
       level: level,
       timestamp: function () {
         return (new Date()).toISOString();

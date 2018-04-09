@@ -1,49 +1,11 @@
 // Import required components from Common
 const {
-  chai,
-  nock
+  nock,
+  User
 } = require('../common');
 const SpotifyService = require('../../services/spotify');
-const rp = require('request-promise-native');
-const sinon = require('sinon');
 
 describe('Spotify Service', () => {
-
-  before((done) => {
-    nock('https://accounts.spotify.com/api')
-      .post('/token', (body) => {
-        return body.code === 'valid_code';
-      })
-      .reply(200, {
-        'access_token': 'NgCXRKMzYjw',
-        'token_type': 'Bearer',
-        'scope': 'user-read-private user-read-email',
-        'expires_in': 3600,
-        'refresh_token': 'NgAagAUm_SHo'
-      })
-      .post('/token', {
-        grant_type: 'refresh_token',
-        refresh_token: 'NgAagAUm_SHo'
-      })
-      .reply(200, {
-        'access_token': 'NgA6ZcYIixn8bUQ',
-        'token_type': 'Bearer',
-        'scope': 'user-read-private user-read-email',
-        'expires_in': 3600
-      })
-      .post('/token', (body) => {
-        console.log(body);
-        return body.refresh_token === 'refresh';
-      })
-      .reply(200, {
-        'access_token': 'NgA6ZcYIixn8bUQ',
-        'token_type': 'Bearer',
-        'scope': 'user-read-private user-read-email',
-        'expires_in': 3600
-      });
-
-    done();
-  });
 
   // ============================
   //
@@ -54,6 +16,18 @@ describe('Spotify Service', () => {
   describe('getAuthToken', () => {
     context('should return an access_token and refresh_token', () => {
       it('when a valid authorization code is provided', (done) => {
+        nock('https://accounts.spotify.com/api')
+          .post('/token', (body) => {
+            return body.code === 'valid_code';
+          })
+          .reply(200, {
+            'access_token': 'NgCXRKMzYjw',
+            'token_type': 'Bearer',
+            'scope': 'user-read-private user-read-email',
+            'expires_in': 3600,
+            'refresh_token': 'NgAagAUm_SHo'
+          });
+
         SpotifyService.getAuthToken('valid_code', 'redirect')
           .then((json) => {
             json.should.have.property('access_token').eql('NgCXRKMzYjw');
@@ -68,6 +42,21 @@ describe('Spotify Service', () => {
   });
 
   describe('refreshAuthToken', () => {
+    before((done) => {
+      nock('https://accounts.spotify.com/api')
+        .post('/token', {
+          grant_type: 'refresh_token',
+          refresh_token: 'NgAagAUm_SHo'
+        })
+        .reply(200, {
+          'access_token': 'NgA6ZcYIixn8bUQ',
+          'token_type': 'Bearer',
+          'scope': 'user-read-private user-read-email',
+          'expires_in': 3600
+        });
+      done();
+    });
+
     context('should return a new access_token', () => {
       it('when a valid refresh_token is provided', (done) => {
         SpotifyService.refreshAuthToken('NgAagAUm_SHo')
@@ -82,34 +71,79 @@ describe('Spotify Service', () => {
     });
   });
 
-  // describe('handleExpiredToken', () => {
-  //   context('should call refreshAuthToken', () => {
-  //     it('when wrapped function returns 401', (done) => {
-  //       var scope = nock('http://localhost:3000')
-  //         .post('/')
-  //         .reply(function(url, body, callback) {
-  //           this.req.emit('error', 'Token Expired.');
-  //         })
-  //         .post('/')
-  //         .reply(200, { message: 'Request succeeded second time.' });
+  describe('handleExpiredToken', () => {
+    context('should call refresh the access token', () => {
+      it('when wrapped function returns 401', (done) => {
+        // Setup mock requests
+        nock('https://api.spotify.com/v1')
+          .get('/search')
+          .query(true)
+          .reply(401, {statusCode: 401})
+          .get('/search')
+          .query(true)
+          .reply(200, { message: 'Request succeeded second time.' });
 
-  //       const test_func = SpotifyService.handleExpiredToken(function(user) {
-  //         return rp.post({
-  //           url: 'http://localhost:3000',
-  //           form: user,
-  //           json: true,
-  //           simple: false
-  //         });
-  //       });
+        nock('https://accounts.spotify.com/api')
+          .post('/token', (body) => {
+            return body.refresh_token === 'refresh_token';
+          })
+          .reply(200, {
+            'access_token': 'NgA6ZcYIixn8bUQ',
+            'token_type': 'Bearer',
+            'scope': 'user-read-private user-read-email',
+            'expires_in': 3600
+          });
 
-  //       const spy = sinon.spy(test_func);
+        // Setup mock user
+        let user = new User({
+          email: 'mail@user.com',
+          password: 'password',
+          spotifyToken: '',
+          spotifyRefreshToken: 'refresh_token'
+        });
 
-  //       spy.then((res) => {
-  //         console.log(res);
-  //         done();
-  //       });
-  //     });
-  //   });
-  // });
+        user.save((err, saved_user) => {
+          SpotifyService.search(saved_user, 'search')
+            .then((json) => {
+              json.message.should.eql('Request succeeded second time.');
+              done();
+            });
+        });
+      });
+    });
+
+    context('should return an error', () => {
+      it('if an access token is not returned', (done) => {
+        // Setup mock requests
+        nock('https://api.spotify.com/v1')
+          .get('/search')
+          .query(true)
+          .twice()
+          .reply(401, {statusCode: 401});
+
+        nock('https://accounts.spotify.com/api')
+          .post('/token', (body) => {
+            return body.refresh_token === 'nothing';
+          })
+          .twice()
+          .replyWithError('Invalid refresh token');
+
+        let user = new User({
+          email: 'mail@user.com',
+          password: 'password',
+          spotifyToken: '',
+          spotifyRefreshToken: 'nothing'
+        });
+
+        user.save((err, saved_user) => {
+          SpotifyService.search(saved_user, 'search')
+            .catch((err) => {
+              err.message.should.eql('Error: Invalid refresh token');
+              done();
+            });
+        });
+      });
+    });
+  });
 
 });

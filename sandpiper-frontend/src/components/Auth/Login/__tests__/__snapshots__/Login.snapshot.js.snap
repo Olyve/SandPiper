@@ -11,7 +11,9 @@ exports[`Login should render without crashing 1`] = `
     <div
       className="inputs"
     >
-      <div>
+      <div
+        className="inputs-entry"
+      >
         <label
           className="inputs-label"
         >
@@ -26,7 +28,9 @@ exports[`Login should render without crashing 1`] = `
           />
         </label>
       </div>
-      <div>
+      <div
+        className="inputs-entry"
+      >
         <label
           className="inputs-label"
         >
