@@ -12,7 +12,7 @@
 }
 
 .login h2 {
-  color: #eee;
+  color: #fff;
   margin: 10px 0 20px 0;
   font-size: 40px;
 }
@@ -39,6 +39,7 @@
 }
 
 .inputs-label span {
+  width: 5em;
   align-self: center;
   text-align: right;
   padding-right: 10px;
@@ -46,9 +47,10 @@
 
 .inputs-label input {
   width: 200px;
-  height: 3em;
+  height: 2em;
   padding: .25em 1em;
   border-radius: 1.5em;
+  font-size: 16px;
   border: none;
 }
 
@@ -61,7 +63,7 @@
   border-radius: 10px;
   padding: 10px 60px;
   background-color: #2ecc34;
-  color: #eee;
+  color: #fff;
   font-size: 18px;
   text-shadow: 0 0 1px black;
 }

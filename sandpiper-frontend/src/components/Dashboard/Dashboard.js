@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { searchSpotify, getPlaylists } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
+import PlaylistList from './Playlist';
+
 // import Playlists from './Playlist';
 
 class Dashboard extends Component {
@@ -42,8 +44,7 @@ class Dashboard extends Component {
   handleGetPlaylists() {
     getPlaylists(this.props.user.token)
       .then((json) => {
-        console.log(json)
-
+        console.log(json.data.results)
         if (json['data'] !== undefined) {
           const results = json['data']['results'];
           this.setState({
@@ -60,9 +61,8 @@ class Dashboard extends Component {
           <label className='playlist-label'><span>Get Spotify Playlists</span></label>
           <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
         </div>
-        <div className='dashboard-playlistResults'>
+          <PlaylistList playlists={this.state.playlists}/>
           <TrackList tracks={this.state.tracks}/>
-        </div>
       </div>
     );
   }

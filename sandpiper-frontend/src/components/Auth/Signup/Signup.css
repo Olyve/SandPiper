@@ -1,28 +1,34 @@
-* {
-  box-sizing: border-box;
+.signup {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    background-color: #777;
+    border-radius: 10px;
+    width: 400px;
+    height: 275px;
+    justify-content: center;
+    text-shadow: 0 0 1px black;
+
 }
 
-.signup {
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  background-color: #ccc;
-  border-radius: 10px;
-  width: 300px;
-  height: 175px;
+.signup h2 {
+  color: #fff;
+  margin: 10px 0 20px 0;
+  font-size: 40px;
 }
 
 .inputs {
-  flex: 4;
   display: flex;
   flex-direction: column;
 }
 
-.inputs div {
+.inputs .inputs-entry {
   flex: 1;
   height: 40px;
   padding: 0 15px;
+  margin: 5px;
   align-items: center;
+  justify-content: center;
   display: flex;
 }
 
@@ -33,29 +39,33 @@
 }
 
 .inputs-label span {
-  width: 100px;
+  width: 5em;
+  align-self: center;
   text-align: right;
   padding-right: 10px;
 }
 
 .inputs-label input {
-  width: 150px;
-  padding: .25em .5em;
+    width: 200px;
+    height: 2em;
+    padding: .25em 1em;
+    border-radius: 1.5em;
+    font-size: 16px;
+    border: none;
 }
 
-.inputs-submit {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+.inputs-submit{
+    margin: 15px 5px;
 }
 
 .inputs-submit button {
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 10px;
+  padding: 10px 60px;
   background-color: #2ecc34;
   color: #fff;
-  font-size: 14px;
+  font-size: 18px;
+  text-shadow: 0 0 1px black;
 }
 
 .inputs-submit button:active {
@@ -64,10 +74,4 @@
 
 .inputs-submit button:focus {
   outline: none;
-}
-
-.signup h2 {
-  flex: 1;
-  color: #222;
-  margin: 15px 0 10px 0;
 }

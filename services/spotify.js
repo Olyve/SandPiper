@@ -40,8 +40,8 @@ function handleTokenRefresh(error, operation, user, reject) {
       // If a new token is returned, update the user and save
       if (json['access_token']) {
         user.spotifyToken = json['access_token'];
-        user.save(() => { 
-          if (operation.retry('Refreshed Token')) { return; } 
+        user.save(() => {
+          if (operation.retry('Refreshed Token')) { return; }
         });
       }
       else { reject(error); }

@@ -116,14 +116,14 @@ export class App extends Component {
 function loginNavLink(user_id) {
   if (user_id !== '') {
     return (
-      <NavLink exact to='/profile' activeStyle={{fontWeight: 'bold'}} className='nav-item'>
+      <NavLink exact to='/profile' activeStyle={{fontWeight: 'bolder'}} className='nav-item'>
         Profile
       </NavLink>
     );
   }
   else {
     return (
-      <NavLink exact to='/login' activeStyle={{fontWeight: 'bold'}} className='nav-item'>
+      <NavLink exact to='/login' activeStyle={{fontWeight: 'bolder'}} className='nav-item'>
         Login
       </NavLink>
     );
