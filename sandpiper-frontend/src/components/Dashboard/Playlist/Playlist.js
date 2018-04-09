@@ -24,6 +24,10 @@ function Playlist(props){
             <img className='playlist-cover' alt='Playlist mosaic' src={props.data.images[1].url}/>
             <div className='playlist-info'>
                 <h2 className='playlist-title'>{props.data.name}</h2>
+                <div className='playlist-subtitle'>
+                    <h3 className='playlist-by'>By: {props.data.owner.display_name}</h3>
+                    <h3 className='playlist-tracks'>{props.data.tracks.total} tracks</h3>
+                </div>
             </div>
         </div>
     )
