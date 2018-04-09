@@ -1,7 +1,8 @@
 .playlistList{
     display: flex;
-    margin: 20px;
-    justify-content: flex-start;
+    margin: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .playlist-container{
@@ -12,6 +13,7 @@
     width: calc(2.6 * (var(--imageSize)));
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    margin: 5px 5px;
 }
 
 .playlist-cover{
