@@ -7,7 +7,7 @@
     "start": "node index.js",
     "heroku-postbuild": "cd sandpiper-frontend && yarn install && yarn build && cd ..",
     "test": "nyc mocha --timeout 120000 --exit && yarn report",
-    "remote_test": "nyc --reporter=lcovonly mocha --timeout 120000 --exit",
+    "remote_test": "nyc --reporter=lcovonly mocha --reporter min --timeout 120000 --exit",
     "report": "nyc report --reporter=html",
     "open_report": "open -a 'Google Chrome' coverage/index.html"
   },
