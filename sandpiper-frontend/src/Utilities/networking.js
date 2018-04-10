@@ -1,10 +1,11 @@
 import rp from 'request-promise-native';
 
-var base_url = ''
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+var base_url = '';
+if (process.env.REACT_APP_BASE_URL) {
+  // Main server is production mode, but frontend is staging
+  base_url = process.env.REACT_APP_BASE_URL;
+} else { // Not set or local development
   base_url = 'http://localhost:3000/api';
-} else {
-  base_url = 'http://staging-api.sandpiper.ninja/api';
 }
 
 function registerUser(data) {
