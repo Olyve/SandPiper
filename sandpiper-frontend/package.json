@@ -11,13 +11,11 @@
     "react-scripts": "1.1.1",
     "redux": "^3.7.2",
     "request": "^2.83.0",
-    "request-promise-native": "^1.0.5",
-    "serve": "^6.5.2"
+    "request-promise-native": "^1.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && rm -r ../public/build && mv build ../public/build",
-    "staging-build": "NODE_ENV=staging yarn build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
