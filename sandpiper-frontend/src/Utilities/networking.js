@@ -2,9 +2,9 @@ import rp from 'request-promise-native';
 
 var base_url = ''
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  base_url = 'http://localhost:3000/api';
+  base_url = 'http://staging.sandpiper.ninja/api';
 } else {
-  base_url = 'http://staging-api.sandpiper.ninja/api';
+  base_url = 'https://www.sandpiper.ninja/api';
 }
 
 function registerUser(data) {
