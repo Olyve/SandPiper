@@ -17,6 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && rm -r ../public/build && mv build ../public/build",
+    "staging-build": "NODE_ENV=staging yarn build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
