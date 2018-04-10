@@ -28,7 +28,7 @@
     text-align: left;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
 }
     .playlist-title{
         margin: 0px;
@@ -36,7 +36,7 @@
     }
 
     .playlist-info h3{
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 400;
         margin: 2px;
     }
