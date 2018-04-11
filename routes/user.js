@@ -5,7 +5,7 @@ const { clientResponse } = require('../utils/client_response');
 const { isAuthorized } = require('./middleware');
 const logger = require('../utils/logger');
 const User = require('../models/user');
-const { getAuthToken } = require('../services/spotify');
+const { getAuthToken, getMyInfo } = require('../services/spotify');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -51,13 +51,19 @@ router.post('/:id/spotifyAuth', (req, res) => {
   const code = req.body.code;
   const redirect_uri = req.body.redirect_uri;
 
+  let data = {};
+
   // Make request to spotify API for auth token & refresh token
   getAuthToken(code, redirect_uri)
     .then((json) => {
-      let data = {
-        spotifyToken: json['access_token'] || '',
-        spotifyRefreshToken: json['refresh_token'] || ''
-      };
+      data.spotifyToken = json['access_token'] || '';
+      data.spotifyRefreshToken = json['refresh_token'] || '';
+
+      // Return call to fetch the user's info
+      return getMyInfo(data.spotifyToken);
+    })
+    .then((json) => {
+      data.spotifyID = json['id'] || '';
 
       User.findByIdAndUpdate(req.params.id, data, (err, user) => {
         if (err) {
