@@ -63,8 +63,20 @@ const getPlaylists = (token) => {
   });
 };
 
+const getTracks = (token, id) => {
+  return rp.get({
+    url: `${base_url}/spotify/playlists/${id}`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
 export {
   getPlaylists,
+  getTracks,
   loginUser,
   registerUser,
   searchSpotify,

@@ -6,7 +6,7 @@ class PlaylistList extends Component {
       let playlists;
       if(this.props.playlists.items && this.props.playlists.items.length > 0){
          playlists = this.props.playlists.items.map((playlist, index) => {
-             return <Playlist key={`playlist-${index}`} data={playlist}/>
+             return <Playlist key={`playlist-${index}`} data={playlist} trackGet={(id) => this.props.trackGet(id)}/>
          })
       }
 
@@ -20,8 +20,9 @@ class PlaylistList extends Component {
 
 function Playlist(props){
     return(
-        <div className='playlist-container'>
-            <img className='playlist-cover' alt='Playlist mosaic' src={props.data.images[1].url}/>
+        <div className='playlist-container' onClick={() => props.trackGet(props.data.id)}>
+            <img className='playlist-cover' alt='Playlist mosaic'
+                 src={props.data.images[1] ? props.data.images[1].url : props.data.images[0].url}/>
             <div className='playlist-info'>
                 <h2 className='playlist-title'>{props.data.name}</h2>
                 <div className='playlist-subtitle'>

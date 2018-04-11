@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { searchSpotify, getPlaylists } from '../../Utilities/networking';
+import { searchSpotify, getPlaylists, getTracks} from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
 import PlaylistList from './Playlist';
@@ -54,6 +54,20 @@ class Dashboard extends Component {
       });
   }
 
+  handleGetTracks(playlistId) {
+      console.log(playlistId)
+    getTracks(this.props.user.token, playlistId)
+      .then((json) => {
+        console.log(json.data.results)
+        if (json['data'] !== undefined) {
+          const results = json['data']['results'];
+          this.setState({
+            tracks: results
+          });
+        }
+      });
+  }
+
   render() {
     return (
       <div className='dashboard'>
@@ -61,7 +75,7 @@ class Dashboard extends Component {
           <label className='playlist-label'><span>Get Spotify Playlists</span></label>
           <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
         </div>
-          <PlaylistList playlists={this.state.playlists}/>
+          <PlaylistList playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
           <TrackList tracks={this.state.tracks}/>
       </div>
     );
