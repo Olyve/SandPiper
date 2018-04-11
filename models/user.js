@@ -11,6 +11,7 @@ const UserSchema = new Schema({
   spotifyRefreshToken: { type: String },
   spotifyID: { type: String },
   appleMusicToken: { type: String },
+  appleMusicCountryCode: { type: String },
   active: {
     type: Boolean,
     default: true
