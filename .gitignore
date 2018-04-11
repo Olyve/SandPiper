@@ -11,5 +11,8 @@ coverage/
 # Yarn Files
 yarn-error.log
 
-#DS Store
+# Build Files
+public/build
+
+# DS Store
 .DS_Store

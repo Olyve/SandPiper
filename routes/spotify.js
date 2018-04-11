@@ -4,11 +4,16 @@ const express = require('express');
 const {clientResponse} = require('../utils/client_response');
 const logger = require('../utils/logger');
 const User = require('../models/user');
-const { search, playlists } = require('../services/spotify');
+const {
+  getPlaylist,
+  myPlaylists,
+  search
+} = require('../services/spotify');
 
 const router = express.Router();
 router.use(bodyParser.json());
 
+// Search using a search term
 router.get('/search', (req, res) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -34,6 +39,7 @@ router.get('/search', (req, res) => {
     });
 });
 
+// Get playlists for the currently logged in user
 router.get('/playlists', (req, res) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -41,9 +47,29 @@ router.get('/playlists', (req, res) => {
       if (!user) { return clientResponse(res, 401); }
 
       // Make request to Spotify API
-      return playlists(user).then((json) => {
+      return myPlaylists(user).then((json) => {
         // Return the json from the Spotify API
         clientResponse(res, 200, ['Returning user\'s playlists.'], { results: json });
+      });
+    })
+    .catch((err) => {
+      logger.error(err);
+      // Return bad request
+      return clientResponse(res, 400);
+    });
+});
+
+// Get a specific playlist, including the tracks and info
+router.get('/playlists/:id', (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      // Return 401 if the user is not found
+      if (!user) { return clientResponse(res, 401); }
+
+      // Make request to Spotify for the specific playlist
+      getPlaylist(user, req.params.id).then((json) => {
+        // Return the json from the API
+        clientResponse(res, 200, ['Returning playlist.'], { results: json });
       });
     })
     .catch((err) => {

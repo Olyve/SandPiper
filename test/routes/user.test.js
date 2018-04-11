@@ -41,8 +41,8 @@ describe('User Routes', () => {
   // ============================
   
   describe('GET /api/users/:id', () => {
-    context('should return the user', () => {
-      it('when the user is authorized and id is valid', (done) => {
+    context('user is authorized and id is valid', () => {
+      it('should return the user', (done) => {
         chai.request(server)
           .get(`/api/users/${id}`)
           .set('Authorization', `Bearer ${token}`)
@@ -58,8 +58,8 @@ describe('User Routes', () => {
       });
     });
 
-    context('should return not found', () => {
-      it('when the user\'s id does not match the route id', (done) => {
+    context('user\'s id does not match the route id', () => {
+      it('should return not found', (done) => {
         chai.request(server)
           .get('/api/users/5a9da3732f0b122608416ae3')
           .set('Authorization', `Bearer ${token}`)
@@ -74,8 +74,8 @@ describe('User Routes', () => {
       });
     });
 
-    context('should return 401', () => {
-      it('when there is no user with the provided id', (done) => {
+    context('there is no user with the provided id', () => {
+      it('should return 401', (done) => {
         chai.request(server)
           .get('/api/users/5a9da3732f0b196608416ae3')
           .set('Authorization', `Bearer ${alt_token}`)
@@ -99,8 +99,8 @@ describe('User Routes', () => {
   
   describe('PUT /api/users/:id', () => {
 
-    context('should update user', () => {
-      it('when authorized and properties are valid', (done) => {
+    context('authorized and properties are valid', () => {
+      it('should update user', (done) => {
         chai.request(server)
           .put(`/api/users/${id}`)
           .set('Authorization', `Bearer ${token}`)
@@ -119,8 +119,8 @@ describe('User Routes', () => {
       });
     });
 
-    context('should return not found', () => {
-      it('when the user\'s id does not match the route id', (done) => {
+    context('user\'s id does not match the route id', () => {
+      it('should return not found', (done) => {
         chai.request(server)
           .put('/api/users/5a9da3732f0b122608416ae3')
           .set('Authorization', `Bearer ${token}`)
@@ -140,8 +140,8 @@ describe('User Routes', () => {
       });
     });
 
-    context('should return 401', () => {
-      it('when there is no user with the provided id', (done) => {
+    context('there is no user with the provided id', () => {
+      it('should return 401', (done) => {
         chai.request(server)
           .put('/api/users/5a9da3732f0b196608416ae3')
           .set('Authorization', `Bearer ${alt_token}`)
@@ -182,11 +182,17 @@ describe('User Routes', () => {
           return body.code === 'bad_code';
         })
         .reply(400, 'Auth code expired');
+
+      nock('https://api.spotify.com/v1')
+        .get('/me')
+        .reply(200, {
+          user_id: 'spotify_user_id'
+        });
       done();
     });
 
-    context('should update user', () => {
-      it('when everything is correct', (done) => {
+    context('a correct request is made', () => {
+      it('should update user', (done) => {
         chai.request(server)
           .post(`/api/users/${id}/spotifyAuth`)
           .set('Authorization', `Bearer ${token}`)
@@ -205,8 +211,8 @@ describe('User Routes', () => {
       });
     });
 
-    context('should return bad request', () => {
-      it('when Spotify token request fails', (done) => {
+    context('Spotify token request fails', () => {
+      it('should return bad request', (done) => {
         chai.request(server)
           .post(`/api/users/${id}/spotifyAuth`)
           .set('Authorization', `Bearer ${token}`)
