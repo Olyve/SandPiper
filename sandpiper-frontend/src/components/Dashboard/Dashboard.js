@@ -62,7 +62,7 @@ class Dashboard extends Component {
         if (json['data'] !== undefined) {
           const results = json['data']['results'];
           this.setState({
-            tracks: results
+            tracks: results['tracks']
           });
         }
       });

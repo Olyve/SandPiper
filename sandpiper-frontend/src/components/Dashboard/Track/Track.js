@@ -6,10 +6,10 @@ class TrackList extends Component {
   render() {
     const tracks = this.props.tracks.items;
     var trackList = [];
-
+    
     if (tracks !== undefined) {
-      trackList = tracks.map((track, index) => {
-        return <Track key={index} track={track} />
+      trackList = tracks.map((trackData, index) => {
+        return <Track key={index} track={trackData.track} />
       });
     }
     return (
@@ -24,7 +24,7 @@ export class Track extends Component {
   }
 
   render() {
-    let albumImage = this.props.track.album.images[1],
+    let albumImage = this.props.track.album.images[1] || null,
         trackName = this.props.track.name,
         trackUrl = this.props.track.external_urls.spotify,
         artistName = this.props.track.artists[0].name,
