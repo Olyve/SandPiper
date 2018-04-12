@@ -146,4 +146,15 @@ describe('Spotify Service', () => {
     });
   });
 
+  // ======================
+  //
+  //  Test Get User's Info
+  //  
+  // ======================
+  // describe('getMyInfo', () => {
+  //   it('should return the user\'s info', (done) => {
+      
+  //   });
+  // });
+
 });

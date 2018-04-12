@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const apple = require('./apple');
 const auth = require('./auth');
 const spotify = require('./spotify');
 const users = require('./user');
@@ -22,5 +23,6 @@ router.use(verifyAuth);
 // Resource Routes
 router.use('/users', users);
 router.use('/spotify', spotify);
+router.use('/apple', apple);
 
 module.exports = router;
