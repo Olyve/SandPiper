@@ -22,9 +22,11 @@ class TrackList extends Component {
                   </div>
 
                   <div className='playlist-heading'>
-                      <h2 className='playlist-title'>{playlist.name}</h2>
+                      <h2 className='playlist-title'><a href={playlist.external_urls.spotify}>{playlist.name}</a></h2>
                       <div className='playlist-subtitle'>
-                          <h3 className='playlist-by'>By: {playlist.owner.display_name}</h3>
+                          <h3 className='playlist-by'>
+                              By: <a href={playlist.owner.external_urls.spotify}>{playlist.owner.display_name}</a>
+                          </h3>
                           <h3 className='playlist-tracks'>{playlist.tracks.total} tracks</h3>
                       </div>
                   </div>
