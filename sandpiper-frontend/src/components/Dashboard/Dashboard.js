@@ -84,8 +84,15 @@ class Dashboard extends Component {
     if(Array.isArray(this.state.playlists) && this.state.playlists.length === 0){
         showPlaylists =
             <div className='dashboard-playlists'>
-                <label className='playlist-label'><span>Get Spotify Playlists</span></label>
-              <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
+                <label className='playlist-label'>
+                    <h1>Get Playlists</h1>
+                </label>
+                <div className='playlist-buttons'>
+                    <button className='playlist-spotify' onClick={() => this.handleGetPlaylists()}>Spotify</button>
+                    <button className='playlist-iTunes'>iTunes</button>
+                </div>
+
+
             </div>
     }
 

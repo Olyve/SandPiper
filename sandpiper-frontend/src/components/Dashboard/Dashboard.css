@@ -25,6 +25,40 @@
     margin-right: 10px;
 }
 
+.playlist-buttons button{
+    margin: 0px 10px;
+    font-size: 18px;
+    font-weight: 200;
+
+    height: 50px;
+    width: 150px;
+    border-radius: 25px;
+    padding: 10px 15px;
+    border: none;
+}
+
+.playlist-buttons button:hover{
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
+.playlist-buttons button:active{
+    filter: brightness(0.8);
+}
+
+.playlist-spotify{
+    background-color: #2ebd58;
+    color: white;
+    text-shadow: 0px 0px 1px black;
+}
+
+.playlist-iTunes{
+    background: linear-gradient(152deg, rgba(251,63,63,1) 0%, rgba(255,82,241,1) 50%, rgba(70,237,252,1) 100%);
+    color: white;
+    text-shadow: 0px 0px 3px black;
+
+}
+
 .dashboard-playlistResults{
     display: flex;
     width: 100%;
