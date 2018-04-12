@@ -6,14 +6,18 @@ class TrackList extends Component {
   render() {
     const tracks = this.props.tracks.items;
     var trackList = [];
-    
+    console.log(this.props)
     if (tracks !== undefined) {
       trackList = tracks.map((trackData, index) => {
         return <Track key={index} track={trackData.track} />
       });
     }
     return (
-      <div className='trackList'>{trackList}</div>
+      <div className='tracklist-container'>
+          <div className='playlist-title'>{this.props.playlist.title}</div>
+          <button onClick={this.props.reset}/>
+          <div className='trackList'>{trackList}</div>
+      </div>
     );
   }
 }
