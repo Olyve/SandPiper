@@ -5,8 +5,8 @@ class TrackList extends Component {
 
   render() {
     const tracks = this.props.tracks.items;
+    const playlist = this.props.playlist
     var trackList = [];
-    console.log(this.props)
     if (tracks !== undefined) {
       trackList = tracks.map((trackData, index) => {
         return <Track key={index} track={trackData.track} />
@@ -14,8 +14,24 @@ class TrackList extends Component {
     }
     return (
       <div className='tracklist-container'>
-          <div className='playlist-title'>{this.props.playlist.title}</div>
-          <button onClick={this.props.reset}/>
+          <div className='tracklist-playlist'>
+              <div className='tracklist-playlist-info'>
+                  <div className='playlist-img-container'>
+                      <img className='playlist-cover' alt='Playlist mosaic' src={playlist.images[0].url}/>
+                      <button onClick={this.props.reset}>Back to playlists</button>
+                  </div>
+
+                  <div className='playlist-heading'>
+                      <h2 className='playlist-title'>{playlist.name}</h2>
+                      <div className='playlist-subtitle'>
+                          <h3 className='playlist-by'>By: {playlist.owner.display_name}</h3>
+                          <h3 className='playlist-tracks'>{playlist.tracks.total} tracks</h3>
+                      </div>
+                  </div>
+              </div>
+                <iframe className='tracklist-playlist-embed' src={`https://open.spotify.com/embed?uri=${playlist.uri}`}
+                        width="400" height="280" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          </div>
           <div className='trackList'>{trackList}</div>
       </div>
     );

@@ -79,7 +79,6 @@ class Dashboard extends Component {
   }
 
   render() {
-      console.log(Array.isArray(this.state.tracks), this.state.tracks.length === 0)
     return (
       <div className='dashboard'>
         <div className='dashboard-playlists'>

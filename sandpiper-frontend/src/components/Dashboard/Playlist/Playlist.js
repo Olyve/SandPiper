@@ -23,7 +23,7 @@ function Playlist(props){
         <div className='playlist-container'
              onClick={() => props.trackGet(props.data)}>
             <img className='playlist-cover' alt='Playlist mosaic' src={props.data.images[0].url}/>
-            <div className='playlist-info'>
+            <div className='playlist-heading'>
                 <h2 className='playlist-title'>{props.data.name}</h2>
                 <div className='playlist-subtitle'>
                     <h3 className='playlist-by'>By: {props.data.owner.display_name}</h3>
