@@ -69,14 +69,17 @@ class Dashboard extends Component {
   }
 
   render() {
+      console.log(Array.isArray(this.state.tracks), this.state.tracks.length === 0)
     return (
       <div className='dashboard'>
         <div className='dashboard-playlists'>
           <label className='playlist-label'><span>Get Spotify Playlists</span></label>
           <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
         </div>
-          <PlaylistList playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
-          <TrackList tracks={this.state.tracks}/>
+          {Array.isArray(this.state.tracks) && this.state.tracks.length === 0
+              ? <PlaylistList playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
+              : <TrackList tracks={this.state.tracks}/>
+          }
       </div>
     );
   }

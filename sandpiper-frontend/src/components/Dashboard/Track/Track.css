@@ -2,8 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding: 15px;
-  background-color: #444;
-
+  margin: 10px;
 }
 
 .track {
@@ -11,6 +10,9 @@
   width: 275px;
   height: 100px;
   margin: 15px;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .track-details {
@@ -24,7 +26,8 @@
 
 a {
   text-decoration: none;
-  color: black;
+  color: white;
+
 }
 
 a:hover {
