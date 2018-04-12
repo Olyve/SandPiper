@@ -5,5 +5,7 @@ react-scripts build
 # in the outer project. If so, remove it
 if [ -d ../public/build ]; then
   rm -r ../public/build
+else
+  mkdir ../public
 fi
 mv build ../public/build
