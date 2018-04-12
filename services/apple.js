@@ -19,6 +19,19 @@ const generateToken = () => {
   return jwt.sign(payload, process.env.APPLE_DEV_KEY, options);
 };
 
+const getMyPlaylists = (user, dev_token) => {
+  return rp.get({
+    url: 'https://api.music.apple.com/v1/me/library/playlists',
+    headers: {
+      'Authorization': `Bearer ${dev_token}`,
+      'Music-User-Token': user.appleMusicToken
+    },
+    simple: true,
+    json: true
+  });
+};
+
 module.exports = {
-  generateToken
+  generateToken,
+  getMyPlaylists
 };
