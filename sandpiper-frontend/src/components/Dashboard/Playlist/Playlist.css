@@ -16,6 +16,11 @@
     margin: 5px 5px;
 }
 
+.playlist-container:hover{
+    cursor: pointer;
+    background-color: #555;
+}
+
 .playlist-cover{
     /* Cutting it down slightly */
     width: var(--imageSize);

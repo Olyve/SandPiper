@@ -79,16 +79,29 @@ class Dashboard extends Component {
   }
 
   render() {
+    // Button to show playlists
+    let showPlaylists;
+    if(Array.isArray(this.state.playlists) && this.state.playlists.length === 0){
+        showPlaylists =
+            <div className='dashboard-playlists'>
+                <label className='playlist-label'><span>Get Spotify Playlists</span></label>
+              <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
+            </div>
+    }
+
+    // Content of dashboard
+    let dashboardContent;
+    if(Array.isArray(this.state.tracks) && this.state.tracks.length === 0 && this.state.currentPlaylist === ''){
+        dashboardContent = <PlaylistList playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
+    }
+    else{
+        dashboardContent = <TrackList tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>
+    }
+
     return (
       <div className='dashboard'>
-        <div className='dashboard-playlists'>
-          <label className='playlist-label'><span>Get Spotify Playlists</span></label>
-          <button className='playlist-submit' onClick={() => this.handleGetPlaylists()}>Get Playlists</button>
-        </div>
-          {Array.isArray(this.state.tracks) && this.state.tracks.length === 0 && this.state.currentPlaylist === ''
-              ? <PlaylistList playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
-              : <TrackList tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>
-          }
+          {showPlaylists}
+          {dashboardContent}
       </div>
     );
   }
