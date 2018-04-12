@@ -1,8 +1,10 @@
 /* NOTE: We're borrowing some properties from Playlist.css to not repeat ourselves */
 
 .trackList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 15px;
   margin: 10px;
 }
