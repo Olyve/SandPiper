@@ -19,3 +19,5 @@ deploy:
   app:
     develop: sandpiper-staging
     master: sandpiper-production
+  on:
+    repo: sgalizia/SandPiper
