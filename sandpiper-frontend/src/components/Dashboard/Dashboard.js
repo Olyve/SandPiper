@@ -58,8 +58,8 @@ class Dashboard extends Component {
   }
 
   playlistHelper(json, site){
-      if (json['data'] !== undefined) {
-        const results = json['data']['results'];
+      if (json.data !== undefined) {
+        const results = json.data.results || json.data.playlists.data;
         console.log(results)
         this.setState({
           playlists: results,
@@ -83,7 +83,6 @@ class Dashboard extends Component {
   }
 
   resetTrack(){
-      console.log("Reset")
     this.setState({
         tracks: [],
         currentPlaylist: ''
@@ -114,7 +113,7 @@ class Dashboard extends Component {
     // Content of dashboard
     let dashboardContent;
     if(Array.isArray(this.state.tracks) && this.state.tracks.length === 0 && this.state.currentPlaylist === ''){
-        dashboardContent = <PlaylistList playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
+        dashboardContent = <PlaylistList site={this.state.site} playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
     }
     else{
         dashboardContent = <TrackList tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>

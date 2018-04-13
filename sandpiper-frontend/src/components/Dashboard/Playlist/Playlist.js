@@ -2,12 +2,27 @@ import React, { Component } from 'react';
 import './Playlist.css';
 
 class PlaylistList extends Component {
-  render() {
-      let playlists;
+  handleSpotify(){
       if(this.props.playlists.items && this.props.playlists.items.length > 0){
-         playlists = this.props.playlists.items.map((playlist, index) => {
+        return this.props.playlists.items.map((playlist, index) => {
              return <Playlist key={`playlist-${index}`} data={playlist} trackGet={(id) => this.props.trackGet(id)}/>
          })
+      }
+  }
+
+  handleiTunes(){
+      // if(this.props.
+  }
+  
+  render() {
+      let playlists;
+      switch(this.props.site){
+          case 'spotify':
+              playlists = this.handleSpotify();
+              break;
+          // case 'itunes':
+          //     playlists = this.handleiTunes();
+          //     break;
       }
 
     return (
