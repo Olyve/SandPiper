@@ -85,10 +85,22 @@ const getSpotifyTracks = (token, id) => {
   });
 };
 
+const getiTunesTracks = (token, id) => {
+  return rp.get({
+    url: `${base_url}/apple/playlists/${id}`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
 export {
   getSpotifyPlaylists,
   getiTunesPlaylists,
   getSpotifyTracks,
+  getiTunesTracks,
   loginUser,
   registerUser,
   searchSpotify,

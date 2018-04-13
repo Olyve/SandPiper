@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists, getSpotifyTracks } from '../../Utilities/networking';
+import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists, getSpotifyTracks, getiTunesTracks } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
 import PlaylistList from './Playlist';
@@ -52,9 +52,7 @@ class Dashboard extends Component {
         case 'itunes':
             getiTunesPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
             break;
-
     }
-
   }
 
   playlistHelper(json, site){
@@ -68,19 +66,29 @@ class Dashboard extends Component {
       }
   }
 
-  handleGetTracks(playlistData) {
-    getSpotifyTracks(this.props.user.token, playlistData.id)
-      .then((json) => {
-        console.log(json.data.results)
-        if (json['data'] !== undefined) {
-          const results = json['data']['results'];
-          this.setState({
-            tracks: results['tracks'],
-            currentPlaylist: playlistData
-          });
-        }
-      });
+  handleGetTracks(playlistData, site) {
+      switch (site){
+          case 'spotify':
+              getSpotifyTracks(this.props.user.token, playlistData.id).then((json) => {this.trackHelper(json, playlistData)})
+              break;
+          case 'itunes':
+              getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {this.trackHelper(json, playlistData)})
+              break;
+      }
   }
+
+  trackHelper(json, playlistData){
+      if (json['data'] !== undefined) {
+        // const results = json['data']['results'];
+        console.log(json.data)
+
+        // this.setState({
+        //   tracks: results['tracks'],
+        //   currentPlaylist: playlistData
+        // });
+      }
+  }
+
 
   resetTrack(){
     this.setState({
@@ -113,7 +121,7 @@ class Dashboard extends Component {
     // Content of dashboard
     let dashboardContent;
     if(Array.isArray(this.state.tracks) && this.state.tracks.length === 0 && this.state.currentPlaylist === ''){
-        dashboardContent = <PlaylistList site={this.state.site} playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id)}/>
+        dashboardContent = <PlaylistList site={this.state.site} playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id, this.state.site)}/>
     }
     else{
         dashboardContent = <TrackList tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>

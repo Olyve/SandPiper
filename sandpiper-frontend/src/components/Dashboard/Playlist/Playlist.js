@@ -13,7 +13,7 @@ class PlaylistList extends Component {
   handleiTunes(){
       if(this.props.playlists && this.props.playlists.length > 0){
           return this.props.playlists.map((playlist, index) => {
-              return <Playlist key={`playlist-${index}`} data={playlist} type="itunes"/>
+              return <Playlist key={`playlist-${index}`} data={playlist} type="itunes" trackGet={(id) => this.props.trackGet(id)}/>
           })
       }
   }
@@ -65,8 +65,7 @@ function Playlist(props){
     }
 
     return(
-        <div className='playlist-container'
-             onClick={() => props.trackGet(props.data) || null}>
+        <div className='playlist-container' onClick={() => props.trackGet(props.data)}>
             <img className='playlist-cover' alt='Playlist mosaic' src={imageURL}/>
             <div className='playlist-heading'>
                 <h2 className='playlist-title'>{name}</h2>
