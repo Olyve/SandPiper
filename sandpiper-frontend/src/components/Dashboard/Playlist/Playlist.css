@@ -1,7 +1,8 @@
 .playlistList{
     display: flex;
-    margin: 20px;
-    justify-content: flex-start;
+    margin: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .playlist-container{
@@ -12,20 +13,55 @@
     width: calc(2.6 * (var(--imageSize)));
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    margin: 15px 10px;
 }
 
-.playlist-cover{
+.playlist-container:hover{
+    cursor: pointer;
+    background-color: #555;
+}
+
+/* Reset button */
+.playlistList-reset{
+    background-color: #111;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #EEE;
+}
+
+.playlistList-reset:hover{
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
+.playlistList-reset:active{
+    cursor: pointer;
+    filter: brightness(0.8);
+}
+
+/* Container of individual playlists */
+.playlist-container .playlist-cover{
     /* Cutting it down slightly */
     width: var(--imageSize);
     height: var(--imageSize);
 }
 
-.playlist-info{
+.playlist-heading{
     margin: 10px;
     margin-left: 20px;
-
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
     .playlist-title{
         margin: 0px;
         font-size: 20px;
+    }
+
+    .playlist-heading h3{
+        font-size: 12px;
+        font-weight: 400;
+        margin: 2px;
     }

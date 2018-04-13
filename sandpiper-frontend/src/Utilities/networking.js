@@ -52,7 +52,7 @@ function searchSpotify(token, search_term) {
   });
 }
 
-const getPlaylists = (token) => {
+const getSpotifyPlaylists = (token) => {
   return rp.get({
     url: `${base_url}/spotify/playlists`,
     headers: {
@@ -63,8 +63,44 @@ const getPlaylists = (token) => {
   });
 };
 
+const getiTunesPlaylists = (token) => {
+  return rp.get({
+    url: `${base_url}/apple/playlists`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
+const getSpotifyTracks = (token, id) => {
+  return rp.get({
+    url: `${base_url}/spotify/playlists/${id}`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
+const getiTunesTracks = (token, id) => {
+  return rp.get({
+    url: `${base_url}/apple/playlists/${id}`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
 export {
-  getPlaylists,
+  getSpotifyPlaylists,
+  getiTunesPlaylists,
+  getSpotifyTracks,
+  getiTunesTracks,
   loginUser,
   registerUser,
   searchSpotify,

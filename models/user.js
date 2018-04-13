@@ -10,6 +10,7 @@ const UserSchema = new Schema({
   spotifyToken: { type: String },
   spotifyRefreshToken: { type: String },
   spotifyID: { type: String },
+  appleDevToken: { type: String },
   appleMusicToken: { type: String },
   appleMusicCountryCode: { type: String },
   active: {
