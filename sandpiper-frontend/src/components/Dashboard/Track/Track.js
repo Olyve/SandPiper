@@ -2,6 +2,34 @@ import React, { Component } from 'react';
 import './Track.css';
 
 class TrackList extends Component {
+  constructor(props){
+      super(props);
+
+      this.state = {
+          site: this.props.site,
+          selected: []
+      }
+  }
+
+  handleSubmit(event) {
+      event.preventDefault();
+      console.log("Submitted")
+  }
+
+  addToQueue(id, index){
+      let listCopy = this.state.selected.slice();
+
+      if(listCopy.includes(id)){
+          listCopy[index] = null;
+      }
+      else{
+          listCopy[index] = id;
+      }
+
+      this.setState({
+          selected: listCopy
+      })
+  }
 
   render() {
     const tracks = this.props.tracks;
@@ -9,7 +37,8 @@ class TrackList extends Component {
     var trackList = [];
     if (tracks !== undefined) {
       trackList = tracks.map((trackData, index) => {
-        return <Track site={this.props.site} key={index} track={trackData}/>
+        return <Track site={this.props.site} key={index} track={trackData}
+                index={index} add={(id, index) => this.addToQueue(id, index)}/>
       });
     }
 
@@ -62,7 +91,10 @@ class TrackList extends Component {
               {embed}
 
           </div>
-          <div className='trackList'>{trackList}</div>
+          <form onSubmit={(ev) => this.handleSubmit(ev)}>
+              <input type="submit" value="Submit"/>
+              <div className='trackList'>{trackList}</div>
+          </form>
       </div>
     );
   }
@@ -74,12 +106,12 @@ export class Track extends Component {
   }
 
   render() {
-      console.log(this.props.track)
-    let albumImage, trackName, trackUrl, artistName, artistUrl, trackData;
+    let albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id;
     switch(this.props.site){
         case 'spotify':
             trackData = this.props.track.track
 
+            id = trackData.id;
             albumImage = trackData.album.images[0].url || null;
             trackName = trackData.name;
             trackUrl = trackData.external_urls.spotify;
@@ -89,6 +121,7 @@ export class Track extends Component {
         case 'itunes':
             trackData = this.props.track.attributes;
 
+            id = trackData.id;
             albumImage = trackData.artwork.url.replace(/(\{\w\})/g, '100');
             trackName = trackData.name;
             trackUrl = null;
@@ -101,6 +134,7 @@ export class Track extends Component {
 
     return (
       <div className='track'>
+        <input type='checkbox' name='track-select' value={id} onChange={() => this.props.add(id, this.props.index)}/>
         <div className='track-album'>
           <img src={albumImage} height={100} width={100} alt={'Album artwork.'}/>
         </div>
