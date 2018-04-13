@@ -110,6 +110,16 @@ class Dashboard extends Component {
     })
   }
 
+  resetPlaylist(){
+      this.setState({
+          search: '',
+          site: '',
+          playlists: [],
+          tracks: [],
+          currentPlaylist: ''
+      })
+  }
+
   render() {
     // Button to show playlists
     let showPlaylists;
@@ -125,14 +135,12 @@ class Dashboard extends Component {
                 </div>
             </div>
     }
-    else{
-        showPlaylists = <button onClick={() => {this.setState({playlists: []})}}>Temp button - Back</button>
-    }
 
     // Content of dashboard
     let dashboardContent;
     if(Array.isArray(this.state.tracks) && this.state.tracks.length === 0 && this.state.currentPlaylist === ''){
-        dashboardContent = <PlaylistList site={this.state.site} playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id, this.state.site)}/>
+        dashboardContent = <PlaylistList site={this.state.site} playlists={this.state.playlists} reset={() => this.resetPlaylist()}
+                            trackGet={(id) => this.handleGetTracks(id, this.state.site)}/>
     }
     else{
         dashboardContent = <TrackList site={this.state.site} tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>

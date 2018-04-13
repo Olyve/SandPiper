@@ -19,7 +19,7 @@ class PlaylistList extends Component {
   }
 
   render() {
-      let playlists;
+      let playlists, content;
       switch(this.props.site){
           case 'spotify':
               playlists = this.handleSpotify();
@@ -29,11 +29,19 @@ class PlaylistList extends Component {
               break;
       }
 
-    return (
-      <div className="playlistList">
-          {playlists ? playlists : null}
-      </div>
-    );
+      if(playlists){
+          content =
+            <div className="playlistList-container">
+                <button className="playlistList-reset" onClick={this.props.reset}>
+                    Back to site select
+                </button>
+                <div className="playlistList">
+                    {playlists}
+                </div>
+            </div>
+      }
+
+    return content || null;
   }
 }
 
