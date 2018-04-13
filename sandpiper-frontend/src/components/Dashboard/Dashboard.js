@@ -69,23 +69,40 @@ class Dashboard extends Component {
   handleGetTracks(playlistData, site) {
       switch (site){
           case 'spotify':
-              getSpotifyTracks(this.props.user.token, playlistData.id).then((json) => {this.trackHelper(json, playlistData)})
+              getSpotifyTracks(this.props.user.token, playlistData.id).then((json) => {
+                  this.trackHelper(json, playlistData, site)
+              });
               break;
           case 'itunes':
-              getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {this.trackHelper(json, playlistData)})
+              getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {
+                  this.trackHelper(json, playlistData, site)
+              });
               break;
       }
   }
 
-  trackHelper(json, playlistData){
-      if (json['data'] !== undefined) {
-        // const results = json['data']['results'];
+  trackHelper(json, playlistData, site){
+      if (json.data !== undefined) {
+        let results;
         console.log(json.data)
+        switch(site){
+            case 'spotify':
+                results = json.data.results.tracks;
+                break;
+            case 'itunes':
+                // NOTE: Something about this feels off
+                results = json.data.playlist.data[0].relationships.tracks.data;
+                break;
+            default:
+                results = [];
+                break;
+        }
+        console.log(results)
 
-        // this.setState({
-        //   tracks: results['tracks'],
-        //   currentPlaylist: playlistData
-        // });
+        this.setState({
+          tracks: results,
+          currentPlaylist: playlistData
+        });
       }
   }
 
@@ -110,8 +127,6 @@ class Dashboard extends Component {
                     <button className='playlist-spotify' onClick={() => this.handleGetPlaylists('spotify')}>Spotify</button>
                     <button className='playlist-iTunes'  onClick={() => this.handleGetPlaylists('itunes')}>iTunes</button>
                 </div>
-
-
             </div>
     }
     else{
