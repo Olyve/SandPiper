@@ -19,11 +19,26 @@ const generateToken = () => {
   return jwt.sign(payload, process.env.APPLE_DEV_KEY, options);
 };
 
-const getMyPlaylists = (user, dev_token) => {
+const getMyPlaylists = (user) => {
   return rp.get({
     url: 'https://api.music.apple.com/v1/me/library/playlists',
     headers: {
-      'Authorization': `Bearer ${dev_token}`,
+      'Authorization': `Bearer ${user.appleDevToken}`,
+      'Music-User-Token': user.appleMusicToken
+    },
+    simple: true,
+    json: true
+  });
+};
+
+const getPlaylist = (user, playlist_id) => {
+  return rp.get({
+    url: `https://api.music.apple.com/v1/me/library/playlists/${playlist_id}`,
+    qs: {
+      include: 'tracks'
+    },
+    headers: {
+      'Authorization': `Bearer ${user.appleDevToken}`,
       'Music-User-Token': user.appleMusicToken
     },
     simple: true,
@@ -33,5 +48,6 @@ const getMyPlaylists = (user, dev_token) => {
 
 module.exports = {
   generateToken,
-  getMyPlaylists
+  getMyPlaylists,
+  getPlaylist
 };
