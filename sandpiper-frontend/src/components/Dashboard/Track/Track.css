@@ -48,6 +48,29 @@
     filter: brightness(0.8);
 }
 
+.selected-tracks{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 15px;
+    height: 280px;
+    width: 300px;
+    overflow: scroll;
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+
+.selected-tracks-heading{
+    margin: 2px;
+}
+
+.no-tracks{
+    text-align: center;
+}
+
+.selected-tracks p{
+    margin: 2.5px 5px;
+}
 .tracklist-form button{
     margin: 5px;
     padding: 10px;

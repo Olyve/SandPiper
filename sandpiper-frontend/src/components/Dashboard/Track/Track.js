@@ -8,14 +8,15 @@ class TrackList extends Component {
       this.state = {
           site: this.props.site,
           allTracks: [],
-          selected: []
+          selected: [],
+          submitted: [],
       }
   }
 
   handleSubmit(event) {
       event.preventDefault();
       const filtered = this.state.selected.filter(content => content);
-      console.log(filtered)
+      this.setState({ submitted: filtered })
   }
 
   addToQueue(id, index){
@@ -128,6 +129,31 @@ class TrackList extends Component {
             break;
     }
 
+    let selected;
+    if(this.state.submitted.length > 0){
+        const submitData = this.state.submitted.map((data, index) => {
+            return (
+                <div>
+                    <p>{index + 1} - {data.name}</p>
+                </div>
+            )
+        })
+
+        selected = (
+            <div className="selected-tracks">
+                <h2 className="selected-tracks-heading">Selected Tracks</h2>
+                {submitData}
+            </div>
+
+        )
+    }
+    else{
+        selected = <div className="selected-tracks">
+            <h2 className="no-tracks">No tracks submitted!</h2>
+            <p className="no-tracks">Submit some tracks to populate!</p>
+        </div>
+    }
+
     return (
       <div className='tracklist-container'>
           <div className='tracklist-playlist'>
@@ -142,6 +168,7 @@ class TrackList extends Component {
                   </div>
               </div>
               {embed}
+              {selected}
 
           </div>
           <form className="tracklist-form" onSubmit={(ev) => this.handleSubmit(ev)}>
