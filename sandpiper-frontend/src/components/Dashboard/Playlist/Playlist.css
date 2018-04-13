@@ -21,7 +21,7 @@
     background-color: #555;
 }
 
-.playlist-cover{
+.playlist-container .playlist-cover{
     /* Cutting it down slightly */
     width: var(--imageSize);
     height: var(--imageSize);
