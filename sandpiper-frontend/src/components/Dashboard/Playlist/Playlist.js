@@ -55,7 +55,9 @@ function Playlist(props){
             imageURL = props.data.attributes.artwork.url.replace(/(\{\w\})/g, '150')
             subtitle = (
                 <div className='playlist-subtitle'>
-                    <h3 className='playlist-description'>{props.data.attributes.description.standard}</h3>
+                    <h3 className='playlist-description'>
+                        {props.data.attributes.description ? props.data.attributes.description.standard : null}
+                    </h3>
                 </div>
             )
             break;

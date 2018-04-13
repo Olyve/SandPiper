@@ -84,10 +84,9 @@ class Dashboard extends Component {
   trackHelper(json, playlistData, site){
       if (json.data !== undefined) {
         let results;
-        console.log(json.data)
         switch(site){
             case 'spotify':
-                results = json.data.results.tracks;
+                results = json.data.results.tracks.items;
                 break;
             case 'itunes':
                 // NOTE: Something about this feels off
@@ -97,7 +96,7 @@ class Dashboard extends Component {
                 results = [];
                 break;
         }
-        console.log(results)
+
 
         this.setState({
           tracks: results,
@@ -115,6 +114,7 @@ class Dashboard extends Component {
   }
 
   render() {
+      console.log(this.state.tracks)
     // Button to show playlists
     let showPlaylists;
     if(Array.isArray(this.state.playlists) && this.state.playlists.length === 0){
@@ -139,7 +139,7 @@ class Dashboard extends Component {
         dashboardContent = <PlaylistList site={this.state.site} playlists={this.state.playlists} trackGet={(id) => this.handleGetTracks(id, this.state.site)}/>
     }
     else{
-        dashboardContent = <TrackList tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>
+        dashboardContent = <TrackList site={this.state.site} tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>
     }
 
     return (
