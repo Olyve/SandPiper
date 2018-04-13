@@ -34,9 +34,16 @@ class TrackList extends Component {
       })
   }
 
-  checkAll(){
+  checkAll(event){
+      event.preventDefault();
       this.setState({ checkAll: true, selected: this.allTrackData })
   }
+
+  checkNone(event){
+      event.preventDefault();
+      this.setState({ checkAll: false, selected: [] })
+  }
+
 
   cleanTrackData(track){
       let albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id;
@@ -137,9 +144,11 @@ class TrackList extends Component {
               {embed}
 
           </div>
-          <form onSubmit={(ev) => this.handleSubmit(ev)}>
-              <input type="submit" value="Submit"/>
-              <button onClick={() => this.checkAll()}>Check All</button>
+          <form className="tracklist-form" onSubmit={(ev) => this.handleSubmit(ev)}>
+              <button className="tracklist-submit" type="submit">Submit</button>
+              <button className="tracklist-checkAll" onClick={(ev) => this.checkAll(ev)}>Select All</button>
+              <button className="tracklist-checkNone" onClick={(ev) => this.checkNone(ev)}>Reset Selection</button>
+
               <div className='trackList'>{trackList}</div>
           </form>
       </div>
