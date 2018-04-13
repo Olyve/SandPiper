@@ -45,17 +45,27 @@ class Dashboard extends Component {
   }
 
   handleGetPlaylists(site) {
-    getSpotifyPlaylists(this.props.user.token)
-      .then((json) => {
-        console.log(json.data.results)
-        if (json['data'] !== undefined) {
-          const results = json['data']['results'];
-          this.setState({
-            playlists: results,
-            site: site
-          });
-        }
-      });
+    switch (site){
+        case 'spotify':
+            getSpotifyPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
+            break;
+        case 'itunes':
+            getiTunesPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
+            break;
+
+    }
+
+  }
+
+  playlistHelper(json, site){
+      if (json['data'] !== undefined) {
+        const results = json['data']['results'];
+        console.log(results)
+        this.setState({
+          playlists: results,
+          site: site
+        });
+      }
   }
 
   handleGetTracks(playlistData) {
@@ -91,11 +101,14 @@ class Dashboard extends Component {
                 </label>
                 <div className='playlist-buttons'>
                     <button className='playlist-spotify' onClick={() => this.handleGetPlaylists('spotify')}>Spotify</button>
-                    <button className='playlist-iTunes'>iTunes</button>
+                    <button className='playlist-iTunes'  onClick={() => this.handleGetPlaylists('itunes')}>iTunes</button>
                 </div>
 
 
             </div>
+    }
+    else{
+        showPlaylists = <button onClick={() => {this.setState({playlists: []})}}>Temp button - Back</button>
     }
 
     // Content of dashboard
