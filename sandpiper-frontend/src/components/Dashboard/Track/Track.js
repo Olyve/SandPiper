@@ -58,8 +58,9 @@ class TrackList extends Component {
                       <h2 className='playlist-title'><a href={url}>{name}</a></h2>
                       {subtitle}
                   </div>
-                  {embed}
               </div>
+              {embed}
+
           </div>
           <div className='trackList'>{trackList}</div>
       </div>
@@ -73,22 +74,25 @@ export class Track extends Component {
   }
 
   render() {
-    let albumImage, trackName, trackUrl, artistName, artistUrl;
-    console.log(this.props.site)
+      console.log(this.props.track)
+    let albumImage, trackName, trackUrl, artistName, artistUrl, trackData;
     switch(this.props.site){
         case 'spotify':
-            albumImage = this.props.track.album.images[1].url;
-            trackName = this.props.track.name;
-            trackUrl = this.props.track.external_urls.spotify;
-            artistName = this.props.track.artists[0].name;
-            artistUrl = this.props.track.artists[0].external_urls.spotify;
+            trackData = this.props.track.track
+
+            albumImage = trackData.album.images[0].url || null;
+            trackName = trackData.name;
+            trackUrl = trackData.external_urls.spotify;
+            artistName = trackData.artists[0].name;
+            artistUrl = trackData.artists[0].external_urls.spotify;
             break;
         case 'itunes':
-            console.log("Test", this.props.track)
-            albumImage = this.props.track.attributes.artwork.url.replace(/(\{\w\})/g, '100');
-            trackName = this.props.track.attributes.name;
+            trackData = this.props.track.attributes;
+
+            albumImage = trackData.artwork.url.replace(/(\{\w\})/g, '100');
+            trackName = trackData.name;
             trackUrl = null;
-            artistName = this.props.track.attributes.artistName;
+            artistName = trackData.artistName;
             artistUrl = null;
             break;
     }

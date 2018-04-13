@@ -33,8 +33,6 @@ class Dashboard extends Component {
   handleSearch() {
     searchSpotify(this.props.user.token, this.state.search)
       .then((json) => {
-        console.log(json);
-
         if (json['data'] !== undefined) {
           const results = json['data']['results'];
           this.setState({
@@ -58,7 +56,6 @@ class Dashboard extends Component {
   playlistHelper(json, site){
       if (json.data !== undefined) {
         const results = json.data.results || json.data.playlists.data;
-        console.log(results)
         this.setState({
           playlists: results,
           site: site
@@ -83,6 +80,7 @@ class Dashboard extends Component {
 
   trackHelper(json, playlistData, site){
       if (json.data !== undefined) {
+          console.log(json)
         let results;
         switch(site){
             case 'spotify':
@@ -96,7 +94,6 @@ class Dashboard extends Component {
                 results = [];
                 break;
         }
-
 
         this.setState({
           tracks: results,
@@ -114,7 +111,6 @@ class Dashboard extends Component {
   }
 
   render() {
-      console.log(this.state.tracks)
     // Button to show playlists
     let showPlaylists;
     if(Array.isArray(this.state.playlists) && this.state.playlists.length === 0){
