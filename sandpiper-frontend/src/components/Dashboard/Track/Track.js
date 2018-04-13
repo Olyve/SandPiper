@@ -60,7 +60,7 @@ class TrackList extends Component {
               artistUrl = trackData.artists[0].external_urls.spotify;
               break;
           case 'itunes':
-              trackData = trackData.attributes;
+              trackData = track.attributes;
 
               id = trackData.id;
               albumImage = trackData.artwork.url.replace(/(\{\w\})/g, '100');
