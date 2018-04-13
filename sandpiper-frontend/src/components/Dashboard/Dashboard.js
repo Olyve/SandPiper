@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { searchSpotify, getPlaylists, getTracks} from '../../Utilities/networking';
+import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists, getSpotifyTracks } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
 import PlaylistList from './Playlist';
@@ -12,6 +12,7 @@ class Dashboard extends Component {
 
     this.state = {
       search: '',
+      site: '',
       playlists: [],
       tracks: [],
       currentPlaylist: ''
@@ -43,21 +44,22 @@ class Dashboard extends Component {
       });
   }
 
-  handleGetPlaylists() {
-    getPlaylists(this.props.user.token)
+  handleGetPlaylists(site) {
+    getSpotifyPlaylists(this.props.user.token)
       .then((json) => {
         console.log(json.data.results)
         if (json['data'] !== undefined) {
           const results = json['data']['results'];
           this.setState({
-            playlists: results
+            playlists: results,
+            site: site
           });
         }
       });
   }
 
   handleGetTracks(playlistData) {
-    getTracks(this.props.user.token, playlistData.id)
+    getSpotifyTracks(this.props.user.token, playlistData.id)
       .then((json) => {
         console.log(json.data.results)
         if (json['data'] !== undefined) {
@@ -88,7 +90,7 @@ class Dashboard extends Component {
                     <h1>Get Playlists</h1>
                 </label>
                 <div className='playlist-buttons'>
-                    <button className='playlist-spotify' onClick={() => this.handleGetPlaylists()}>Spotify</button>
+                    <button className='playlist-spotify' onClick={() => this.handleGetPlaylists('spotify')}>Spotify</button>
                     <button className='playlist-iTunes'>iTunes</button>
                 </div>
 
