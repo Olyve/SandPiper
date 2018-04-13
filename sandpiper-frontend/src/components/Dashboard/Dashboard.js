@@ -50,6 +50,8 @@ class Dashboard extends Component {
         case 'itunes':
             getiTunesPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
             break;
+        default:
+            break;
     }
   }
 
@@ -74,6 +76,9 @@ class Dashboard extends Component {
               getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {
                   this.trackHelper(json, playlistData, site)
               });
+              break;
+          default:
+              console.log("ERROR - Cannot retrieve data")
               break;
       }
   }

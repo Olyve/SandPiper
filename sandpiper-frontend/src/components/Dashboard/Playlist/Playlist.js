@@ -27,6 +27,9 @@ class PlaylistList extends Component {
           case 'itunes':
               playlists = this.handleiTunes();
               break;
+          default:
+              playlists = null;
+              break;
       }
 
       if(playlists){

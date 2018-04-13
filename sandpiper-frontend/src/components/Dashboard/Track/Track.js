@@ -13,7 +13,8 @@ class TrackList extends Component {
 
   handleSubmit(event) {
       event.preventDefault();
-      console.log("Submitted")
+      const filtered = this.state.selected.filter(content => content);
+      console.log(filtered);
   }
 
   addToQueue(id, index){
@@ -54,8 +55,8 @@ class TrackList extends Component {
                     <h3 className='playlist-tracks'>{`${playlist.tracks.total} tracks`}</h3>
                 </div>
             )
-            embed = <iframe className='tracklist-playlist-embed' src={`https://open.spotify.com/embed?uri=${playlist.uri}`}
-                            width="400" height="280" frameBorder="0" allowtransparency="true" allow="encrypted-media"/>
+            embed = <iframe title="spotify-playlist" className='tracklist-playlist-embed' width="400" height="280" frameBorder="0" 
+                            src={`https://open.spotify.com/embed?uri=${playlist.uri}`} allowtransparency="true" allow="encrypted-media"/>
             break;
         case 'itunes':
             name = playlist.attributes.name;
@@ -111,7 +112,7 @@ export class Track extends Component {
         case 'spotify':
             trackData = this.props.track.track
 
-            id = trackData.id;
+            id = trackData.external_ids.isrc;
             albumImage = trackData.album.images[0].url || null;
             trackName = trackData.name;
             trackUrl = trackData.external_urls.spotify;
@@ -128,13 +129,16 @@ export class Track extends Component {
             artistName = trackData.artistName;
             artistUrl = null;
             break;
+        default:
+            return (<div>Track not available</div>);
     }
 
 
 
     return (
       <div className='track'>
-        <input type='checkbox' name='track-select' value={id} onChange={() => this.props.add(id, this.props.index)}/>
+        <input type='checkbox' name='track-select' value={id}
+                onChange={() => this.props.add({id: id, name: trackName}, this.props.index)}/>
         <div className='track-album'>
           <img src={albumImage} height={100} width={100} alt={'Album artwork.'}/>
         </div>
