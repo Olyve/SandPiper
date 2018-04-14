@@ -1,11 +1,5 @@
 const rp = require('request-promise-native');
 const retry = require('retry');
-const scopes = [
-  'playlist-read-private',
-  'playlist-read-collaborative',
-  'playlist-modify-public',
-  'playlist-modify-private'
-];
 
 function handleExpiredToken(wrapped) {
   let operation = retry.operation({retries: 2});
@@ -56,15 +50,13 @@ function handleTokenRefresh(error, operation, user, reject) {
 // Requests an Auth Token and Refresh Token using code
 function getAuthToken(code, redirect_uri) {
   const auth = process.env.SPOTIFY_BASIC_AUTH;
-  const scope_string = scopes.reduce((acc, cur) => acc + ' ' + cur);
 
   return rp.post({
     url: 'https://accounts.spotify.com/api/token',
     form: {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: redirect_uri,
-      scope: scope_string
+      redirect_uri: redirect_uri
     },
     headers: {
       'Authorization': `Basic ${auth}`,
@@ -107,6 +99,22 @@ const search = handleExpiredToken(function(user, search_term) {
   });
 });
 
+const isrcSearch = handleExpiredToken(function(user, isrc) {
+  return rp.get({
+    url: 'https://api.spotify.com/v1/search',
+    headers: {
+      'Authorization': `Bearer ${user.spotifyToken}`
+    },
+    qs: {
+      q: `isrc:${isrc}`,
+      type: 'track',
+      limit: 1
+    },
+    simple: true,
+    json: true
+  });
+});
+
 // Get the current logged in user's info
 const getMyInfo = handleExpiredToken(function(token) {
   // Make request to API
@@ -146,12 +154,46 @@ const getPlaylist = handleExpiredToken(function(user, playlist_id) {
   });
 });
 
+// Create a playlist
+const createPlaylist = handleExpiredToken((user, name) => {
+  return rp.post({
+    url: `https://api.spotify.com/v1/users/${user.spotifyID}/playlists`,
+    headers: {
+      'Authorization': `Bearer ${user.spotifyToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: {
+      name: name
+    },
+    simple: true,
+    json: true
+  });
+});
+
+const addTracks = handleExpiredToken((user, playlist_id, uris) => {
+  return rp.post({
+    url: `https://api.spotify.com/v1/users/${user.spotifyID}/playlists/${playlist_id}/tracks`,
+    headers: {
+      'Authorization': `Bearer ${user.spotifyToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: {
+      uris: uris
+    },
+    simple: true,
+    json: true
+  });
+});
+
 module.exports = {
+  createPlaylist,
   getAuthToken,
   getMyInfo,
   getPlaylist,
   handleExpiredToken,
   myPlaylists,
   refreshAuthToken,
-  search
+  search,
+  isrcSearch,
+  addTracks
 };
