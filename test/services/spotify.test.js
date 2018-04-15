@@ -14,8 +14,8 @@ describe('Spotify Service', () => {
   // ============================
 
   describe('getAuthToken', () => {
-    context('should return an access_token and refresh_token', () => {
-      it('when a valid authorization code is provided', (done) => {
+    context('a valid authorization code is provided', () => {
+      it('should return an access_token and refresh_token', (done) => {
         nock('https://accounts.spotify.com/api')
           .post('/token', (body) => {
             return body.code === 'valid_code';
@@ -57,8 +57,8 @@ describe('Spotify Service', () => {
       done();
     });
 
-    context('should return a new access_token', () => {
-      it('when a valid refresh_token is provided', (done) => {
+    context('a valid refresh_token is provided', () => {
+      it('should return a new access_token', (done) => {
         SpotifyService.refreshAuthToken('NgAagAUm_SHo')
           .then((json) => {
             json.should.have.property('access_token').eql('NgA6ZcYIixn8bUQ');
@@ -72,8 +72,8 @@ describe('Spotify Service', () => {
   });
 
   describe('handleExpiredToken', () => {
-    context('should call refresh the access token', () => {
-      it('when wrapped function returns 401', (done) => {
+    context('wrapped function returns 401', () => {
+      it('should call refresh the access token', (done) => {
         // Setup mock requests
         nock('https://api.spotify.com/v1')
           .get('/search')
@@ -112,8 +112,8 @@ describe('Spotify Service', () => {
       });
     });
 
-    context('should return an error', () => {
-      it('if an access token is not returned', (done) => {
+    context('if an access token is not returned', () => {
+      it('should return an error', (done) => {
         // Setup mock requests
         nock('https://api.spotify.com/v1')
           .get('/search')
@@ -145,5 +145,16 @@ describe('Spotify Service', () => {
       });
     });
   });
+
+  // ======================
+  //
+  //  Test Get User's Info
+  //  
+  // ======================
+  // describe('getMyInfo', () => {
+  //   it('should return the user\'s info', (done) => {
+      
+  //   });
+  // });
 
 });

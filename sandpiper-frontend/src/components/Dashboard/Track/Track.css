@@ -1,7 +1,88 @@
+/* NOTE: We're borrowing some properties from Playlist.css to not repeat ourselves */
+
 .trackList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 15px;
+  margin: 10px;
+}
+
+.tracklist-playlist{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 10px;
+
+    padding-bottom: 20px;
+    border-bottom: 1px solid #222;
+}
+
+.tracklist-playlist-info{
+    display: flex;
+    flex-direction: row;
+}
+
+.tracklist-container .playlist-img-container{
+    display: flex;
+    flex-direction: column;
+}
+/* buttons */
+.playlist-img-container button, .tracklist-form button{
+    background-color: #111;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #EEE;
+}
+
+.playlist-img-container button:hover, .tracklist-form button:hover{
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
+.playlist-img-container button:active, .tracklist-form button:active{
+    cursor: pointer;
+    filter: brightness(0.8);
+}
+
+.selected-tracks{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 15px;
+    height: 280px;
+    width: 300px;
+    overflow: scroll;
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+
+.selected-tracks-heading{
+    margin: 2px;
+}
+
+.no-tracks{
+    text-align: center;
+}
+
+.selected-tracks p{
+    margin: 2.5px 5px;
+}
+.tracklist-form button{
+    margin: 5px;
+    padding: 10px;
+}
+
+.tracklist-container .playlist-cover{
+    width: 200px;
+    height: 200px;
+}
+
+.tracklist-container .playlist-info{
+    display: flex;
 }
 
 .track {
@@ -9,6 +90,9 @@
   width: 275px;
   height: 100px;
   margin: 15px;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .track-details {
@@ -22,7 +106,8 @@
 
 a {
   text-decoration: none;
-  color: black;
+  color: white;
+
 }
 
 a:hover {

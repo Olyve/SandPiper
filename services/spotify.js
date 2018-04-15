@@ -107,8 +107,21 @@ const search = handleExpiredToken(function(user, search_term) {
   });
 });
 
+// Get the current logged in user's info
+const getMyInfo = handleExpiredToken(function(token) {
+  // Make request to API
+  return rp.get({
+    url: 'https://api.spotify.com/v1/me',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: true,
+    json: true
+  });
+});
+
 // Gets the currently logged in user's playlists
-const playlists = handleExpiredToken(function(user) {
+const myPlaylists = handleExpiredToken(function(user) {
   // Make request to Spotify API
   return rp.get({
     url: 'https://api.spotify.com/v1/me/playlists',
@@ -120,10 +133,25 @@ const playlists = handleExpiredToken(function(user) {
   });
 });
 
+// Get a specific playlist and its info
+const getPlaylist = handleExpiredToken(function(user, playlist_id) {
+  // Make request
+  return rp.get({
+    url: `https://api.spotify.com/v1/users/${user.spotifyID}/playlists/${playlist_id}`,
+    headers: {
+      'Authorization': `Bearer ${user.spotifyToken}`
+    },
+    simple: true,
+    json: true
+  });
+});
+
 module.exports = {
   getAuthToken,
+  getMyInfo,
+  getPlaylist,
   handleExpiredToken,
-  playlists,
+  myPlaylists,
   refreshAuthToken,
   search
 };

@@ -1,10 +1,11 @@
 import rp from 'request-promise-native';
 
-var base_url = ''
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+var base_url = '';
+if (process.env.REACT_APP_BASE_URL) {
+  // Main server is production mode, but frontend is staging
+  base_url = process.env.REACT_APP_BASE_URL;
+} else { // Not set or local development
   base_url = 'http://localhost:3000/api';
-} else {
-  base_url = 'http://staging-api.sandpiper.ninja/api';
 }
 
 function registerUser(data) {
@@ -51,7 +52,7 @@ function searchSpotify(token, search_term) {
   });
 }
 
-const getPlaylists = (token) => {
+const getSpotifyPlaylists = (token) => {
   return rp.get({
     url: `${base_url}/spotify/playlists`,
     headers: {
@@ -62,8 +63,44 @@ const getPlaylists = (token) => {
   });
 };
 
+const getiTunesPlaylists = (token) => {
+  return rp.get({
+    url: `${base_url}/apple/playlists`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
+const getSpotifyTracks = (token, id) => {
+  return rp.get({
+    url: `${base_url}/spotify/playlists/${id}`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
+const getiTunesTracks = (token, id) => {
+  return rp.get({
+    url: `${base_url}/apple/playlists/${id}`,
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    simple: false,
+    json: true
+  });
+};
+
 export {
-  getPlaylists,
+  getSpotifyPlaylists,
+  getiTunesPlaylists,
+  getSpotifyTracks,
+  getiTunesTracks,
   loginUser,
   registerUser,
   searchSpotify,
