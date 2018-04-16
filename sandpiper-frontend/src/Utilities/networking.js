@@ -74,12 +74,14 @@ const getiTunesPlaylists = (token) => {
   });
 };
 
-const getSpotifyTracks = (token, id) => {
-  return rp.get({
-    url: `${base_url}/spotify/playlists/${id}`,
+const getSpotifyTracks = (token, url) => {
+  return rp.post({
+    url: `${base_url}/spotify/playlist/`,
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     },
+    body: { url: url },
     simple: false,
     json: true
   });
@@ -87,7 +89,7 @@ const getSpotifyTracks = (token, id) => {
 
 const getiTunesTracks = (token, id) => {
   return rp.get({
-    url: `${base_url}/apple/playlists/${id}`,
+    url: `${base_url}/apple/playlist/${id}`,
     headers: {
       'Authorization': `Bearer ${token}`
     },

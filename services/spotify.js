@@ -148,6 +148,7 @@ const myPlaylists = handleExpiredToken(function(user) {
 // Get a specific playlist and its info
 const getPlaylist = handleExpiredToken(function(user, playlist_url) {
   // Make request
+  console.log(playlist_url)
   return rp.get({
     url: `${playlist_url}`,
     headers: {
