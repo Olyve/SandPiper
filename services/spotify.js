@@ -20,6 +20,10 @@ function handleExpiredToken(wrapped) {
             if (err.statusCode === 401) {
               return handleTokenRefresh(err, operation, args[0], reject);
             }
+            else if (err.statusCode === 502) {
+              // Spotify calls occasionally error out with bad gateway
+              if (operation.retry('Bad Gateway - Try Again')) { return; }
+            }
             reject(err);
           });
       });
@@ -142,10 +146,10 @@ const myPlaylists = handleExpiredToken(function(user) {
 });
 
 // Get a specific playlist and its info
-const getPlaylist = handleExpiredToken(function(user, playlist_id) {
+const getPlaylist = handleExpiredToken(function(user, playlist_url) {
   // Make request
   return rp.get({
-    url: `https://api.spotify.com/v1/users/${user.spotifyID}/playlists/${playlist_id}`,
+    url: `${playlist_url}`,
     headers: {
       'Authorization': `Bearer ${user.spotifyToken}`
     },

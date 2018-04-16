@@ -48,8 +48,8 @@ router.get('/playlists', (req, res) => {
 });
 
 // Get a specific playlist, including the tracks and info
-router.get('/playlists/:id', (req, res) => {
-  return getPlaylist(req.user, req.params.id)
+router.get('/playlist', (req, res) => {
+  return getPlaylist(req.user, req.body.url)
     .then((json) => {
       // Return the json from the API
       clientResponse(res, 200, ['Returning playlist.'], { results: json });
