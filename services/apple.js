@@ -46,8 +46,23 @@ const getPlaylist = (user, playlist_id) => {
   });
 };
 
+const getTrack = (user, track_id) => {
+  track_id = track_id.split('.')[1];
+  let country_code = 'us';
+  return rp.get({
+    url: `https://api.music.apple.com/v1/catalog/${country_code}/songs/${track_id}`,
+    headers: {
+      'Authorization': `Bearer ${user.appleDevToken}`,
+      'Music-User-Token': user.appleMusicToken
+    },
+    simple: true,
+    json: true
+  });
+};
+
 module.exports = {
   generateToken,
   getMyPlaylists,
-  getPlaylist
+  getPlaylist,
+  getTrack
 };

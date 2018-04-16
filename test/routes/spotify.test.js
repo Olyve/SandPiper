@@ -146,7 +146,7 @@ describe('Spotify Routes', () => {
   //  
   // =============================
   
-  describe('GET /api/playlists/:id', () => {
+  describe('GET /api/playlist', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
         .get('/users/1/playlists/1')
@@ -156,8 +156,9 @@ describe('Spotify Routes', () => {
 
     it('should return the playlist info', (done) => {
       chai.request(server)
-        .get('/api/spotify/playlists/1')
+        .get('/api/spotify/playlist')
         .set('Authorization', `Bearer ${token}`)
+        .send({url: 'https://api.spotify.com/v1/users/1/playlists/1'})
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('status').eql('Success');
