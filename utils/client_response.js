@@ -14,6 +14,7 @@ function clientResponse(res, code, messages, data) {
 let statusCodes = {
   '200': 'Success',
   '201': 'Created',
+  '202': 'Accepted',
   '204': 'No Content',
   '400': 'Bad Request',
   '401': 'Unauthorized',
@@ -25,6 +26,7 @@ let statusCodes = {
 let statusMessages = {
   '200': 'Request succeeded.',
   '201': 'Resource successfully created.',
+  '202': 'The request is being processed and may take some time.',
   '204': 'There is nothing to return.',
   '400': 'Request failed, please try again.',
   '401': 'Please check credentials and try again.',

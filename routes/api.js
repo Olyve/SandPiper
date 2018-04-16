@@ -3,6 +3,7 @@ const router = express.Router();
 
 const apple = require('./apple');
 const auth = require('./auth');
+const migrate = require('./migrate');
 const spotify = require('./spotify');
 const users = require('./user');
 const { verifyAuth, ignoreFavicon, allowCORS } = require('./middleware');
@@ -24,5 +25,8 @@ router.use(verifyAuth);
 router.use('/users', users);
 router.use('/spotify', spotify);
 router.use('/apple', apple);
+
+// Migrations
+router.use(migrate);
 
 module.exports = router;

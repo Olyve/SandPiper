@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {clientResponse} = require('../utils/client_response');
 const logger = require('../utils/logger');
+const User = require('../models/user');
 
 // Authentication Middleware
 function verifyAuth(req, res, next) {
@@ -71,9 +72,29 @@ const isAuthorized = (req, res, next, id) => {
   next();
 };
 
+// Many requests require the user model from the DB.
+// This middleware function puts the code in one place
+const getUserFromDB = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      // Return 401 if the user is not found
+      if (!user) { return clientResponse(res, 401); }
+
+      // Found user, add to request and move it forward
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      logger.error(err);
+      // Return Bad Request
+      return clientResponse(res, 400);
+    });
+};
+
 module.exports = {
   verifyAuth,
   ignoreFavicon,
   allowCORS,
-  isAuthorized
+  isAuthorized,
+  getUserFromDB
 };
