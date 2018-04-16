@@ -1,37 +1,51 @@
 const rp = require('request-promise-native');
 const appleService = require('./apple');
 const spotifyService = require('./spotify');
+const logger = require('../utils/logger');
+const ISRCMap = require('../models/isrc_map');
 
 process.on('message', (data) => {
-  console.log('Starting Migration:');
-  if (data.source === 'apple') {
-    let tracks = data.playlist['relationships']['tracks']['data'];
-    let name = data.playlist['attributes']['name'];
+  let transfer = data.transfer;
+  logger.info(`Starting migration of - ${transfer._id}`);
 
-    tracksToISRC(data.user, tracks)
+  // Notify parent that migration has started
+  process.send({ type: 'update', p_id: transfer._id, new_status: 'pending' });
+
+  if (transfer.source === 'apple') {
+    let user = transfer.user;
+
+    tracksToISRC(user, transfer.tracks)
     .then((isrcNumbers) => {
-      return isrcToSpotifyURI(data.user, isrcNumbers)
+      return isrcToSpotifyURI(user, isrcNumbers)
     })
     .then((results) => {
-      return spotifyService.createPlaylist(data.user, name)
+      return spotifyService.createPlaylist(user, transfer.playlist_name)
         .then((json) => {
           let playlist_id = json['id'];
-          return spotifyService.addTracks(data.user, playlist_id, results)
+          return spotifyService.addTracks(user, playlist_id, results);
         })
         .then((json) => {
-          console.log(json);
+          process.send({ type: 'update', p_id: transfer._id, new_status: 'completed' });
         });
+    })
+    .catch((err) => {
+      logger.error(`Worker: ${err}`);
+      process.send({ type: 'update', p_id: transfer._id, new_status: 'failed' });
     });
   }
 });
 
 async function tracksToISRC(user, tracks) {
-  let isrcNumbers = [];
-  for (let track of tracks) {
-    let result = await appleService.getTrack(user, track.id);
-    let isrc = result['data'][0]['attributes']['isrc'];
-    isrcNumbers.push(isrc);
-  }
+  let trackIDs = tracks.map((id) => {
+    // Grabs the ID and removes the letter on the front so that we can use the catalog id.
+    // ex: p.201281527 -> 201281527
+    return id.split('.')[1];
+  });
+
+  let result = await appleService.getTracks(user, trackIDs);
+  let isrcNumbers = result['data'].map((track) => {
+    return track['attributes']['isrc'];
+  });
   return isrcNumbers;
 };
 
@@ -39,8 +53,9 @@ async function isrcToSpotifyURI(user, isrcNumbers) {
   let spotifyURIs = [];
   for (let number of isrcNumbers) {
     let result = await spotifyService.isrcSearch(user, number);
-    let uri = result['tracks']['items'][0]['uri'];
-    spotifyURIs.push(uri);
+    if (result['tracks']['items'][0] !== undefined) {
+      spotifyURIs.push(result['tracks']['items'][0]['uri']);
+    }
   }
   return spotifyURIs;
 }

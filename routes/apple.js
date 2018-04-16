@@ -41,7 +41,7 @@ router.get('/playlists', (req, res) => {
 });
 
 // Used to fetch a specific playlist and its tracks
-router.get('/playlists/:id', (req, res) => {
+router.get('/playlist/:id', (req, res) => {
   return getPlaylist(req.user, req.params.id)
     .then((json) => {
       clientResponse(res, 200, ['Returning playlist.'], { playlist: json });
