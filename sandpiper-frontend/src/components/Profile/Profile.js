@@ -23,7 +23,6 @@ class Profile extends Component {
     if (code !== undefined) {
       spotifyAuth(this.props.id, this.props.token, {code: code, redirect_uri: this.state.redirect_uri})
         .then((json) => {
-          console.log(json['status']);
           // Handle error or success here
           if (json['status'] === 'Sucess') {
             this.props.history.push('/');
