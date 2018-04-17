@@ -54,10 +54,11 @@
     text-align: left;
     padding: 15px;
     height: 280px;
-    width: 300px;
+    width: 250px;
     overflow: scroll;
     border: 1px solid grey;
     border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .selected-tracks-heading{
@@ -93,6 +94,35 @@
   border: 1px solid #DDD;
   border-radius: 5px;
   padding: 5px;
+  align-items: center;
+}
+
+.selected-tracks ol{
+    padding-left: 15px;
+    margin: 5px;
+}
+
+.selected-tracks li{
+    margin-bottom: 10px;
+}
+
+.selected-artist{
+    font-size: 12px;
+}
+
+.track-embedded{
+    display: flex;
+    width: 275px;
+    height: 100px;
+    margin: 15px;
+    padding: 5px;
+    align-items: center;
+}
+
+.track-check{
+    transform: scale(1.5);
+    height: 50px;
+    width: 50px;
 }
 
 .track-details {
@@ -123,4 +153,20 @@ a:hover {
 .track-details-artist {
   font-size: 14px;
   text-align: left;
+}
+
+.playlist-transfer.transfer-spotify{
+    background-color: #2ebd58;
+    color: white;
+    text-shadow: 0px 0px 1px black;
+}
+
+.playlist-transfer.transfer-apple{
+    background: linear-gradient(152deg, rgba(251,63,63,1) 0%, rgba(255,82,241,1) 50%, rgba(70,237,252,1) 100%);
+    color: white;
+    text-shadow: 0px 0px 3px black;
+}
+
+.selection-embed{
+    display: flex;
 }

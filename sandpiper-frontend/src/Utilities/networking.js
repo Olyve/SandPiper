@@ -98,11 +98,39 @@ const getiTunesTracks = (token, id) => {
   });
 };
 
+const migratePlaylist = (token, transfer, tracks, name) => {
+  const cleanedTracks = tracks.map(track => {
+      if(typeof track === 'string'){
+          return track
+      }
+      else{
+          return JSON.stringify(track)
+      }
+  });
+
+  return rp.post({
+      url: `${base_url}/migrate`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: {
+          source: transfer.source,
+          target: transfer.target,
+          track_ids: cleanedTracks,
+          playlist_name: name
+      },
+      simple: false,
+      json: true
+  });
+};
+
 export {
   getSpotifyPlaylists,
   getiTunesPlaylists,
   getSpotifyTracks,
   getiTunesTracks,
+  migratePlaylist,
   loginUser,
   registerUser,
   searchSpotify,

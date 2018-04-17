@@ -29,9 +29,9 @@ describe('Spotify Routes', () => {
   // =======================
   //
   //  Test Search Spotify
-  //  
+  //
   // =======================
-  
+
   describe('GET /api/spotify/search', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
@@ -96,9 +96,9 @@ describe('Spotify Routes', () => {
   // =======================
   //
   //  Test Get Playlists
-  //  
+  //
   // =======================
-  
+
   describe('GET /api/spotify/playlists', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
@@ -143,13 +143,13 @@ describe('Spotify Routes', () => {
   // =============================
   //
   //  Test Get a Specific Playlist
-  //  
+  //
   // =============================
-  
+
   describe('POST /api/spotify/playlist', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
-        .get('/users/1/playlists/1')
+        .post('/users/1/playlists/1')
         .reply(200, 'results');
       done();
     });

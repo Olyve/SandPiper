@@ -13,7 +13,7 @@ class PlaylistList extends Component {
   handleiTunes(){
       if(this.props.playlists && this.props.playlists.length > 0){
           return this.props.playlists.map((playlist, index) => {
-              return <Playlist key={`playlist-${index}`} data={playlist} type="itunes" trackGet={(id) => this.props.trackGet(id)}/>
+              return <Playlist key={`playlist-${index}`} data={playlist} type="apple" trackGet={(id) => this.props.trackGet(id)}/>
           })
       }
   }
@@ -24,7 +24,7 @@ class PlaylistList extends Component {
           case 'spotify':
               playlists = this.handleSpotify();
               break;
-          case 'itunes':
+          case 'apple':
               playlists = this.handleiTunes();
               break;
           default:
@@ -61,7 +61,7 @@ function Playlist(props){
                 </div>
             )
             break;
-        case 'itunes':
+        case 'apple':
             name = props.data.attributes.name;
             imageURL = props.data.attributes.artwork.url.replace(/(\{\w\})/g, '150')
             subtitle = (

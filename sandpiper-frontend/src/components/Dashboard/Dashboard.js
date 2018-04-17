@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists, getSpotifyTracks, getiTunesTracks } from '../../Utilities/networking';
+import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists,
+        getSpotifyTracks, getiTunesTracks, migratePlaylist  } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
 import PlaylistList from './Playlist';
@@ -47,7 +48,7 @@ class Dashboard extends Component {
         case 'spotify':
             getSpotifyPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
             break;
-        case 'itunes':
+        case 'apple':
             getiTunesPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
             break;
         default:
@@ -66,14 +67,13 @@ class Dashboard extends Component {
   }
 
   handleGetTracks(playlistData, site) {
-      console.log(playlistData)
       switch (site){
           case 'spotify':
               getSpotifyTracks(this.props.user.token, playlistData.href).then((json) => {
                   this.trackHelper(json, playlistData, site)
               });
               break;
-          case 'itunes':
+          case 'apple':
               getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {
                   this.trackHelper(json, playlistData, site)
               });
@@ -86,13 +86,12 @@ class Dashboard extends Component {
 
   trackHelper(json, playlistData, site){
       if (json.data !== undefined) {
-          console.log(json)
         let results;
         switch(site){
             case 'spotify':
                 results = json.data.results.tracks.items;
                 break;
-            case 'itunes':
+            case 'apple':
                 // NOTE: Something about this feels off
                 results = json.data.playlist.data[0].relationships.tracks.data;
                 break;
@@ -126,6 +125,16 @@ class Dashboard extends Component {
       })
   }
 
+  migratePlaylist(source, tracks, name){
+      console.log(source, tracks, name)
+      if(tracks.length === 0){
+          alert("Tracklist cannot be empty. Please submit tracks and try again.")
+      }
+      else{
+          migratePlaylist(this.props.user.token, source, tracks, name);
+      }
+  }
+
   render() {
     // Button to show playlists
     let showPlaylists;
@@ -137,7 +146,7 @@ class Dashboard extends Component {
                 </label>
                 <div className='playlist-buttons'>
                     <button className='playlist-spotify' onClick={() => this.handleGetPlaylists('spotify')}>Spotify</button>
-                    <button className='playlist-iTunes'  onClick={() => this.handleGetPlaylists('itunes')}>iTunes</button>
+                    <button className='playlist-iTunes'  onClick={() => this.handleGetPlaylists('apple')}>iTunes</button>
                 </div>
             </div>
     }
@@ -149,7 +158,8 @@ class Dashboard extends Component {
                             trackGet={(id) => this.handleGetTracks(id, this.state.site)}/>
     }
     else{
-        dashboardContent = <TrackList site={this.state.site} tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>
+        dashboardContent = <TrackList site={this.state.site} tracks={this.state.tracks} playlist={this.state.currentPlaylist}
+                            reset={() => this.resetTrack()} migrate={(source, tracks, name) => this.migratePlaylist(source, tracks, name)}/>
     }
 
     return (
