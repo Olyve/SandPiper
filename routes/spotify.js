@@ -49,6 +49,10 @@ router.get('/playlists', (req, res) => {
 
 // Get a specific playlist, including the tracks and info
 router.post('/playlist', (req, res) => {
+  if (!req.body.url) {
+    return clientResponse(res, 400, ['You must send the playlist url.']);
+  }
+
   return getPlaylist(req.user, req.body.url)
     .then((json) => {
       // Return the json from the API
