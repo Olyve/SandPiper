@@ -99,8 +99,9 @@ const getiTunesTracks = (token, id) => {
 };
 
 const migratePlaylist = (token, transfer, tracks, name) => {
+    console.log(token, transfer, tracks, name)
   return rp.post({
-      url: `${base_url}/migrate//`,
+      url: `${base_url}/migrate`,
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -108,8 +109,8 @@ const migratePlaylist = (token, transfer, tracks, name) => {
       body: {
           source: transfer.source,
           target: transfer.target,
-          track: tracks,
-          name: name
+          track_ids: tracks,
+          playlist_name: name
       },
       simple: false,
       json: true

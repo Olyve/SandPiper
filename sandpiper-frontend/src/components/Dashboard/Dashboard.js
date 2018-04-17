@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists, getSpotifyTracks, getiTunesTracks } from '../../Utilities/networking';
+import { searchSpotify, getSpotifyPlaylists, getiTunesPlaylists,
+        getSpotifyTracks, getiTunesTracks, migratePlaylist  } from '../../Utilities/networking';
 import './Dashboard.css';
 import TrackList from './Track';
 import PlaylistList from './Playlist';
@@ -127,7 +128,7 @@ class Dashboard extends Component {
   }
 
   migratePlaylist(source, tracks, name){
-      console.log(source, tracks, name)
+      migratePlaylist(this.props.user.token, source, tracks, name);
 
   }
 
