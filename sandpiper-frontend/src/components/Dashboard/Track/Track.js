@@ -23,7 +23,7 @@ class TrackList extends Component {
               id: data.id,
               name: data.trackName,
               album: data.albumName,
-              artist: data.artistUrl
+              artist: data.artistName
           });
           return data;
       })
@@ -159,16 +159,19 @@ class TrackList extends Component {
     if(this.state.submitted.length > 0){
         const submitData = this.state.submitted.map((data, index) => {
             return (
-                <div>
-                    <p>{index + 1} - {data.name}</p>
-                </div>
+                <li>
+                    <div className="selected-name">{data.name}</div>
+                    <div className="selected-artist">{data.artist}</div>
+                </li>
             )
         })
 
         selected = (
             <div className="selected-tracks">
                 <h2 className="selected-tracks-heading">Selected Tracks</h2>
-                {submitData}
+                <ol>
+                    {submitData}
+                </ol>
             </div>
 
         )
@@ -251,7 +254,7 @@ export class Track extends Component {
                           id: this.props.data.id,
                           name: this.props.data.trackName,
                           album: this.props.data.albumName,
-                          artist: this.props.data.artistUrl
+                          artist: this.props.data.artistName
                       }, this.props.index)}/>
               <div className='track-album'>
                 <img src={this.props.data.albumImage} height={100} width={100} alt={'Album artwork.'}/>

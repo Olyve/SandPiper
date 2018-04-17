@@ -95,7 +95,19 @@
   border-radius: 5px;
   padding: 5px;
   align-items: center;
+}
 
+.selected-tracks ol{
+    padding-left: 15px;
+    margin: 5px;
+}
+
+.selected-tracks li{
+    margin-bottom: 10px;
+}
+
+.selected-artist{
+    font-size: 12px;
 }
 
 .track-embedded{
