@@ -47,10 +47,10 @@ const getPlaylist = (user, playlist_id) => {
 };
 
 const getTracks = (user, track_ids) => {
-  let country_code = 'us';
+  let cc = user.appleMusicCountryCode;
   let ids = track_ids.reduce((acc, cur) => `${acc},${cur}`);
   return rp.get({
-    url: `https://api.music.apple.com/v1/catalog/${country_code}/songs`,
+    url: `https://api.music.apple.com/v1/catalog/${cc}/songs`,
     qs: {
       ids: ids
     },
@@ -62,9 +62,61 @@ const getTracks = (user, track_ids) => {
   });
 };
 
+const search = (user, search_term) => {
+  let cc = user.appleMusicCountryCode;
+  return rp.get({
+    url: `https://api.music.apple.com/v1/catalog/${cc}/search`,
+    qs: {
+      term: search_term,
+      limit: 5,
+      types: 'songs'
+    },
+    headers: {
+      'Authorization': `Bearer ${user.appleDevToken}`
+    },
+    simple: true,
+    json: true
+  });
+};
+
+const createPlaylist = (user, p_name) => {
+  return rp.post({
+    url: 'https://api.music.apple.com/v1/me/library/playlists',
+    headers: {
+      'Authorization': `Bearer ${user.appleDevToken}`,
+      'Music-User-Token': user.appleMusicToken
+    },
+    body: {
+      attributes: {
+        name: p_name
+      }
+    },
+    simple: true,
+    json: true
+  });
+};
+
+const addTracksToPlaylist = (user, p_id, tracks) => {
+  return rp.post({
+    url: `https://api.music.apple.com/v1/me/library/playlists/${p_id}/tracks`,
+    headers: {
+      'Authorization': `Bearer ${user.appleDevToken}`,
+      'Music-User-Token': user.appleMusicToken
+    },
+    body: {
+      data: tracks
+    },
+    simple: true,
+    json: true
+  });
+};
+
 module.exports = {
   generateToken,
   getMyPlaylists,
   getPlaylist,
-  getTracks
+  getTracks,
+  search,
+  createPlaylist,
+  addTracksToPlaylist
 };

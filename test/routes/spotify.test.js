@@ -149,7 +149,7 @@ describe('Spotify Routes', () => {
   describe('POST /api/spotify/playlist', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
-        .post('/users/1/playlists/1')
+        .get('/users/1/playlists/1')
         .reply(200, 'results');
       done();
     });
