@@ -47,6 +47,14 @@
   font-size: 22px;
 }
 
+.nav-item img{
+    height: 40px;
+    width: 40px;
+    border-radius: 30%;
+    padding: 10px;
+    margin-right: 5px;
+}
+
 h1.nav-item{
   font-size: 40px;
   font-weight: 100;

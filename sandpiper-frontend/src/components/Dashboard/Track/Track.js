@@ -4,8 +4,11 @@ import './Track.css';
 class TrackList extends Component {
   constructor(props){
       super(props);
+
       // TODO: Change this up later; we'll put it in the dashboard
       this.services = ['spotify', 'apple']
+
+      console.log(props)
 
       this.state = {
           selected: [],
@@ -20,6 +23,7 @@ class TrackList extends Component {
           return data;
       })
       this.playlist = this.props.playlist;
+      console.log(this.props.tracks)
 
   }
 
@@ -73,7 +77,8 @@ class TrackList extends Component {
               break;
           case 'apple':
               trackData = track.attributes;
-              id = trackData.playParams.id;
+              id = track.id;
+
               albumImage = trackData.artwork.url.replace(/(\{\w\})/g, '100');
               trackName = trackData.name;
               trackUrl = null;
@@ -88,6 +93,7 @@ class TrackList extends Component {
   }
 
   render() {
+      console.log(this.state);
       let trackList = []
 
       if (this.cleanedTrackData !== undefined) {

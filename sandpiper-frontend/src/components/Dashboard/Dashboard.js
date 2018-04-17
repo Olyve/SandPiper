@@ -126,8 +126,12 @@ class Dashboard extends Component {
   }
 
   migratePlaylist(source, tracks, name){
-      migratePlaylist(this.props.user.token, source, tracks, name);
-
+      if(tracks.length === 0){
+          alert("Tracklist cannot be empty. Please submit tracks and try again.")
+      }
+      else{
+          migratePlaylist(this.props.user.token, source, tracks, name);
+      }
   }
 
   render() {
