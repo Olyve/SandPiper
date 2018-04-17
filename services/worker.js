@@ -2,7 +2,7 @@ const rp = require('request-promise-native');
 const appleService = require('./apple');
 const spotifyService = require('./spotify');
 const logger = require('../utils/logger');
-const ISRCMap = require('../models/isrc_map');
+// const ISRCMap = require('../models/isrc_map');
 
 process.on('message', (data) => {
   let transfer = data.transfer;
@@ -14,7 +14,7 @@ process.on('message', (data) => {
   if (transfer.source === 'apple') {
     let user = transfer.user;
 
-    tracksToISRC(user, transfer.tracks)
+    appleTracksToISRC(user, transfer.tracks)
     .then((isrcNumbers) => {
       return isrcToSpotifyURI(user, isrcNumbers)
     })
@@ -35,12 +35,9 @@ process.on('message', (data) => {
   }
 });
 
-async function tracksToISRC(user, tracks) {
-  let trackIDs = tracks.map((id) => {
-    // Grabs the ID and removes the letter on the front so that we can use the catalog id.
-    // ex: p.201281527 -> 201281527
-    return id.split('.')[1];
-  });
+async function appleTracksToISRC(user, tracks) {
+  // Convert library id to catalog id ex: p.201281527 -> 201281527
+  let trackIDs = tracks.map((id) => { return id.split('.')[1]; });
 
   let result = await appleService.getTracks(user, trackIDs);
   let isrcNumbers = result['data'].map((track) => {
