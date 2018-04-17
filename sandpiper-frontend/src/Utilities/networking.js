@@ -98,11 +98,30 @@ const getiTunesTracks = (token, id) => {
   });
 };
 
+const migratePlaylist = (token, transfer, tracks, name) => {
+  return rp.post({
+      url: `${base_url}/migrate//`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: {
+          source: transfer.source,
+          target: transfer.target,
+          track: tracks,
+          name: name
+      },
+      simple: false,
+      json: true
+  });
+};
+
 export {
   getSpotifyPlaylists,
   getiTunesPlaylists,
   getSpotifyTracks,
   getiTunesTracks,
+  migratePlaylist,
   loginUser,
   registerUser,
   searchSpotify,

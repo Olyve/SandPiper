@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Track.css';
+import { migratePlaylist } from '../../../Utilities/networking'
 
 class TrackList extends Component {
   constructor(props){
@@ -7,10 +8,16 @@ class TrackList extends Component {
 
       this.state = {
           site: this.props.site,
-          allTracks: [],
+          tracks: [],
           selected: [],
           submitted: [],
       }
+
+      this.allTrackData = [];
+      this.tracks = this.props.tracks
+      this.playlist = this.props.playlist
+
+
   }
 
   handleSubmit(event) {
@@ -21,6 +28,7 @@ class TrackList extends Component {
 
   addToQueue(id, index){
       let listCopy = this.state.selected.slice();
+      console.log(listCopy)
 
       if(listCopy.includes(id)){
           listCopy[index] = null;
@@ -37,6 +45,7 @@ class TrackList extends Component {
 
   checkAll(event){
       event.preventDefault();
+      console.log(this.allTrackData)
       this.setState({ checkAll: true, selected: this.allTrackData })
   }
 
@@ -77,24 +86,20 @@ class TrackList extends Component {
   }
 
   render() {
-    const tracks = this.props.tracks;
-    const playlist = this.props.playlist
+      let trackList = []
 
-    let trackList = [];
-    let allTrackData = [];
+      if (this.tracks !== undefined) {
+            trackList = this.tracks.map((trackData, index) => {
+                const data = this.cleanTrackData(trackData);
+                this.allTrackData.push({id: data.id, name: data.trackName});
 
-    if (tracks !== undefined) {
-          trackList = tracks.map((trackData, index) => {
-              const data = this.cleanTrackData(trackData);
-              allTrackData.push({id: data.id, name: data.trackName});
+                return <Track site={this.props.site} key={index} checked={this.state.selected[index]}
+                          index={index} add={(id, index) => this.addToQueue(id, index)} data={data}/>
+            });
 
-              return <Track site={this.props.site} key={index} checked={this.state.selected[index]}
-                        index={index} add={(id, index) => this.addToQueue(id, index)} data={data}/>
-          });
+      }
 
-          this.allTrackData = allTrackData;
-    }
-
+    const playlist = this.playlist;
 
     let imageURL, subtitle, name, url, embed;
     switch(this.props.site){
@@ -161,6 +166,8 @@ class TrackList extends Component {
                   <div className='playlist-img-container'>
                       <img className='playlist-cover' alt='Playlist mosaic' src={imageURL}/>
                       <button onClick={this.props.reset}>Back to playlists</button>
+                      {/* <button onClick={() => {})}>Back to playlists</button> */}
+
                   </div>
                   <div className='playlist-heading'>
                       <h2 className='playlist-title'><a href={url}>{name}</a></h2>
