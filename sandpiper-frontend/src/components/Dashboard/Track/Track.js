@@ -19,7 +19,13 @@ class TrackList extends Component {
       this.trackIDs = [];
       this.cleanedTrackData = this.props.tracks.map((track) => {
           const data = this.cleanTrackData(track);
-          this.simpleTrackData.push({id: data.id, name: data.trackName});
+          console.log("CLEANED DATA", data)
+          this.simpleTrackData.push({
+              id: data.id,
+              name: data.trackName,
+              album: data.albumName,
+              artist: data.artistUrl
+          });
           return data;
       })
       this.playlist = this.props.playlist;
@@ -35,14 +41,15 @@ class TrackList extends Component {
       this.setState({ submitted: filtered, trackIDs: IDs })
   }
 
-  addToQueue(id, index){
+  addToQueue(data, index){
+      console.log(data)
       let listCopy = this.state.selected.slice();
 
       if(listCopy[index]){
           listCopy[index] = null;
       }
       else{
-          listCopy[index] = id;
+          listCopy[index] = data;
       }
 
       this.setState({
@@ -63,19 +70,21 @@ class TrackList extends Component {
 
 
   cleanTrackData(track){
-      let albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id, trackEmbed;
+      let albumImage, trackName, trackUrl, artistName, artistUrl, trackData,
+            id, trackEmbed, albumName;
       switch(this.props.site){
           case 'spotify':
               trackData = track.track
 
               id = trackData.external_ids.isrc;
               albumImage = trackData.album.images[0].url || null;
+              albumName = trackData.album.name;
               trackName = trackData.name;
               trackUrl = trackData.external_urls.spotify;
               artistName = trackData.artists[0].name;
               artistUrl = trackData.artists[0].external_urls.spotify;
               trackEmbed = <iframe src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
-                            width="250" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"/>
+                            width="250" height="80" frameBorder="0" allowtransparency="true" allow="encrypted-media"/>
               break;
           case 'apple':
               trackData = track.attributes;
@@ -91,7 +100,18 @@ class TrackList extends Component {
               return null;
       }
 
-      return({albumImage, trackName, trackUrl, artistName, artistUrl, trackData, trackEmbed, id})
+      return({albumImage, albumName, trackName, trackUrl, artistName, artistUrl, trackData, trackEmbed, id})
+  }
+
+  transferPrep(){
+      console.log(this.state.submitted)
+
+      switch(this.props.site){
+          case 'spotify':
+            return this.state.submitted;
+          case 'apple':
+            return this.state.apple;
+      }
   }
 
   render() {
@@ -100,7 +120,7 @@ class TrackList extends Component {
       if (this.cleanedTrackData !== undefined) {
           trackList = this.cleanedTrackData.map((data, index) => {
               return <Track site={this.props.site} key={index} checked={this.state.selected[index]}
-                        index={index} add={(id, index) => this.addToQueue(id, index)} data={data}/>
+                        index={index} add={(data, index) => this.addToQueue(data, index)} data={data}/>
           })
       }
 
@@ -167,7 +187,10 @@ class TrackList extends Component {
     let transferButtons = this.services.map((service) => {
         if(service !== this.props.site){
             return <button key={service} className={`playlist-transfer transfer-${service}`}
-                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.state.trackIDs, name)}>
+                    onClick={() => this.props.migrate({
+                        source: this.props.site, target: service},
+                        this.transferPrep(),
+                        name)}>
                         Transfer to {service[0].toUpperCase() + service.substr(1)}
                     </button>
         }
@@ -218,19 +241,25 @@ export class Track extends Component {
 
   render() {
     let trackDisplay;
-    if(this.props.data.trackEmbed){
-        trackDisplay =
-        <div className='track-embedded'>
-            <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
-                    onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
-            {this.props.data.trackEmbed}
-        </div>
-    }
-    else{
+    // Defunct for the time being
+    // if(this.props.data.trackEmbed){
+    //     trackDisplay =
+    //     <div className='track-embedded'>
+    //         <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
+    //                 onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
+    //         {this.props.data.trackEmbed}
+    //     </div>
+    // }
+    // else{
         trackDisplay = (
             <div className='track'>
               <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
-                      onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
+                      onChange={() => this.props.add({
+                          id: this.props.data.id,
+                          name: this.props.data.trackName,
+                          album: this.props.data.albumName,
+                          artist: this.props.data.artistUrl
+                      }, this.props.index)}/>
               <div className='track-album'>
                 <img src={this.props.data.albumImage} height={100} width={100} alt={'Album artwork.'}/>
               </div>
@@ -240,7 +269,7 @@ export class Track extends Component {
               </div>
             </div>
         )
-    }
+    // }
 
     return trackDisplay;
   }
