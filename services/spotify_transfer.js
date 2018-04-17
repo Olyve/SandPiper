@@ -5,14 +5,15 @@
 
 const logger = require('../utils/logger');
 const appleService = require('./apple');
-const spotifyService = require('./spotify');
 
 async function transferToAppleMusic(transfer_obj) {
   let user = transfer_obj.user;
 
   try {
     let appleTrackIds = await isrcToAppleMusicId(user, transfer_obj.tracks);
-    await appleService.createPlaylist(user, transfer_obj.playlist_name, appleTrackIds);
+    let playlist = await appleService.createPlaylist(user, transfer_obj.playlist_name);
+    let playlist_id = playlist.data[0].id;
+    await appleService.addTracksToPlaylist(user, playlist_id, appleTrackIds);
 
     // Sucessfully completed the transfer, notify main thread to update transfer_obj
     process.send({ type: 'update', p_id: transfer_obj._id, new_status: 'completed' });

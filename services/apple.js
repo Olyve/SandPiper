@@ -79,7 +79,7 @@ const search = (user, search_term) => {
   });
 };
 
-const createPlaylist = (user, p_name, track_ids) => {
+const createPlaylist = (user, p_name) => {
   return rp.post({
     url: 'https://api.music.apple.com/v1/me/library/playlists',
     headers: {
@@ -89,12 +89,22 @@ const createPlaylist = (user, p_name, track_ids) => {
     body: {
       attributes: {
         name: p_name
-      },
-      relationships: {
-        tracks: {
-          data: track_ids
-        }
       }
+    },
+    simple: true,
+    json: true
+  });
+};
+
+const addTracksToPlaylist = (user, p_id, tracks) => {
+  return rp.post({
+    url: `https://api.music.apple.com/v1/me/library/playlists/${p_id}/tracks`,
+    headers: {
+      'Authorization': `Bearer ${user.appleDevToken}`,
+      'Music-User-Token': user.appleMusicToken
+    },
+    body: {
+      data: tracks
     },
     simple: true,
     json: true
@@ -107,5 +117,6 @@ module.exports = {
   getPlaylist,
   getTracks,
   search,
-  createPlaylist
+  createPlaylist,
+  addTracksToPlaylist
 };
