@@ -48,7 +48,7 @@ class Dashboard extends Component {
         case 'spotify':
             getSpotifyPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
             break;
-        case 'itunes':
+        case 'apple':
             getiTunesPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
             break;
         default:
@@ -74,7 +74,7 @@ class Dashboard extends Component {
                   this.trackHelper(json, playlistData, site)
               });
               break;
-          case 'itunes':
+          case 'apple':
               getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {
                   this.trackHelper(json, playlistData, site)
               });
@@ -93,7 +93,7 @@ class Dashboard extends Component {
             case 'spotify':
                 results = json.data.results.tracks.items;
                 break;
-            case 'itunes':
+            case 'apple':
                 // NOTE: Something about this feels off
                 results = json.data.playlist.data[0].relationships.tracks.data;
                 break;
@@ -143,7 +143,7 @@ class Dashboard extends Component {
                 </label>
                 <div className='playlist-buttons'>
                     <button className='playlist-spotify' onClick={() => this.handleGetPlaylists('spotify')}>Spotify</button>
-                    <button className='playlist-iTunes'  onClick={() => this.handleGetPlaylists('itunes')}>iTunes</button>
+                    <button className='playlist-iTunes'  onClick={() => this.handleGetPlaylists('apple')}>iTunes</button>
                 </div>
             </div>
     }

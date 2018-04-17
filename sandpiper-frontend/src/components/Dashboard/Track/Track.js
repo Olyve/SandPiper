@@ -5,9 +5,10 @@ import { migratePlaylist } from '../../../Utilities/networking'
 class TrackList extends Component {
   constructor(props){
       super(props);
+      // TODO: Change this up later; we'll put it in the dashboard
+      this.services = ['spotify', 'apple']
 
       this.state = {
-          site: this.props.site,
           selected: [],
           submitted: [],
       }
@@ -71,7 +72,7 @@ class TrackList extends Component {
               artistName = trackData.artists[0].name;
               artistUrl = trackData.artists[0].external_urls.spotify;
               break;
-          case 'itunes':
+          case 'apple':
               trackData = track.attributes;
               id = trackData.playParams.id;
               albumImage = trackData.artwork.url.replace(/(\{\w\})/g, '100');
@@ -114,7 +115,7 @@ class TrackList extends Component {
             embed = <iframe title="spotify-playlist" className='tracklist-playlist-embed' width="400" height="280" frameBorder="0"
                             src={`https://open.spotify.com/embed?uri=${playlist.uri}`} allowtransparency="true" allow="encrypted-media"/>
             break;
-        case 'itunes':
+        case 'apple':
             name = playlist.attributes.name;
             imageURL = playlist.attributes.artwork.url.replace(/(\{\w\})/g, '150')
             subtitle = (
@@ -157,6 +158,18 @@ class TrackList extends Component {
         </div>
     }
 
+    let transferButtons = this.services.map((service) => {
+        if(service !== this.props.site){
+            return <button className={`playlist-transfer transfer-${service}`}
+                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.trackIDs, 'Testing')}>
+                        Transfer to {service[0].toUpperCase() + service.substr(1)}
+                    </button>
+        }
+        else{
+            return null;
+        }
+    })
+
     return (
       <div className='tracklist-container'>
           <div className='tracklist-playlist'>
@@ -164,9 +177,7 @@ class TrackList extends Component {
                   <div className='playlist-img-container'>
                       <img className='playlist-cover' alt='Playlist mosaic' src={imageURL}/>
                       <button onClick={this.props.reset}>Back to playlists</button>
-                      <button onClick={() => this.props.migrate({source: 'apple', target: 'spotify'}, this.trackIDs, 'Testing')}>
-                          Temp: Migrate Playlist to Spotify
-                      </button>
+                      {transferButtons}
 
                   </div>
                   <div className='playlist-heading'>
