@@ -46,7 +46,6 @@ export class App extends Component {
 
         // If login was successful add token and user_id to state
         if (json['status'] === 'Success') {
-          console.log(json['data']);
           this.props.updateUser({
             token: json['data']['token'],
             id: json['data']['user_id']
