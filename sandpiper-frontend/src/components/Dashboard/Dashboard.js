@@ -17,8 +17,10 @@ class Dashboard extends Component {
       playlists: [],
       tracks: [],
       currentPlaylist: ''
-
     }
+
+    this.props.resetModal();
+
   }
 
   onChange(event) {
@@ -44,16 +46,26 @@ class Dashboard extends Component {
   }
 
   handleGetPlaylists(site) {
+    this.props.showLoadingModal();
+
     switch (site){
         case 'spotify':
-            getSpotifyPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
+            getSpotifyPlaylists(this.props.user.token).then((json) => {
+                this.playlistHelper(json, site)
+                this.props.resetModal();
+            });
             break;
         case 'apple':
-            getiTunesPlaylists(this.props.user.token).then((json) => {this.playlistHelper(json, site)})
+            getiTunesPlaylists(this.props.user.token).then((json) => {
+                this.playlistHelper(json, site)
+                this.props.resetModal();
+            });
             break;
         default:
             break;
     }
+
+
   }
 
   playlistHelper(json, site){
@@ -67,19 +79,22 @@ class Dashboard extends Component {
   }
 
   handleGetTracks(playlistData, site) {
+      this.props.showLoadingModal();
       switch (site){
           case 'spotify':
               getSpotifyTracks(this.props.user.token, playlistData.href).then((json) => {
                   this.trackHelper(json, playlistData, site)
+                  this.props.resetModal();
               });
               break;
           case 'apple':
               getiTunesTracks(this.props.user.token, playlistData.id).then((json) => {
                   this.trackHelper(json, playlistData, site)
+                  this.props.resetModal();
               });
               break;
           default:
-              console.log("ERROR - Cannot retrieve data")
+              this.props.showModal('Error', 'Unable to fetch tracks. Please try again');
               break;
       }
   }
@@ -126,11 +141,14 @@ class Dashboard extends Component {
   }
 
   migratePlaylist(source, tracks, name){
+
       if(tracks.length === 0){
           alert("Tracklist cannot be empty. Please submit tracks and try again.")
       }
       else{
-          migratePlaylist(this.props.user.token, source, tracks, name);
+          migratePlaylist(this.props.user.token, source, tracks, name).then((json) => {
+              this.props.showModal(json.status, json.messages[0]);
+          });
       }
   }
 
