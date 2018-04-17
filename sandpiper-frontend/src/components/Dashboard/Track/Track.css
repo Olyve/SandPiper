@@ -94,6 +94,23 @@
   border: 1px solid #DDD;
   border-radius: 5px;
   padding: 5px;
+  align-items: center;
+
+}
+
+.track-embedded{
+    display: flex;
+    width: 275px;
+    height: 100px;
+    margin: 15px;
+    padding: 5px;
+    align-items: center;
+}
+
+.track-check{
+    transform: scale(1.5);
+    height: 50px;
+    width: 50px;
 }
 
 .track-details {

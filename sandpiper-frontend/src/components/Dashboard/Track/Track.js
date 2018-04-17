@@ -63,7 +63,7 @@ class TrackList extends Component {
 
 
   cleanTrackData(track){
-      let albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id;
+      let albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id, trackEmbed;
       switch(this.props.site){
           case 'spotify':
               trackData = track.track
@@ -74,6 +74,8 @@ class TrackList extends Component {
               trackUrl = trackData.external_urls.spotify;
               artistName = trackData.artists[0].name;
               artistUrl = trackData.artists[0].external_urls.spotify;
+              trackEmbed = <iframe src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
+                            width="250" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"/>
               break;
           case 'apple':
               trackData = track.attributes;
@@ -89,7 +91,7 @@ class TrackList extends Component {
               return null;
       }
 
-      return({albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id})
+      return({albumImage, trackName, trackUrl, artistName, artistUrl, trackData, trackEmbed, id})
   }
 
   render() {
@@ -216,19 +218,32 @@ export class Track extends Component {
   }
 
   render() {
-    return (
-      <div className='track'>
-        <input type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
-                onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
-        <div className='track-album'>
-          <img src={this.props.data.albumImage} height={100} width={100} alt={'Album artwork.'}/>
+    let trackDisplay;
+    if(this.props.data.trackEmbed){
+        trackDisplay =
+        <div className='track-embedded'>
+            <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
+                    onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
+            {this.props.data.trackEmbed}
         </div>
-        <div className='track-details'>
-          <a className='track-details-title' href={this.props.data.trackUrl} target='_blank'>{this.props.data.trackName}</a>
-          <a className='track-details-artist' href={this.props.data.artistUrl} target='_blank'>{this.props.data.artistName}</a>
-        </div>
-      </div>
-    );
+    }
+    else{
+        trackDisplay = (
+            <div className='track'>
+              <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
+                      onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
+              <div className='track-album'>
+                <img src={this.props.data.albumImage} height={100} width={100} alt={'Album artwork.'}/>
+              </div>
+              <div className='track-details'>
+                <a className='track-details-title' href={this.props.data.trackUrl} target='_blank'>{this.props.data.trackName}</a>
+                <a className='track-details-artist' href={this.props.data.artistUrl} target='_blank'>{this.props.data.artistName}</a>
+              </div>
+            </div>
+        )
+    }
+
+    return trackDisplay;
   }
 }
 
