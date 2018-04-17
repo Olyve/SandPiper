@@ -19,7 +19,6 @@ class TrackList extends Component {
       this.trackIDs = [];
       this.cleanedTrackData = this.props.tracks.map((track) => {
           const data = this.cleanTrackData(track);
-          console.log("CLEANED DATA", data)
           this.simpleTrackData.push({
               id: data.id,
               name: data.trackName,
@@ -29,7 +28,6 @@ class TrackList extends Component {
           return data;
       })
       this.playlist = this.props.playlist;
-      console.log(this.props.tracks)
 
   }
 
@@ -104,13 +102,11 @@ class TrackList extends Component {
   }
 
   transferPrep(){
-      console.log(this.state.submitted)
-
       switch(this.props.site){
           case 'spotify':
             return this.state.submitted;
           case 'apple':
-            return this.state.apple;
+            return this.state.trackIDs;
       }
   }
 
@@ -187,10 +183,7 @@ class TrackList extends Component {
     let transferButtons = this.services.map((service) => {
         if(service !== this.props.site){
             return <button key={service} className={`playlist-transfer transfer-${service}`}
-                    onClick={() => this.props.migrate({
-                        source: this.props.site, target: service},
-                        this.transferPrep(),
-                        name)}>
+                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.transferPrep(), name)}>
                         Transfer to {service[0].toUpperCase() + service.substr(1)}
                     </button>
         }

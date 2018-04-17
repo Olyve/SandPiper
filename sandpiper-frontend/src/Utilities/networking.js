@@ -99,7 +99,15 @@ const getiTunesTracks = (token, id) => {
 };
 
 const migratePlaylist = (token, transfer, tracks, name) => {
-    console.log(token, transfer, tracks, name)
+  const cleanedTracks = tracks.map(track => {
+      if(typeof track === 'string'){
+          return track
+      }
+      else{
+          return JSON.stringify(track)
+      }
+  });
+
   return rp.post({
       url: `${base_url}/migrate`,
       headers: {
@@ -109,7 +117,7 @@ const migratePlaylist = (token, transfer, tracks, name) => {
       body: {
           source: transfer.source,
           target: transfer.target,
-          track_ids: tracks,
+          track_ids: cleanedTracks,
           playlist_name: name
       },
       simple: false,

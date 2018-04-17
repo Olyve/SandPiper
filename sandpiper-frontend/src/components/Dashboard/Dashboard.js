@@ -126,6 +126,7 @@ class Dashboard extends Component {
   }
 
   migratePlaylist(source, tracks, name){
+      console.log(source, tracks, name)
       if(tracks.length === 0){
           alert("Tracklist cannot be empty. Please submit tracks and try again.")
       }
