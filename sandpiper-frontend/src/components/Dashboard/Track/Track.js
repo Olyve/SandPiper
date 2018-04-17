@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './Track.css';
-import { migratePlaylist } from '../../../Utilities/networking'
 
 class TrackList extends Component {
   constructor(props){
@@ -11,14 +10,13 @@ class TrackList extends Component {
       this.state = {
           selected: [],
           submitted: [],
+          trackIDs: [],
       }
       this.simpleTrackData = [];
       this.trackIDs = [];
       this.cleanedTrackData = this.props.tracks.map((track) => {
           const data = this.cleanTrackData(track);
           this.simpleTrackData.push({id: data.id, name: data.trackName});
-          this.trackIDs.push(String(data.id));
-
           return data;
       })
       this.playlist = this.props.playlist;
@@ -27,15 +25,16 @@ class TrackList extends Component {
 
   handleSubmit(event) {
       event.preventDefault();
+      // For ordering purposes
       const filtered = this.state.selected.filter(content => content);
-      this.setState({ submitted: filtered })
+      const IDs = filtered.map(track => { return track.id })
+      this.setState({ submitted: filtered, trackIDs: IDs })
   }
 
   addToQueue(id, index){
       let listCopy = this.state.selected.slice();
-      console.log(listCopy)
 
-      if(listCopy.includes(id)){
+      if(listCopy[index]){
           listCopy[index] = null;
       }
       else{
@@ -160,8 +159,8 @@ class TrackList extends Component {
 
     let transferButtons = this.services.map((service) => {
         if(service !== this.props.site){
-            return <button className={`playlist-transfer transfer-${service}`}
-                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.trackIDs, 'Testing')}>
+            return <button key={service} className={`playlist-transfer transfer-${service}`}
+                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.state.trackIDs, 'Testing')}>
                         Transfer to {service[0].toUpperCase() + service.substr(1)}
                     </button>
         }

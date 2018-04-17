@@ -86,7 +86,9 @@ export class App extends Component {
                 <div className='nav-links'>
                     <ul>
                         <li>
-                            <h1 className='nav-item'>Sandpiper</h1>
+                            <h1 className='nav-item'>
+                                <img src='/head-logo.png' alt=''/> Sandpiper
+                            </h1>
                         </li>
                         <li>
                             <NavLink exact to='/' activeStyle={{fontWeight: 'bold'}} className='nav-item'>

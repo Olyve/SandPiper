@@ -67,7 +67,6 @@ class Dashboard extends Component {
   }
 
   handleGetTracks(playlistData, site) {
-      console.log(playlistData)
       switch (site){
           case 'spotify':
               getSpotifyTracks(this.props.user.token, playlistData.href).then((json) => {
@@ -87,7 +86,6 @@ class Dashboard extends Component {
 
   trackHelper(json, playlistData, site){
       if (json.data !== undefined) {
-          console.log(json)
         let results;
         switch(site){
             case 'spotify':
