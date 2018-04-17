@@ -112,7 +112,7 @@ class TrackList extends Component {
                     <h3 className='playlist-tracks'>{`${playlist.tracks.total} tracks`}</h3>
                 </div>
             )
-            embed = <iframe title="spotify-playlist" className='tracklist-playlist-embed' width="400" height="280" frameBorder="0"
+            embed = <iframe title="spotify-playlist" className='tracklist-playlist-embed' width="350" height="280" frameBorder="0"
                             src={`https://open.spotify.com/embed?uri=${playlist.uri}`} allowtransparency="true" allow="encrypted-media"/>
             break;
         case 'apple':
@@ -185,8 +185,12 @@ class TrackList extends Component {
                       {subtitle}
                   </div>
               </div>
-              {embed}
-              {selected}
+              <div className='selection-embed'>
+                  {selected}
+                  {embed}
+
+              </div>
+
 
           </div>
           <form className="tracklist-form" onSubmit={(ev) => this.handleSubmit(ev)}>
