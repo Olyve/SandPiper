@@ -95,7 +95,6 @@ class TrackList extends Component {
   }
 
   render() {
-      console.log(this.state);
       let trackList = []
 
       if (this.cleanedTrackData !== undefined) {
@@ -168,7 +167,7 @@ class TrackList extends Component {
     let transferButtons = this.services.map((service) => {
         if(service !== this.props.site){
             return <button key={service} className={`playlist-transfer transfer-${service}`}
-                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.state.trackIDs, 'Testing')}>
+                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.state.trackIDs, name)}>
                         Transfer to {service[0].toUpperCase() + service.substr(1)}
                     </button>
         }

@@ -56,6 +56,8 @@
 }
 
 h1.nav-item{
+  display: flex;
   font-size: 40px;
   font-weight: 100;
+  align-items: center;
 }
