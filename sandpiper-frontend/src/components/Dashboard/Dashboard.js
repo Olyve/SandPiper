@@ -126,6 +126,11 @@ class Dashboard extends Component {
       })
   }
 
+  migratePlaylist(source, tracks, name){
+      console.log(source, tracks, name)
+
+  }
+
   render() {
     // Button to show playlists
     let showPlaylists;
@@ -149,7 +154,8 @@ class Dashboard extends Component {
                             trackGet={(id) => this.handleGetTracks(id, this.state.site)}/>
     }
     else{
-        dashboardContent = <TrackList site={this.state.site} tracks={this.state.tracks} playlist={this.state.currentPlaylist} reset={() => this.resetTrack()}/>
+        dashboardContent = <TrackList site={this.state.site} tracks={this.state.tracks} playlist={this.state.currentPlaylist}
+                            reset={() => this.resetTrack()} migrate={(source, tracks, name) => this.migratePlaylist(source, tracks, name)}/>
     }
 
     return (

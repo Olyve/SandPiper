@@ -8,15 +8,20 @@ class TrackList extends Component {
 
       this.state = {
           site: this.props.site,
-          tracks: [],
           selected: [],
           submitted: [],
       }
+      this.simpleTrackData = [];
+      this.trackIDs = [];
+      this.cleanedTrackData = this.props.tracks.map((track) => {
+          const data = this.cleanTrackData(track);
+          this.simpleTrackData.push({id: data.id, name: data.trackName});
+          this.trackIDs.push(data.id);
 
-      this.allTrackData = [];
-      this.tracks = this.props.tracks
-      this.playlist = this.props.playlist
+          return data;
+      })
 
+      this.playlist = this.props.playlist;
 
   }
 
@@ -45,8 +50,7 @@ class TrackList extends Component {
 
   checkAll(event){
       event.preventDefault();
-      console.log(this.allTrackData)
-      this.setState({ checkAll: true, selected: this.allTrackData })
+      this.setState({ checkAll: true, selected: this.simpleTrackData })
   }
 
   checkNone(event){
@@ -88,15 +92,12 @@ class TrackList extends Component {
   render() {
       let trackList = []
 
-      if (this.tracks !== undefined) {
-            trackList = this.tracks.map((trackData, index) => {
-                const data = this.cleanTrackData(trackData);
-                this.allTrackData.push({id: data.id, name: data.trackName});
-
-                return <Track site={this.props.site} key={index} checked={this.state.selected[index]}
-                          index={index} add={(id, index) => this.addToQueue(id, index)} data={data}/>
-            });
-
+      if (this.cleanedTrackData !== undefined) {
+          console.log(this.cleanedTrackData)
+          trackList = this.cleanedTrackData.map((data, index) => {
+              return <Track site={this.props.site} key={index} checked={this.state.selected[index]}
+                        index={index} add={(id, index) => this.addToQueue(id, index)} data={data}/>
+          })
       }
 
     const playlist = this.playlist;
@@ -166,7 +167,9 @@ class TrackList extends Component {
                   <div className='playlist-img-container'>
                       <img className='playlist-cover' alt='Playlist mosaic' src={imageURL}/>
                       <button onClick={this.props.reset}>Back to playlists</button>
-                      {/* <button onClick={() => {})}>Back to playlists</button> */}
+                      <button onClick={() => this.props.migrate({source: 'itunes', target: 'spotify'}, this.trackIDs, 'Testing')}>
+                          Temp: Migrate Playlist to Spotify
+                      </button>
 
                   </div>
                   <div className='playlist-heading'>
