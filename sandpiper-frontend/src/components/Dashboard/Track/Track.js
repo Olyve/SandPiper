@@ -71,7 +71,7 @@ class TrackList extends Component {
               trackData = track.track
 
               id = trackData.external_ids.isrc;
-              albumImage = trackData.album.images[0].url || null;
+              albumImage = trackData.album.images[0] ? trackData.album.images[0].url : null;
               albumName = trackData.album.name;
               trackName = trackData.name;
               trackUrl = trackData.external_urls.spotify;
