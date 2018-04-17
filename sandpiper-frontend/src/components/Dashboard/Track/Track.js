@@ -208,11 +208,8 @@ class TrackList extends Component {
                       {subtitle}
                   </div>
               </div>
-              <div className='selection-embed'>
-                  {selected}
-                  {embed}
-
-              </div>
+              {selected}
+              {embed}
 
 
           </div>
