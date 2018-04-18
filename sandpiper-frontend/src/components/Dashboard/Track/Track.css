@@ -33,6 +33,7 @@
 .playlist-img-container button, .tracklist-form button{
     background-color: #111;
     padding: 5px 10px;
+    margin: 5px 0px;
     border-radius: 5px;
     font-size: 14px;
     color: #EEE;
@@ -80,6 +81,7 @@
 .tracklist-container .playlist-cover{
     width: 200px;
     height: 200px;
+    margin-bottom: 10px;
 }
 
 .tracklist-container .playlist-info{
