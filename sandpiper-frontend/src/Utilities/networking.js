@@ -74,9 +74,22 @@ const getiTunesPlaylists = (token) => {
   });
 };
 
-const getSpotifyTracks = (token, id) => {
+const getSpotifyTracks = (token, url) => {
+  return rp.post({
+    url: `${base_url}/spotify/playlist/`,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: { url: url },
+    simple: false,
+    json: true
+  });
+};
+
+const getiTunesTracks = (token, id) => {
   return rp.get({
-    url: `${base_url}/spotify/playlists/${id}`,
+    url: `${base_url}/apple/playlist/${id}`,
     headers: {
       'Authorization': `Bearer ${token}`
     },
@@ -85,14 +98,30 @@ const getSpotifyTracks = (token, id) => {
   });
 };
 
-const getiTunesTracks = (token, id) => {
-  return rp.get({
-    url: `${base_url}/apple/playlists/${id}`,
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
-    simple: false,
-    json: true
+const migratePlaylist = (token, transfer, tracks, name) => {
+  const cleanedTracks = tracks.map(track => {
+      if(typeof track === 'string'){
+          return track
+      }
+      else{
+          return JSON.stringify(track)
+      }
+  });
+
+  return rp.post({
+      url: `${base_url}/migrate`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: {
+          source: transfer.source,
+          target: transfer.target,
+          track_ids: cleanedTracks,
+          playlist_name: name
+      },
+      simple: false,
+      json: true
   });
 };
 
@@ -101,6 +130,7 @@ export {
   getiTunesPlaylists,
   getSpotifyTracks,
   getiTunesTracks,
+  migratePlaylist,
   loginUser,
   registerUser,
   searchSpotify,

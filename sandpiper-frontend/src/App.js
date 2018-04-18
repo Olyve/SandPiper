@@ -8,6 +8,8 @@ import Auth from './components/Auth';
 import Modal from './components/Modal/Modal';
 import Profile from './components/Profile';
 import Dashboard from './components/Dashboard';
+import Splash from './components/Splash';
+
 import { registerUser, loginUser } from './Utilities/networking';
 import * as Actions from './Utilities/actions';
 
@@ -44,7 +46,6 @@ export class App extends Component {
 
         // If login was successful add token and user_id to state
         if (json['status'] === 'Success') {
-          console.log(json['data']);
           this.props.updateUser({
             token: json['data']['token'],
             id: json['data']['user_id']
@@ -71,7 +72,7 @@ export class App extends Component {
         return (<Dashboard />);
       }
       else {
-        return (<h3>Please log in to view your dashboard.</h3>);
+        return (<Splash/>);
       }
   }
 
@@ -86,7 +87,9 @@ export class App extends Component {
                 <div className='nav-links'>
                     <ul>
                         <li>
-                            <h1 className='nav-item'>Sandpiper</h1>
+                            <h1 className='nav-item'>
+                                <img src='/head-logo.png' alt=''/> Sandpiper
+                            </h1>
                         </li>
                         <li>
                             <NavLink exact to='/' activeStyle={{fontWeight: 'bold'}} className='nav-item'>

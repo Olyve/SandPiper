@@ -29,9 +29,9 @@ describe('Spotify Routes', () => {
   // =======================
   //
   //  Test Search Spotify
-  //  
+  //
   // =======================
-  
+
   describe('GET /api/spotify/search', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
@@ -96,9 +96,9 @@ describe('Spotify Routes', () => {
   // =======================
   //
   //  Test Get Playlists
-  //  
+  //
   // =======================
-  
+
   describe('GET /api/spotify/playlists', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
@@ -143,10 +143,10 @@ describe('Spotify Routes', () => {
   // =============================
   //
   //  Test Get a Specific Playlist
-  //  
+  //
   // =============================
-  
-  describe('GET /api/playlists/:id', () => {
+
+  describe('POST /api/spotify/playlist', () => {
     before((done) => {
       nock('https://api.spotify.com/v1')
         .get('/users/1/playlists/1')
@@ -156,8 +156,10 @@ describe('Spotify Routes', () => {
 
     it('should return the playlist info', (done) => {
       chai.request(server)
-        .get('/api/spotify/playlists/1')
+        .post('/api/spotify/playlist')
         .set('Authorization', `Bearer ${token}`)
+        .set('Content-Type', 'application/json')
+        .send({ url: 'https://api.spotify.com/v1/users/1/playlists/1' })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('status').eql('Success');
@@ -173,7 +175,7 @@ describe('Spotify Routes', () => {
     context('the user is not found', () => {
       it('should return unauthorized', (done) => {
         chai.request(server)
-          .get('/api/spotify/playlists/1')
+          .post('/api/spotify/playlist')
           .set('Authorization', `Bearer ${bad_token}`)
           .end((err, res) => {
             res.should.have.status(401);

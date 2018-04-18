@@ -10,7 +10,8 @@ class Profile extends Component {
     this.state = {
       client_id: '463cd9dae54d41ff9d2a9d66443db781',
       response_type: 'code',
-      redirect_uri: 'http://localhost:3001/profile/callback'
+      redirect_uri: 'http://localhost:3001/profile/callback',
+      scope: 'playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private'
     }
   }
 
@@ -22,7 +23,6 @@ class Profile extends Component {
     if (code !== undefined) {
       spotifyAuth(this.props.id, this.props.token, {code: code, redirect_uri: this.state.redirect_uri})
         .then((json) => {
-          console.log(json['status']);
           // Handle error or success here
           if (json['status'] === 'Sucess') {
             this.props.history.push('/');
@@ -35,8 +35,9 @@ class Profile extends Component {
     const path = 'authorize',
           client_id = 'client_id=' + this.state.client_id,
           response_type = 'response_type=' + this.state.response_type,
-          redirect_uri = 'redirect_uri=' + this.state.redirect_uri;
-    const url = `https://accounts.spotify.com/${path}?${client_id}&${response_type}&${redirect_uri}`;
+          redirect_uri = 'redirect_uri=' + this.state.redirect_uri,
+          scope = 'scope=' + this.state.scope;
+    const url = `https://accounts.spotify.com/${path}?${client_id}&${response_type}&${redirect_uri}&${scope}`;
 
     window.location.href = url;
   }
@@ -55,7 +56,8 @@ class Profile extends Component {
         <h2>Profile Page</h2>
         <div className="profile-content">
             <div className="profile-main-container">
-                <h3>Stuff here eventually</h3>
+                <h3>UNDER CONSTRUCTION</h3>
+                <p>This component will have something soon!</p>
             </div>
             <div className="profile-button-container">
                 <div className="profile-logout">
@@ -66,7 +68,9 @@ class Profile extends Component {
                 <div className="profile-connect">
                   <h3>Connect Accounts</h3>
                   <button className="profile-spotify-button" onClick={() => this.authorizeSpotify()}/>
-                  <button className="profile-appleMusic-button" onClick={() => alert("Not implemented yet!")}/>
+                  <button className="profile-appleMusic-button"
+                      onClick={() => this.props.showModal('', 'Please use our Apple application to log-in!')}
+                  />
 
                 </div>
             </div>

@@ -5,28 +5,45 @@ class TrackList extends Component {
   constructor(props){
       super(props);
 
+      // TODO: Change this up later; we'll put it in the dashboard
+      this.services = ['spotify', 'apple']
       this.state = {
-          site: this.props.site,
-          allTracks: [],
           selected: [],
           submitted: [],
+          trackIDs: [],
       }
+      this.simpleTrackData = [];
+      this.trackIDs = [];
+      this.cleanedTrackData = this.props.tracks.map((track) => {
+          const data = this.cleanTrackData(track);
+          this.simpleTrackData.push({
+              id: data.id,
+              name: data.trackName,
+              album: data.albumName,
+              artist: data.artistName
+          });
+          return data;
+      })
+      this.playlist = this.props.playlist;
+
   }
 
   handleSubmit(event) {
       event.preventDefault();
+      // For ordering purposes
       const filtered = this.state.selected.filter(content => content);
-      this.setState({ submitted: filtered })
+      const IDs = filtered.map(track => { return track.id })
+      this.setState({ submitted: filtered, trackIDs: IDs })
   }
 
-  addToQueue(id, index){
+  addToQueue(data, index){
       let listCopy = this.state.selected.slice();
 
-      if(listCopy.includes(id)){
+      if(listCopy[index]){
           listCopy[index] = null;
       }
       else{
-          listCopy[index] = id;
+          listCopy[index] = data;
       }
 
       this.setState({
@@ -37,7 +54,7 @@ class TrackList extends Component {
 
   checkAll(event){
       event.preventDefault();
-      this.setState({ checkAll: true, selected: this.allTrackData })
+      this.setState({ checkAll: true, selected: this.simpleTrackData })
   }
 
   checkNone(event){
@@ -47,22 +64,26 @@ class TrackList extends Component {
 
 
   cleanTrackData(track){
-      let albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id;
+      let albumImage, trackName, trackUrl, artistName, artistUrl, trackData,
+            id, trackEmbed, albumName;
       switch(this.props.site){
           case 'spotify':
               trackData = track.track
 
               id = trackData.external_ids.isrc;
-              albumImage = trackData.album.images[0].url || null;
+              albumImage = trackData.album.images[0] ? trackData.album.images[0].url : null;
+              albumName = trackData.album.name;
               trackName = trackData.name;
               trackUrl = trackData.external_urls.spotify;
               artistName = trackData.artists[0].name;
               artistUrl = trackData.artists[0].external_urls.spotify;
+              trackEmbed = <iframe title={trackName} src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
+                            width="250" height="80" frameBorder="0" allowtransparency="true" allow="encrypted-media"/>
               break;
-          case 'itunes':
+          case 'apple':
               trackData = track.attributes;
+              id = track.id;
 
-              id = trackData.id;
               albumImage = trackData.artwork.url.replace(/(\{\w\})/g, '100');
               trackName = trackData.name;
               trackUrl = null;
@@ -73,28 +94,31 @@ class TrackList extends Component {
               return null;
       }
 
-      return({albumImage, trackName, trackUrl, artistName, artistUrl, trackData, id})
+      return({albumImage, albumName, trackName, trackUrl, artistName, artistUrl, trackData, trackEmbed, id})
+  }
+
+  transferPrep(){
+      switch(this.props.site){
+          case 'spotify':
+            return this.state.submitted;
+          case 'apple':
+            return this.state.trackIDs;
+          default:
+            return null;
+      }
   }
 
   render() {
-    const tracks = this.props.tracks;
-    const playlist = this.props.playlist
+      let trackList = []
 
-    let trackList = [];
-    let allTrackData = [];
-
-    if (tracks !== undefined) {
-          trackList = tracks.map((trackData, index) => {
-              const data = this.cleanTrackData(trackData);
-              allTrackData.push({id: data.id, name: data.trackName});
-
+      if (this.cleanedTrackData !== undefined) {
+          trackList = this.cleanedTrackData.map((data, index) => {
               return <Track site={this.props.site} key={index} checked={this.state.selected[index]}
-                        index={index} add={(id, index) => this.addToQueue(id, index)} data={data}/>
-          });
+                        index={index} add={(data, index) => this.addToQueue(data, index)} data={data}/>
+          })
+      }
 
-          this.allTrackData = allTrackData;
-    }
-
+    const playlist = this.playlist;
 
     let imageURL, subtitle, name, url, embed;
     switch(this.props.site){
@@ -108,10 +132,10 @@ class TrackList extends Component {
                     <h3 className='playlist-tracks'>{`${playlist.tracks.total} tracks`}</h3>
                 </div>
             )
-            embed = <iframe title="spotify-playlist" className='tracklist-playlist-embed' width="400" height="280" frameBorder="0"
+            embed = <iframe title="spotify-playlist" className='tracklist-playlist-embed' width="350" height="280" frameBorder="0"
                             src={`https://open.spotify.com/embed?uri=${playlist.uri}`} allowtransparency="true" allow="encrypted-media"/>
             break;
-        case 'itunes':
+        case 'apple':
             name = playlist.attributes.name;
             imageURL = playlist.attributes.artwork.url.replace(/(\{\w\})/g, '150')
             subtitle = (
@@ -133,16 +157,19 @@ class TrackList extends Component {
     if(this.state.submitted.length > 0){
         const submitData = this.state.submitted.map((data, index) => {
             return (
-                <div>
-                    <p>{index + 1} - {data.name}</p>
-                </div>
+                <li>
+                    <div className="selected-name">{data.name}</div>
+                    <div className="selected-artist">{data.artist}</div>
+                </li>
             )
         })
 
         selected = (
             <div className="selected-tracks">
                 <h2 className="selected-tracks-heading">Selected Tracks</h2>
-                {submitData}
+                <ol>
+                    {submitData}
+                </ol>
             </div>
 
         )
@@ -154,6 +181,18 @@ class TrackList extends Component {
         </div>
     }
 
+    let transferButtons = this.services.map((service) => {
+        if(service !== this.props.site){
+            return <button key={service} className={`playlist-transfer transfer-${service}`}
+                    onClick={() => this.props.migrate({source: this.props.site, target: service}, this.transferPrep(), name)}>
+                        Transfer to {service[0].toUpperCase() + service.substr(1)}
+                    </button>
+        }
+        else{
+            return null;
+        }
+    })
+
     return (
       <div className='tracklist-container'>
           <div className='tracklist-playlist'>
@@ -161,14 +200,17 @@ class TrackList extends Component {
                   <div className='playlist-img-container'>
                       <img className='playlist-cover' alt='Playlist mosaic' src={imageURL}/>
                       <button onClick={this.props.reset}>Back to playlists</button>
+                      {transferButtons}
+
                   </div>
                   <div className='playlist-heading'>
                       <h2 className='playlist-title'><a href={url}>{name}</a></h2>
                       {subtitle}
                   </div>
               </div>
-              {embed}
               {selected}
+              {embed}
+
 
           </div>
           <form className="tracklist-form" onSubmit={(ev) => this.handleSubmit(ev)}>
@@ -189,19 +231,38 @@ export class Track extends Component {
   }
 
   render() {
-    return (
-      <div className='track'>
-        <input type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
-                onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
-        <div className='track-album'>
-          <img src={this.props.data.albumImage} height={100} width={100} alt={'Album artwork.'}/>
-        </div>
-        <div className='track-details'>
-          <a className='track-details-title' href={this.props.data.trackUrl} target='_blank'>{this.props.data.trackName}</a>
-          <a className='track-details-artist' href={this.props.data.artistUrl} target='_blank'>{this.props.data.artistName}</a>
-        </div>
-      </div>
-    );
+    let trackDisplay;
+    // Defunct for the time being
+    // if(this.props.data.trackEmbed){
+    //     trackDisplay =
+    //     <div className='track-embedded'>
+    //         <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
+    //                 onChange={() => this.props.add({id: this.props.data.id, name: this.props.data.trackName}, this.props.index)}/>
+    //         {this.props.data.trackEmbed}
+    //     </div>
+    // }
+    // else{
+        trackDisplay = (
+            <div className='track'>
+              <input className='track-check' type='checkbox' checked={this.props.checked ? true : false} name='track-select' value={this.props.data.id}
+                      onChange={() => this.props.add({
+                          id: this.props.data.id,
+                          name: this.props.data.trackName,
+                          album: this.props.data.albumName,
+                          artist: this.props.data.artistName
+                      }, this.props.index)}/>
+              <div className='track-album'>
+                <img src={this.props.data.albumImage} height={100} width={100} alt={'Album artwork.'}/>
+              </div>
+              <div className='track-details'>
+                <a className='track-details-title' href={this.props.data.trackUrl} target='_blank'>{this.props.data.trackName}</a>
+                <a className='track-details-artist' href={this.props.data.artistUrl} target='_blank'>{this.props.data.artistName}</a>
+              </div>
+            </div>
+        )
+    // }
+
+    return trackDisplay;
   }
 }
 

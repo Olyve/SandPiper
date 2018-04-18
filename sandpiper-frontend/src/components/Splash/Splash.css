@@ -1,0 +1,30 @@
+.splash-cont{
+    align-self: center;
+}
+
+.splash-title{
+    font-size: 50px;
+    font-weight: 100;
+}
+
+.splash-logo{
+    border-radius: 30%;
+    border: 1px solid white;
+    padding: 30px;
+    width: 300px;
+    height: 300px;
+}
+
+.splash-sub{
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.splash-login{
+    background-color: #111;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #EEE;
+    border: 1px solid white;
+}
