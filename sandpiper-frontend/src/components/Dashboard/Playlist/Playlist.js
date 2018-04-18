@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './Playlist.css';
 
 class PlaylistList extends Component {
-  constructor(props){
-      super(props);
-  }
-
   handleSpotify(){
       if(this.props.playlists.items && this.props.playlists.items.length > 0){
         return this.props.playlists.items.map((playlist, index) => {
