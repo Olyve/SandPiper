@@ -15,6 +15,15 @@
 /* Profile content  */
 .profile-main-container{
     flex: 3;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    border-radius: 25px;
+    background-color: #2a2a2a;
+    color: white;
+    margin: 20px 5px;
 }
 
 /* All buttons */

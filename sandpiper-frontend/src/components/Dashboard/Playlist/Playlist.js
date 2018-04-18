@@ -5,9 +5,11 @@ class PlaylistList extends Component {
   handleSpotify(){
       if(this.props.playlists.items && this.props.playlists.items.length > 0){
         return this.props.playlists.items.map((playlist, index) => {
-             return <Playlist key={`playlist-${index}`} data={playlist} type="spotify" trackGet={(id) => this.props.trackGet(id)}/>
+             return <Playlist key={`playlist-${index}`} data={playlist} type="spotify"
+                 reset={() => this.props.resetModal()} trackGet={(id) => this.props.trackGet(id)}/>
          })
       }
+
   }
 
   handleiTunes(){
@@ -20,6 +22,7 @@ class PlaylistList extends Component {
 
   render() {
       let playlists, content;
+
       switch(this.props.site){
           case 'spotify':
               playlists = this.handleSpotify();

@@ -7,9 +7,6 @@ class TrackList extends Component {
 
       // TODO: Change this up later; we'll put it in the dashboard
       this.services = ['spotify', 'apple']
-
-      console.log(props)
-
       this.state = {
           selected: [],
           submitted: [],
@@ -40,7 +37,6 @@ class TrackList extends Component {
   }
 
   addToQueue(data, index){
-      console.log(data)
       let listCopy = this.state.selected.slice();
 
       if(listCopy[index]){
@@ -75,13 +71,13 @@ class TrackList extends Component {
               trackData = track.track
 
               id = trackData.external_ids.isrc;
-              albumImage = trackData.album.images[0].url || null;
+              albumImage = trackData.album.images[0] ? trackData.album.images[0].url : null;
               albumName = trackData.album.name;
               trackName = trackData.name;
               trackUrl = trackData.external_urls.spotify;
               artistName = trackData.artists[0].name;
               artistUrl = trackData.artists[0].external_urls.spotify;
-              trackEmbed = <iframe src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
+              trackEmbed = <iframe title={trackName} src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
                             width="250" height="80" frameBorder="0" allowtransparency="true" allow="encrypted-media"/>
               break;
           case 'apple':
@@ -107,6 +103,8 @@ class TrackList extends Component {
             return this.state.submitted;
           case 'apple':
             return this.state.trackIDs;
+          default:
+            return null;
       }
   }
 
@@ -210,11 +208,8 @@ class TrackList extends Component {
                       {subtitle}
                   </div>
               </div>
-              <div className='selection-embed'>
-                  {selected}
-                  {embed}
-
-              </div>
+              {selected}
+              {embed}
 
 
           </div>

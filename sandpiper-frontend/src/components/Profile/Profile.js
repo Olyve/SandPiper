@@ -56,7 +56,8 @@ class Profile extends Component {
         <h2>Profile Page</h2>
         <div className="profile-content">
             <div className="profile-main-container">
-                <h3>Stuff here eventually</h3>
+                <h3>UNDER CONSTRUCTION</h3>
+                <p>This component will have something soon!</p>
             </div>
             <div className="profile-button-container">
                 <div className="profile-logout">
@@ -67,7 +68,9 @@ class Profile extends Component {
                 <div className="profile-connect">
                   <h3>Connect Accounts</h3>
                   <button className="profile-spotify-button" onClick={() => this.authorizeSpotify()}/>
-                  <button className="profile-appleMusic-button" onClick={() => alert("Not implemented yet!")}/>
+                  <button className="profile-appleMusic-button"
+                      onClick={() => this.props.showModal('', 'Please use our Apple application to log-in!')}
+                  />
 
                 </div>
             </div>
