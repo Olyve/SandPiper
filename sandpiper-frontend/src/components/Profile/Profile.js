@@ -10,7 +10,7 @@ class Profile extends Component {
     this.state = {
       client_id: '463cd9dae54d41ff9d2a9d66443db781',
       response_type: 'code',
-      redirect_uri: 'http://localhost:3001/profile/callback',
+      redirect_uri: 'https://www.sandpiper.ninja/profile/callback', // TODO: FIX THIS; NO HARDCODING
       scope: 'playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private'
     }
   }
