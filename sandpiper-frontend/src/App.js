@@ -52,7 +52,7 @@ export class App extends Component {
           });
 
           // Redirect to the home page
-          this.props.history.push('/');
+          this.props.history.push('/profile');
         }
         else {
           // Setup new modal state with message for user
